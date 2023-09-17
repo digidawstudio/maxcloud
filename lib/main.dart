@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:maxcloud/bloc/product/product.bloc.dart';
 import 'package:maxcloud/bloc/user/user.bloc.dart';
+import 'package:maxcloud/screens/splash/splash_screen.dart';
 import 'package:maxcloud/screens/users/user-screen.dart';
 import 'package:maxcloud/utils/constants.dart';
 
@@ -28,6 +29,6 @@ class MyApp extends StatelessWidget {
           providers: [
             BlocProvider(create: (context) => UserBloc()),
             BlocProvider(create: (context) => ProductBloc())
-          ], child: UserScreen(),));
+          ], child: SplashScreen(),));
   }
 }
