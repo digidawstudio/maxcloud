@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maxcloud/screens/navbar.component.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,7 +15,9 @@ class _SplashScreenState extends State<SplashScreen> {
     /**TODO: Change navigation to auth first or if you have alredy created auth function please do check if users have session then push the user into home screen else push the user into auth screen
      *
      */
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Container()));
+    Future.delayed(Duration(seconds: 3), () {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavbarComponent()));
+    });
     super.initState();
   }
 

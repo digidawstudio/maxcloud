@@ -139,6 +139,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.18"
+  flutter_screenutil:
+    dependency: "direct main"
+    description:
+      name: flutter_screenutil
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.7.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -219,6 +226,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.17"
+  indexed:
+    dependency: "direct main"
+    description:
+      name: indexed
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.8"
   injectable:
     dependency: "direct main"
     description:
