@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:maxcloud/screens/help/helpdesk.screen.dart';
 import 'package:maxcloud/screens/profile/profile.screen.dart';
 
 import 'home/home.screen.dart';
@@ -17,7 +18,7 @@ class _NavbarComponentState extends State<NavbarComponent> {
     HomeScreen(),
     Container(),
     Container(),
-    Container(),
+    HelpDeskScreen(),
     ProfileScreen(),
   ];
 
