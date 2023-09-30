@@ -57,6 +57,7 @@ dependencies:
   flutter_svg:
   flutter_otp_text_field:
   pin_code_fields:
+  dropdown_button2:
 
 dev_dependencies:
   flutter_test:
