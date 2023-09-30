@@ -33,6 +33,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        centerTitle: true,
         title: Text( isSavedPressed ? "SAVED" : "HELP DESK"),
         elevation: 0,
         actions: [
