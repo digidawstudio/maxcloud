@@ -73,7 +73,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               Expanded(child: Container()),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              NotificationScreen()));
                                 },
                                 child: Icon(Icons.notifications_active_rounded,
                                     color: Colors.white, size: 20.w),
@@ -212,6 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: child,
     );
   }
+
   Widget InstanceSpecs() {
     return ResourceWidget(
       height: 172,
