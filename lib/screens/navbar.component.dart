@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:maxcloud/screens/instance/instance.screen.dart';
 import 'package:maxcloud/screens/billing/history.screen.dart';
 import 'package:maxcloud/screens/help/helpdesk.screen.dart';
 import 'package:maxcloud/screens/profile/profile.screen.dart';
@@ -17,7 +18,7 @@ class _NavbarComponentState extends State<NavbarComponent> {
   int currentIndex = 0;
   List<Widget> body = [
     HomeScreen(),
-    Container(),
+    InstanceScreen(),
     HistoryScreen(),
     HelpDeskScreen(),
     ProfileScreen(),
