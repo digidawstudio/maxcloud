@@ -59,6 +59,7 @@ dependencies:
   pin_code_fields:
   syncfusion_flutter_gauges: ^20.0.0
   syncfusion_flutter_charts:
+  dropdown_button2:
 
 dev_dependencies:
   flutter_test:
