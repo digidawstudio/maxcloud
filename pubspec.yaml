@@ -60,6 +60,7 @@ dependencies:
   syncfusion_flutter_gauges: ^20.0.0
   syncfusion_flutter_charts:
   dropdown_button2:
+  simple_shadow:
 
 dev_dependencies:
   flutter_test:
