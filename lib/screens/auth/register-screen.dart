@@ -33,7 +33,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         leading: IconButton(
           icon: SvgPicture.asset('assets/svg/icons/ios-back.svg',
               height: 24, fit: BoxFit.scaleDown),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: SafeArea(
@@ -298,7 +300,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   onPressed: () {},
                   child: Text(
-                    "Login",
+                    "Daftar",
                     style: GoogleFonts.manrope(
                         textStyle: TextStyle(
                             fontSize: 14,

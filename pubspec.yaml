@@ -60,6 +60,7 @@ dependencies:
   syncfusion_flutter_gauges: ^20.0.0
   syncfusion_flutter_charts:
   dropdown_button2:
+  simple_shadow:
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +94,9 @@ flutter:
     - assets/svg/
     - assets/svg/icons/
     - assets/svg/flags/
+    - assets/svg/nav-icons/
+    - assets/svg/nav-icons/active/
+    - assets/svg/nav-icons/inactive/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
