@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maxcloud/screens/help/helpdesk-detail.screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
@@ -153,7 +154,12 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                     itemCount: isSavedPressed
                         ? savedState.length
                         : defaultState.length,
-                    itemBuilder: (context, i) => helpdeskItems(),
+                    itemBuilder: (context, i) => GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => HelpDeskDetailScreen()));
+                      },
+                      child: helpdeskItems(),
+                    ),
                   ),
                 ),
               ),

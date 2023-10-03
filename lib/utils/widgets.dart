@@ -55,7 +55,7 @@ class CustomWidget {
     return GestureDetector(
       onTap: onPressInstance,
       child: ResourceWidget(
-        height: 172,
+        height: 172.h,
         padding: EdgeInsets.zero,
         child: Column(
           children: [
@@ -83,13 +83,15 @@ class CustomWidget {
                                     fontWeight: FontWeight.w600)),
                           ),
                           SizedBox(height: 5.h),
-                          Text(
-                            "Mark Zuckerberg",
-                            style: GoogleFonts.manrope(
-                                textStyle: TextStyle(
-                                    color: Color(0xff009EFF),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600)),
+                          Flexible(
+                            child: Text(
+                              "Mark Zuckerberg",
+                              style: GoogleFonts.manrope(
+                                  textStyle: TextStyle(
+                                      color: Color(0xff009EFF),
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w600)),
+                            ),
                           ),
                         ],
                       ),
@@ -119,13 +121,15 @@ class CustomWidget {
                           SizedBox(
                             height: 5.h,
                           ),
-                          Text(
-                            "103.528.281.428",
-                            style: GoogleFonts.manrope(
-                                textStyle: TextStyle(
-                                    color: Color(0xff009EFF),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600)),
+                          Flexible(
+                            child: Text(
+                              "103.528.281.428",
+                              style: GoogleFonts.manrope(
+                                  textStyle: TextStyle(
+                                      color: Color(0xff009EFF),
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w600)),
+                            ),
                           ),
                         ],
                       ),
