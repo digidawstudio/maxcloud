@@ -18,7 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        shadowColor: Colors.grey.shade100,
         centerTitle: true,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -27,7 +27,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Text("Profile",
                 style: GoogleFonts.manrope(
                     textStyle: TextStyle(
-                        color: Color(0xff353333),
                         fontSize: 25,
                         fontWeight: FontWeight.w600))),
           ],
