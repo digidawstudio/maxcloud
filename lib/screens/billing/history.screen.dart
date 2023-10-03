@@ -42,24 +42,42 @@ class _HistoryScreenState extends State<HistoryScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 26.w, right: 26.w, top: 26.h),
-                child: ButtonTheme(
-                  minWidth: 171.w,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Tanggal ajah disini",
-                      style: TextStyle(color: Colors.white, fontSize: 14.sp),
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Color(0xff009Eff)),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.r))),
-                    ),
-                  ),
-                ),
-              ),
+                  padding: EdgeInsets.only(left: 26.w, right: 26.w, top: 26.h),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        flex: 3,
+                        child: MaterialButton(
+                          minWidth: 219.w,
+                          height: 30.h,
+                          elevation: 0,
+                          color: Color(0xff009EFF),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          onPressed: () {},
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // SvgPicture.asset('assets/svg/icons/plus-icon.svg',
+                              //     height: 11.h, fit: BoxFit.scaleDown),
+                              SizedBox(width: 12.w),
+                              Text(
+                                "08/16/2023 -08/16/2023",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        fontSize: 14.sp,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w400)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(child: Container())
+                    ],
+                  )),
               SizedBox(
                 height: 19.h,
               ),

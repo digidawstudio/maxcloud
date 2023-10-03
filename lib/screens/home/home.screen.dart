@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:indexed/indexed.dart';
 import 'package:maxcloud/screens/home/notification/notification.screen.dart';
@@ -132,12 +133,22 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 18.h,
                           ),
                           Flexible(
-                              child: Text("Selamat Datang Babang",
-                                  style: GoogleFonts.manrope(
-                                      textStyle: TextStyle(
-                                          fontSize: 10.sp,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w400)))),
+                              child: RichText(
+                                  text: TextSpan(
+                                      text: "Selamat Datang ",
+                                      style: GoogleFonts.manrope(
+                                          textStyle: TextStyle(
+                                              fontSize: 10.sp,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400)),
+                                      children: [
+                                TextSpan(
+                                    text: "Didan Alzabar!",
+                                    style: TextStyle(
+                                        fontSize: 10.sp,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700))
+                              ]))),
                           Flexible(
                               child: SizedBox(
                             height: 12.h,
@@ -222,19 +233,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ResourceItem(
                     title: "Total Resource",
                     amount: "8",
-                    iconPath: "assets/icons/cloud-notif.png",
+                    iconPath: 'assets/svg/icons/cloud-circle.svg',
                     percentage: "+6,32%")),
             ResourceWidget(
                 child: ResourceItem(
                     title: "Running Resource",
                     amount: "8",
-                    iconPath: "assets/icons/running-resource.png",
+                    iconPath: 'assets/svg/icons/stat-circle.svg',
                     percentage: "+6,32%")),
             ResourceWidget(
                 child: ResourceItem(
               title: "Stopped Resource",
               amount: "2",
-              iconPath: "assets/icons/stopped-resource.png",
+              iconPath: 'assets/svg/icons/guard-circle.svg',
               percentage: "+6,32%",
             )),
             Padding(
@@ -471,7 +482,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Color(0xffBBBBBB),
                         fontWeight: FontWeight.w600))),
             Expanded(child: Container()),
-            Image.asset(iconPath!)
+            SvgPicture.asset(iconPath!, height: 18, fit: BoxFit.scaleDown)
           ],
         ),
         Expanded(child: Container()),

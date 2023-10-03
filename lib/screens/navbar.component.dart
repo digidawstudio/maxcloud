@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:maxcloud/screens/billing/billing.screen.dart';
 import 'package:maxcloud/screens/instance/instance.screen.dart';
-import 'package:maxcloud/screens/billing/history.screen.dart';
 import 'package:maxcloud/screens/help/helpdesk.screen.dart';
 import 'package:maxcloud/screens/profile/profile.screen.dart';
 
@@ -19,71 +21,75 @@ class _NavbarComponentState extends State<NavbarComponent> {
   List<Widget> body = [
     HomeScreen(),
     InstanceScreen(),
-    HistoryScreen(),
+    BillingScreen(),
     HelpDeskScreen(),
     ProfileScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: CupertinoTabBar(
-        backgroundColor: Color(0xff009EFF),
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home_outlined,
-                color: Colors.grey[300],
-              ),
-              activeIcon: Icon(
-                Icons.home_filled,
-                color: Colors.white,
-              )),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.computer_outlined,
-              color: Colors.grey[300],
-            ),
-            activeIcon: Icon(
-              Icons.computer,
-              color: Colors.white,
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.wallet_outlined,
-              color: Colors.grey[300],
-            ),
-            activeIcon: Icon(
-              Icons.wallet,
-              color: Colors.white,
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.help_outline_rounded, color: Colors.grey[300]),
-            activeIcon: Icon(
-              Icons.help_rounded,
-              color: Colors.white,
-            ),
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person_outline_rounded,
-                color: Colors.grey[300],
-              ),
-              activeIcon: Icon(
-                Icons.person_rounded,
-                color: Colors.white,
-              )),
-        ],
-        currentIndex: currentIndex,
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        bottomNavigationBar: CupertinoTabBar(
+          height: 70.h,
+          backgroundColor: Color(0xff009EFF),
+          items: [
+            BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                    'assets/svg/nav-icons/inactive/home-inactive.svg',
+                    height: 20,
+                    fit: BoxFit.scaleDown),
+                activeIcon: SvgPicture.asset(
+                    'assets/svg/nav-icons/active/home.svg',
+                    height: 20,
+                    fit: BoxFit.scaleDown)),
+            BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                    'assets/svg/nav-icons/inactive/instance-inactive.svg',
+                    height: 28,
+                    fit: BoxFit.scaleDown),
+                activeIcon: SvgPicture.asset(
+                    'assets/svg/nav-icons/active/instance.svg',
+                    height: 28,
+                    fit: BoxFit.scaleDown)),
+            BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                    'assets/svg/nav-icons/inactive/billing-inactive.svg',
+                    height: 28,
+                    fit: BoxFit.scaleDown),
+                activeIcon: SvgPicture.asset(
+                    'assets/svg/nav-icons/active/billing.svg',
+                    height: 28,
+                    fit: BoxFit.scaleDown)),
+            BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                    'assets/svg/nav-icons/inactive/help-inactive.svg',
+                    height: 28,
+                    fit: BoxFit.scaleDown),
+                activeIcon: SvgPicture.asset(
+                    'assets/svg/nav-icons/active/help.svg',
+                    height: 28,
+                    fit: BoxFit.scaleDown)),
+            BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                    'assets/svg/nav-icons/inactive/profile-inactive.svg',
+                    height: 28,
+                    fit: BoxFit.scaleDown),
+                activeIcon: SvgPicture.asset(
+                    'assets/svg/nav-icons/active/profile.svg',
+                    height: 28,
+                    fit: BoxFit.scaleDown)),
+          ],
+          currentIndex: currentIndex,
+          onTap: (index) {
+            setState(() {
+              currentIndex = index;
+            });
+          },
+        ),
+        body: body[currentIndex],
       ),
-      body: body[currentIndex],
     );
   }
 }

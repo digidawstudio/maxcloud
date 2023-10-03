@@ -94,6 +94,9 @@ flutter:
     - assets/svg/
     - assets/svg/icons/
     - assets/svg/flags/
+    - assets/svg/nav-icons/
+    - assets/svg/nav-icons/active/
+    - assets/svg/nav-icons/inactive/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

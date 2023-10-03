@@ -50,18 +50,18 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                         fontWeight: FontWeight.w600))),
           ],
         ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  isSavedPressed = !isSavedPressed;
-                });
-              },
-              icon: Image.asset(
-                "assets/icons/bookmark.png",
-                color: isSavedPressed ? Colors.transparent : Color(0xff232226),
-              ))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         setState(() {
+        //           isSavedPressed = !isSavedPressed;
+        //         });
+        //       },
+        //       icon: Image.asset(
+        //         "assets/icons/bookmark.png",
+        //         color: isSavedPressed ? Colors.transparent : Color(0xff232226),
+        //       ))
+        // ],
       ),
       body: SafeArea(
         child: Container(
@@ -73,31 +73,74 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 13.h),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ButtonTheme(
-                      minWidth: 171.w,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          "+ New Ticket",
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 14.sp),
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Color(0xff009Eff)),
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.r))),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 25.w, vertical: 13.h),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        flex: 3,
+                        child: MaterialButton(
+                          minWidth: 171.w,
+                          height: 30.h,
+                          elevation: 0,
+                          color: Color(0xff009EFF),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          onPressed: () {},
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset('assets/svg/icons/plus-icon.svg',
+                                  height: 11.h, fit: BoxFit.scaleDown),
+                              SizedBox(width: 12.w),
+                              Text(
+                                "New Ticket",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        fontSize: 14.sp,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w400)),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                      Spacer(),
+                      Flexible(
+                        flex: 2,
+                        child: MaterialButton(
+                          height: 30.h,
+                          elevation: 0,
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            side:
+                                BorderSide(width: 1, color: Color(0xffBBBBBB)),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          onPressed: () {},
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Filter",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        fontSize: 14.sp,
+                                        color: Color(0xff353333),
+                                        fontWeight: FontWeight.w400)),
+                              ),
+                              SizedBox(width: 30),
+                              SvgPicture.asset('assets/svg/icons/filter.svg',
+                                  height: 15.h, fit: BoxFit.scaleDown),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
               Flexible(
                 child: Container(
                   height: ScreenUtil().screenHeight,
@@ -187,7 +230,8 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                 SizedBox(
                   width: 7.w,
                 ),
-                Icon(Icons.bookmark)
+                SvgPicture.asset('assets/svg/icons/bookmark.svg',
+                    height: 15, fit: BoxFit.scaleDown)
               ],
             ),
             SizedBox(
@@ -205,7 +249,8 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(Icons.comment),
+                SvgPicture.asset('assets/svg/icons/message.svg',
+                    height: 15, fit: BoxFit.scaleDown),
                 SizedBox(
                   width: 4.w,
                 ),
