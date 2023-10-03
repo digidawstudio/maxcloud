@@ -441,7 +441,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SvgPicture.asset('assets/svg/icons/edit-profile.svg',
+                      SvgPicture.asset('assets/svg/icons/change-password.svg',
                           height: 28, fit: BoxFit.scaleDown),
                       SizedBox(width: 10),
                       Text("Change Password",

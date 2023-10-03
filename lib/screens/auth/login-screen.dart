@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maxcloud/screens/auth/otp-scren.dart';
+import 'package:maxcloud/screens/auth/register-screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -132,7 +134,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => OtpScreen()));
+                  },
                   child: Text(
                     "Login",
                     style: GoogleFonts.manrope(
@@ -154,7 +159,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       side: BorderSide(width: 1, color: Color(0xffBBBBBB))),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => OtpScreen()));
+                  },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -180,24 +188,32 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(height: 53),
-              RichText(
-                text: TextSpan(
-                  text: 'Belum punya akun? ',
-                  style: GoogleFonts.manrope(
-                      textStyle: TextStyle(
-                          color: Color(0xffC3C7CF),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500)),
-                  children: [
-                    TextSpan(
-                      text: 'Daftar Sekarang',
-                      style: GoogleFonts.manrope(
-                          textStyle: TextStyle(
-                              color: Color(0xff009EFF),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500)),
-                    ),
-                  ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RegisterScreen()));
+                },
+                child: RichText(
+                  text: TextSpan(
+                    text: 'Belum punya akun? ',
+                    style: GoogleFonts.manrope(
+                        textStyle: TextStyle(
+                            color: Color(0xffC3C7CF),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500)),
+                    children: [
+                      TextSpan(
+                        text: 'Daftar Sekarang',
+                        style: GoogleFonts.manrope(
+                            textStyle: TextStyle(
+                                color: Color(0xff009EFF),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500)),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomWidget {
   static Widget Chip(
@@ -10,6 +11,7 @@ class CustomWidget {
       Color color = Colors.white,
       double radius = 6,
       double? fontSize,
+      FontWeight? fontWeight,
       bool useBorder = false}) {
     return Container(
       height: height?.h,
@@ -17,15 +19,17 @@ class CustomWidget {
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(radius.r),
-        border: !useBorder ? null : Border.all(color: Colors.black),
+        border: !useBorder
+            ? null
+            : Border.all(color: Color(0xffBBBBBB), width: 0.5),
       ),
       child: Center(
         child: Text(
           text ?? "",
           style: TextStyle(
-            color: textColor ?? Colors.black,
-            fontSize: fontSize?.sp ?? 12.sp,
-          ),
+              fontSize: fontSize?.sp ?? 10.sp,
+              color: textColor ?? Color(0xff232226),
+              fontWeight: fontWeight ?? FontWeight.w600),
           maxLines: 1,
         ),
       ),
@@ -63,7 +67,7 @@ class CustomWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    flex: 2,
+                    flex: 3,
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Column(
@@ -72,22 +76,26 @@ class CustomWidget {
                         children: [
                           Text(
                             "20GB Regular Cloud Compute",
-                            style: TextStyle(
-                                fontSize: 8.sp, color: Color(0xffbbbbbb)),
+                            style: GoogleFonts.manrope(
+                                textStyle: TextStyle(
+                                    color: Color(0xffBBBBBB),
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.w600)),
                           ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
+                          SizedBox(height: 5.h),
                           Text(
                             "Mark Zuckerberg",
-                            style: TextStyle(
-                                fontSize: 12.sp, color: Color(0xff009EFF)),
+                            style: GoogleFonts.manrope(
+                                textStyle: TextStyle(
+                                    color: Color(0xff009EFF),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600)),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  Spacer(),
+                  // Spacer(),
                   VerticalDivider(
                     thickness: 0.5,
                     color: Color(0xffbbbbbb),
@@ -98,19 +106,26 @@ class CustomWidget {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "IP Address",
-                            style: TextStyle(
-                                fontSize: 8.sp, color: Color(0xffbbbbbb)),
+                            style: GoogleFonts.manrope(
+                                textStyle: TextStyle(
+                                    color: Color(0xffBBBBBB),
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.w600)),
                           ),
                           SizedBox(
                             height: 5.h,
                           ),
                           Text(
-                            "127.0.0.1",
-                            style: TextStyle(
-                                fontSize: 12.sp, color: Color(0xff009EFF)),
+                            "103.528.281.428",
+                            style: GoogleFonts.manrope(
+                                textStyle: TextStyle(
+                                    color: Color(0xff009EFF),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600)),
                           ),
                         ],
                       ),
@@ -130,63 +145,51 @@ class CustomWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Status",
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(0xffbbbbbb),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Running",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromARGB(255, 156, 255, 150),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      Text("Status",
+                          style: GoogleFonts.manrope(
+                              textStyle: TextStyle(
+                                  color: Color(0xffBBBBBB),
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600))),
+                      Text("Running",
+                          style: GoogleFonts.manrope(
+                              textStyle: TextStyle(
+                                  color: Color(0xff00FF38),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600))),
                     ],
                   ),
                   Expanded(child: Container()),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Location",
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(0xffbbbbbb),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Jakarta",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      Text("Location",
+                          style: GoogleFonts.manrope(
+                              textStyle: TextStyle(
+                                  color: Color(0xffBBBBBB),
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600))),
+                      Text("Jakarta",
+                          style: GoogleFonts.manrope(
+                              textStyle: TextStyle(
+                                  color: Color(0xff232226),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600))),
                     ],
                   ),
                   Expanded(child: Container()),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "OS",
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(0xffbbbbbb),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Windos",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      Text("OS",
+                          style: GoogleFonts.manrope(
+                              textStyle: TextStyle(
+                                  color: Color(0xffBBBBBB),
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600))),
+                      Image.asset(
+                        "assets/images/windows-logo-text.png",
+                        height: 22,
                       ),
                     ],
                   ),
@@ -200,42 +203,36 @@ class CustomWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Price Per Hour",
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(0xffbbbbbb),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Rp 100.000",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      Text("Price Per Hour",
+                          style: GoogleFonts.manrope(
+                              textStyle: TextStyle(
+                                  color: Color(0xffBBBBBB),
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600))),
+                      Text("Rp 100.000",
+                          style: GoogleFonts.manrope(
+                              textStyle: TextStyle(
+                                  color: Color(0xff232226),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600))),
                     ],
                   ),
                   Expanded(child: Container()),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Current Cost",
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(0xffbbbbbb),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Rp 999.999.999",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      Text("Current Cost",
+                          style: GoogleFonts.manrope(
+                              textStyle: TextStyle(
+                                  color: Color(0xffBBBBBB),
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600))),
+                      Text("Rp 999.999.000",
+                          style: GoogleFonts.manrope(
+                              textStyle: TextStyle(
+                                  color: Color(0xff232226),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600))),
                     ],
                   ),
                   Expanded(child: Container()),
