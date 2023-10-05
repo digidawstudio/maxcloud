@@ -16,6 +16,7 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -66,15 +67,18 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
                                     borderSide: BorderSide(color: Colors.black),
                                     borderRadius: BorderRadius.circular(10.r))),
                           ),
-                          SizedBox(height: 10.h,),
+                          SizedBox(
+                            height: 10.h,
+                          ),
                           Flexible(
                             child: Container(
-                              height: 100.h,
+                              height: 90.h,
                               child: Row(
                                 children: [
                                   Flexible(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text("Select Department"),
                                         SizedBox(
@@ -84,8 +88,8 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
                                           decoration: InputDecoration(
                                             hintText: "Billing",
                                             border: OutlineInputBorder(
-                                              borderSide:
-                                                  BorderSide(color: Colors.black),
+                                              borderSide: BorderSide(
+                                                  color: Colors.black),
                                               borderRadius:
                                                   BorderRadius.circular(10.r),
                                             ),
@@ -94,10 +98,13 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(width: 20.w,),
+                                  SizedBox(
+                                    width: 20.w,
+                                  ),
                                   Flexible(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text("Select Department"),
                                         SizedBox(
@@ -107,8 +114,8 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
                                           decoration: InputDecoration(
                                             hintText: "Billing",
                                             border: OutlineInputBorder(
-                                              borderSide:
-                                                  BorderSide(color: Colors.black),
+                                              borderSide: BorderSide(
+                                                  color: Colors.black),
                                               borderRadius:
                                                   BorderRadius.circular(10.r),
                                             ),
@@ -120,6 +127,34 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
                                 ],
                               ),
                             ),
+                          ),
+                          Text("Message"),
+                          SizedBox(
+                            height: 9.h,
+                          ),
+                          Flexible(
+                            child: SizedBox(
+                              height: 160.h,
+                              child: TextFormField(
+                                maxLines: 20,
+                                decoration: InputDecoration(
+                                    hintText: "Type Reply",
+                                    border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(10.r))),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(child: Container(),),
+                              ElevatedButton(onPressed: () {}, child: Text("Send"))
+                            ],
                           )
                         ],
                       ),
