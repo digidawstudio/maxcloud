@@ -31,6 +31,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         fontWeight: FontWeight.w600))),
           ],
         ),
+        leading: IconButton(
+          icon: SvgPicture.asset('assets/svg/icons/ios-back.svg',
+              height: 24, fit: BoxFit.scaleDown),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SafeArea(
         child: Container(

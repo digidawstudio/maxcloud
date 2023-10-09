@@ -3,6 +3,8 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maxcloud/screens/billing/billing.payment.screen.dart';
+import 'package:maxcloud/screens/billing/history.screen.dart';
 import 'package:maxcloud/screens/instance/instance.create.screen.dart';
 import 'package:maxcloud/screens/instance/instance.detail.screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
@@ -36,11 +38,17 @@ class _BillingScreenState extends State<BillingScreen> {
                         fontWeight: FontWeight.w600))),
           ],
         ),
-        // leading: IconButton(
-        //   icon: SvgPicture.asset('assets/svg/icons/ios-back.svg',
-        //       height: 24, fit: BoxFit.scaleDown),
-        //   onPressed: () {},
-        // ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HistoryScreen()));
+            },
+            child: SvgPicture.asset('assets/svg/icons/billing-history.svg',
+                height: 33.h, fit: BoxFit.scaleDown),
+          ),
+          SizedBox(width: 25)
+        ],
       ),
       body: SafeArea(
           child: Container(
@@ -56,7 +64,7 @@ class _BillingScreenState extends State<BillingScreen> {
                       textStyle: TextStyle(
                           color: Color(0xff232226),
                           fontSize: 18,
-                          fontWeight: FontWeight.w500))),
+                          fontWeight: FontWeight.w600))),
             ),
             SizedBox(height: 18.h),
             TextField(
@@ -263,7 +271,13 @@ class _BillingScreenState extends State<BillingScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BillingPaymentScreen()));
+                      },
                       child: Text(
                         "Confirm",
                         style: GoogleFonts.manrope(
