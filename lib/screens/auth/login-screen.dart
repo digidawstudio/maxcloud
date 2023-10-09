@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maxcloud/bloc/auth/auth.bloc.dart';
 import 'package:maxcloud/screens/auth/otp-scren.dart';
 import 'package:maxcloud/screens/auth/register-screen.dart';
 
@@ -14,6 +16,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
+    final authBloc = BlocProvider.of<AuthBloc>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -151,39 +155,42 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 15),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: MaterialButton(
-                  minWidth: double.infinity,
-                  height: 45,
-                  elevation: 0,
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      side: BorderSide(width: 1, color: Color(0xffBBBBBB))),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => OtpScreen()));
-                  },
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Image(
-                        width: 28,
-                        height: 28,
-                        image:
-                            AssetImage("assets/images/icons/google-icon.png"),
-                        fit: BoxFit.contain,
-                      ),
-                      SizedBox(width: 12),
-                      Text(
-                        "Login with google",
-                        style: GoogleFonts.manrope(
-                            textStyle: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xffBBBBBB),
-                                fontWeight: FontWeight.w600)),
-                      ),
-                    ],
+                child: BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) => MaterialButton(
+                    minWidth: double.infinity,
+                    height: 45,
+                    elevation: 0,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        side: BorderSide(width: 1, color: Color(0xffBBBBBB))),
+                    onPressed: () {
+                      authBloc.add(LoginEvent());
+                      // Navigator.push(context,
+                      //     MaterialPageRoute(builder: (context) => OtpScreen()));
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Image(
+                          width: 28,
+                          height: 28,
+                          image:
+                              AssetImage("assets/images/icons/google-icon.png"),
+                          fit: BoxFit.contain,
+                        ),
+                        SizedBox(width: 12),
+                        Text(
+                          "Login with google",
+                          style: GoogleFonts.manrope(
+                              textStyle: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xffBBBBBB),
+                                  fontWeight: FontWeight.w600)),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

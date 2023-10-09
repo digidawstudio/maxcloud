@@ -61,6 +61,7 @@ dependencies:
   syncfusion_flutter_charts:
   dropdown_button2:
   simple_shadow:
+  flutter_dotenv:
 
 dev_dependencies:
   flutter_test:
@@ -97,6 +98,7 @@ flutter:
     - assets/svg/nav-icons/
     - assets/svg/nav-icons/active/
     - assets/svg/nav-icons/inactive/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
