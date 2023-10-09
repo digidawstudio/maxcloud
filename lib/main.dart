@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return MaterialApp(
             title: Constants.appname,
+            
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
