@@ -1,13 +1,16 @@
 import 'package:dio/dio.dart';
+import 'package:maxcloud/utils/constants.dart';
+import 'package:maxcloud/utils/endpoints.dart';
 
 class ApiServices {
-  static Dio dio = Dio(BaseOptions(baseUrl: "https://memek.com/"));
+  static Dio dio = Dio(BaseOptions(baseUrl: Constants.baseUrl));
 
-  static Future<void> getSomething() async {
+  static Future<dynamic> login() async {
     try {
-      dio.get("memek", options: Options(headers: {"applications": ""}));
+      final response = await dio.post(Endpoints.login);
+      return response;
     } on DioException catch (e) {
-      print(e.stackTrace);
+      return e;
     }
   }
 

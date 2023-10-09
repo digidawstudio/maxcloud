@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:maxcloud/bloc/auth/auth.bloc.dart';
 import 'package:maxcloud/bloc/product/product.bloc.dart';
 import 'package:maxcloud/bloc/user/user.bloc.dart';
 import 'package:maxcloud/screens/splash/splash_screen.dart';
 import 'package:maxcloud/screens/users/user-screen.dart';
 import 'package:maxcloud/utils/constants.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
@@ -27,7 +30,6 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return MaterialApp(
             title: Constants.appname,
-            
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
@@ -35,9 +37,12 @@ class MyApp extends StatelessWidget {
       },
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (context) => AuthBloc()),
           BlocProvider(create: (context) => UserBloc()),
-          BlocProvider(create: (context) => ProductBloc())
-        ], child: SplashScreen(),),
+          BlocProvider(create: (context) => ProductBloc()),
+        ],
+        child: SplashScreen(),
+      ),
     );
   }
 }
