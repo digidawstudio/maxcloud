@@ -3,6 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomWidget {
+
+  static Widget loader() {
+    return Container(
+      height: ScreenUtil().screenHeight,
+      width: ScreenUtil().screenWidth,
+      color: Colors.grey.withOpacity(0.5),
+      child: Center(child: CircularProgressIndicator()),
+    );
+  }
+
   static Widget Chip(
       {String? text,
       double? height,
