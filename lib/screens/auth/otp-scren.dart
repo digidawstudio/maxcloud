@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:maxcloud/bloc/auth/auth.bloc.dart';
 import 'package:maxcloud/repository/auth/login.model.dart';
 import 'package:maxcloud/screens/auth/pin-screen.dart';
+import 'package:maxcloud/screens/navbar.component.dart';
 import 'package:maxcloud/utils/widgets.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -19,10 +20,13 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
+
+  AuthBloc? authBloc;
+
   @override
   void initState() {
-    BlocProvider.of<AuthBloc>(context)
-        .add(RequestOtpEvent(widget.loginData?.data?.email ?? ""));
+    authBloc = BlocProvider.of<AuthBloc>(context);
+    authBloc?.add(RequestOtpEvent(widget.loginData?.data?.email ?? ""));
     super.initState();
   }
 
@@ -31,10 +35,16 @@ class _OtpScreenState extends State<OtpScreen> {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if(state is OtpReceivedState) {
-          WidgetsBinding.instance.addPostFrameCallback((_) => Flushbar(message: "Otp Sent!",).show(context));
+          WidgetsBinding.instance.addPostFrameCallback((_) => Flushbar(message: "Otp Sent!", flushbarPosition: FlushbarPosition.TOP, backgroundColor: Colors.greenAccent, messageColor: Colors.white,).show(context));
           
         } else if(state is ErrorAuthState) {
           WidgetsBinding.instance.addPostFrameCallback((_) => Flushbar(message: state.error.message, backgroundColor: Colors.red, messageColor: Colors.white,));
+        } else if(state is OtpValidatedState) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.pop(context);
+            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => NavbarComponent()));
+          });
         }
 
         return Scaffold(
@@ -132,10 +142,11 @@ class _OtpScreenState extends State<OtpScreen> {
 
                           onCompleted: (v) {
                             debugPrint("Completed");
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PinScreen()));
+                            authBloc?.add(ValidateOtpEvent(widget.loginData?.data?.email ?? "", v));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => PinScreen()));
                           },
                           // onTap: () {
                           //   print("Pressed");

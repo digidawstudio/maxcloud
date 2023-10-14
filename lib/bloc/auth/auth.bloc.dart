@@ -46,7 +46,8 @@ class OtpReceivedState extends AuthState {
 }
 
 class OtpValidatedState extends AuthState {
-  
+  final OtpValidate data;
+  OtpValidatedState(this.data);
 }
 
 class ErrorAuthState extends AuthState {
@@ -75,7 +76,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           } else {
             emit(ErrorAuthState(response.data));
           }
-        } else if(response.runtimeType.toString() == 'DioException') {
+        } else if (response.runtimeType.toString() == 'DioException') {
           Map<String, dynamic> errorData = response.response?.data;
           emit(ErrorAuthState(AuthErrorModel.fromJson(errorData)));
           print(response);
@@ -93,10 +94,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           } else {
             emit(ErrorAuthState(response.data));
           }
-        } else if(response.runtimeType.toString() == 'DioException') {
+        } else if (response.runtimeType.toString() == 'DioException') {
           Map<String, dynamic> errorData = response.response?.data;
           emit(ErrorAuthState(AuthErrorModel.fromJson(errorData)));
           print(response);
+        }
+      } else if (event is ValidateOtpEvent) {
+        emit(LoadingAuthState());
+
+        final response =
+            await ApiServices.validateOtp(event.credential, event.code);
+
+        if (response.runtimeType.toString() == 'Response<dynamic>') {
+          if ((response as Response<dynamic>).statusCode == 200) {
+            emit(OtpValidatedState(OtpValidate.fromJson(response.data)));
+          } else {
+            emit(ErrorAuthState(response.data));
+          }
+        } else if (response.runtimeType.toString() == 'DioException') {
+          Map<String, dynamic> errorData = response.response?.data;
+          emit(ErrorAuthState(AuthErrorModel.fromJson(errorData)));
         }
       }
     });
