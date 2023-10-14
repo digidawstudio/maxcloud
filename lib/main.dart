@@ -15,7 +15,13 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  runApp(const MyApp());
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(create: (context) => AuthBloc()),
+      BlocProvider(create: (context) => UserBloc()),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -35,14 +41,7 @@ class MyApp extends StatelessWidget {
             ),
             home: child);
       },
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => AuthBloc()),
-          BlocProvider(create: (context) => UserBloc()),
-          BlocProvider(create: (context) => ProductBloc()),
-        ],
-        child: SplashScreen(),
-      ),
+      child: SplashScreen(),
     );
   }
 }
