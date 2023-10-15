@@ -62,6 +62,7 @@ dependencies:
   dropdown_button2:
   simple_shadow:
   flutter_dotenv:
+  another_flushbar: 
 
 dev_dependencies:
   flutter_test:
