@@ -35,17 +35,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         final response = await ApiServices.login();
 
-        if (response.runtimeType.toString() == 'Response') {
-          print("status code ${response}");
+        print("status code ${response}");
 
-          final loginResponse = jsonDecode(response.data);
-          print(loginResponse.toString());
-          if (response.statusCode == 200) {
-            emit(LoadedAuthState(loginResponse));
-          } else {
-            emit(ErrorAuthState(loginResponse));
-          }
+        final loginResponse = jsonDecode(response.data);
+        print(loginResponse.toString());
+        if (response.statusCode == 200) {
+          emit(LoadedAuthState(loginResponse));
+        } else {
+          emit(ErrorAuthState(loginResponse));
         }
+
+        // if (response.runtimeType.toString() == 'Response') {
+        //   print("status code ${response}");
+
+        //   final loginResponse = jsonDecode(response.data);
+        //   print(loginResponse.toString());
+        //   if (response.statusCode == 200) {
+        //     emit(LoadedAuthState(loginResponse));
+        //   } else {
+        //     emit(ErrorAuthState(loginResponse));
+        //   }
+        // }
       }
     });
   }

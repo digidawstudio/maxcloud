@@ -7,9 +7,11 @@ class ApiServices {
 
   static Future<dynamic> login() async {
     try {
-      final response = await dio.post(Endpoints.login);
+      var data = {"email": "fachrw@gmail.com", "password": "Nate0023@"};
+      final response = await dio.post(Endpoints.login, data: data);
       return response;
     } on DioException catch (e) {
+      print(e);
       return e;
     }
   }

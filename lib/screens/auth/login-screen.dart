@@ -139,6 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   onPressed: () {
+                    // authBloc.add(LoginEvent());
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => OtpScreen()));
                   },
@@ -165,7 +166,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(8.0),
                         side: BorderSide(width: 1, color: Color(0xffBBBBBB))),
                     onPressed: () {
-                      authBloc.add(LoginEvent());
                       // Navigator.push(context,
                       //     MaterialPageRoute(builder: (context) => OtpScreen()));
                     },

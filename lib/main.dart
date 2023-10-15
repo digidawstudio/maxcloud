@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxcloud/bloc/auth/auth.bloc.dart';
 import 'package:maxcloud/bloc/product/product.bloc.dart';
 import 'package:maxcloud/bloc/user/user.bloc.dart';
+import 'package:maxcloud/screens/auth/login-screen.dart';
 import 'package:maxcloud/screens/splash/splash_screen.dart';
 import 'package:maxcloud/screens/users/user-screen.dart';
 import 'package:maxcloud/utils/constants.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => UserBloc()),
           BlocProvider(create: (context) => ProductBloc()),
         ],
-        child: SplashScreen(),
+        child: LoginScreen(),
       ),
     );
   }
