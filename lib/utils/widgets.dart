@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
 
 class CustomWidget {
 
@@ -61,7 +62,7 @@ class CustomWidget {
     );
   }
 
-  static Widget InstanceSpecs(Function() onPressInstance) {
+  static Widget InstanceSpecs(Function() onPressInstance, {InstanceData? data}) {
     return GestureDetector(
       onTap: onPressInstance,
       child: ResourceWidget(
@@ -85,7 +86,7 @@ class CustomWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "20GB Regular Cloud Compute",
+                            data!.tier!,
                             style: GoogleFonts.manrope(
                                 textStyle: TextStyle(
                                     color: Color(0xffBBBBBB),
@@ -95,7 +96,7 @@ class CustomWidget {
                           SizedBox(height: 5.h),
                           Flexible(
                             child: Text(
-                              "Mark Zuckerberg",
+                              data.owner!,
                               style: GoogleFonts.manrope(
                                   textStyle: TextStyle(
                                       color: Color(0xff009EFF),
@@ -133,7 +134,7 @@ class CustomWidget {
                           ),
                           Flexible(
                             child: Text(
-                              "103.528.281.428",
+                              data.ipAddress!,
                               style: GoogleFonts.manrope(
                                   textStyle: TextStyle(
                                       color: Color(0xff009EFF),
@@ -159,7 +160,7 @@ class CustomWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Status",
+                      Text(data.status!,
                           style: GoogleFonts.manrope(
                               textStyle: TextStyle(
                                   color: Color(0xffBBBBBB),
@@ -183,7 +184,7 @@ class CustomWidget {
                                   color: Color(0xffBBBBBB),
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600))),
-                      Text("Jakarta",
+                      Text(data.location!,
                           style: GoogleFonts.manrope(
                               textStyle: TextStyle(
                                   color: Color(0xff232226),
@@ -201,8 +202,8 @@ class CustomWidget {
                                   color: Color(0xffBBBBBB),
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600))),
-                      Image.asset(
-                        "assets/images/windows-logo-text.png",
+                      Image.network(
+                        data.os!.image!,
                         height: 22,
                       ),
                     ],
@@ -223,7 +224,7 @@ class CustomWidget {
                                   color: Color(0xffBBBBBB),
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600))),
-                      Text("Rp 100.000",
+                      Text("Rp ${data.pricePerHour!.floor()}",
                           style: GoogleFonts.manrope(
                               textStyle: TextStyle(
                                   color: Color(0xff232226),
@@ -241,7 +242,7 @@ class CustomWidget {
                                   color: Color(0xffBBBBBB),
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600))),
-                      Text("Rp 999.999.000",
+                      Text("Rp ${data.estimatedMonthlyCost!.floor()}",
                           style: GoogleFonts.manrope(
                               textStyle: TextStyle(
                                   color: Color(0xff232226),

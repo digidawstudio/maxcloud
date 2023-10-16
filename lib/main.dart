@@ -9,7 +9,6 @@ import 'package:maxcloud/bloc/product/product.bloc.dart';
 import 'package:maxcloud/bloc/user/user.bloc.dart';
 import 'package:maxcloud/screens/auth/login-screen.dart';
 import 'package:maxcloud/screens/splash/splash_screen.dart';
-import 'package:maxcloud/screens/users/user-screen.dart';
 import 'package:maxcloud/utils/constants.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -20,6 +19,7 @@ void main() async {
     providers: [
       BlocProvider(create: (context) => AuthBloc()),
       BlocProvider(create: (context) => UserBloc()),
+      BlocProvider(create: (context) => ProductBloc())
     ],
     child: MyApp(),
   ));

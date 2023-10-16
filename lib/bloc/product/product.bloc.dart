@@ -2,10 +2,18 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
+import 'package:maxcloud/services/api.services.dart';
+
+import '../../repository/auth/login.model.dart';
 
 abstract class ProductEvent {}
 
-class FetchProductEvent extends ProductEvent {}
+class FetchProductEvent extends ProductEvent {
+  final String? token;
+
+  FetchProductEvent(this.token);
+}
 
 abstract class ProductState{}
 
@@ -13,7 +21,7 @@ class InitialProductState extends ProductState{}
 class LoadingProductState extends ProductState{}
 
 class LoadedProductState extends ProductState{
-  final List products;
+  final MyVirtualMachines products;
   LoadedProductState(this.products);
 }
 
@@ -31,22 +39,22 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       if(event is FetchProductEvent) {
         emit(LoadingProductState());
 
-        try {
-          final dio = Dio();
-          final response = await dio.get('https://fakestoreapi.com/products');
+        final response = await ApiServices.getMyInstances(event.token!);
 
-          print("status code ${response.statusCode}");
+        print(response.runtimeType);
+
+        if (response.runtimeType.toString() == 'Response<dynamic>') {
+          print("status code ${response}");
           if (response.statusCode == 200) {
-            final product = response.data;
-            emit(LoadedProductState(product));
+            print(response);
+            emit(LoadedProductState(MyVirtualMachines.fromJson(response.data)));
           } else {
-            emit(ErrorProductState('Failed to load products data'));
+            emit(ErrorProductState(response.data));
           }
-        } on DioException catch (dioError) {
-          emit(ErrorProductState(dioError.message ?? "DIO: Something went wrong: ${dioError.stackTrace}"));
-        } on FormatException catch (formatException) {
-          print(formatException.toString());
-          emit(ErrorProductState(formatException.message));
+        } else if (response.runtimeType.toString() == 'DioException') {
+          Map<String, dynamic> errorData = response.response?.data;
+          emit(ErrorProductState(AuthErrorModel.fromJson(errorData).message ?? ""));
+          print(response);
         }
       }
     });
