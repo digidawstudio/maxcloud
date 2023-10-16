@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Container(
-                    height: 230.h,
+                    height: 242.h,
                     width: ScreenUtil().screenWidth,
                     padding:
                         EdgeInsets.symmetric(horizontal: 30.w, vertical: 25.h),
