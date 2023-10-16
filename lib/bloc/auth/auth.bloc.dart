@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:maxcloud/repository/auth/login.model.dart';
 import 'package:maxcloud/repository/auth/otp.model.dart';
+import 'package:maxcloud/repository/auth/register.model.dart';
 import 'package:maxcloud/services/api.services.dart';
 
 abstract class AuthEvent {}
@@ -14,6 +15,16 @@ class LoginEvent extends AuthEvent {
   final String password;
 
   LoginEvent(this.email, this.password);
+}
+
+class RegisterEvent extends AuthEvent {
+  final String credential;
+  final String password;
+  final bool tos_agreement;
+  final String referral_code;
+
+  RegisterEvent(this.credential, this.password, this.tos_agreement,
+      {this.referral_code = ""});
 }
 
 class RequestOtpEvent extends AuthEvent {
@@ -38,6 +49,11 @@ class LoadingAuthState extends AuthState {}
 class LoadedAuthState extends AuthState {
   final LoginModel data;
   LoadedAuthState(this.data);
+}
+
+class RegisterSuccessState extends AuthState {
+  final RegisterModel data;
+  RegisterSuccessState(this.data);
 }
 
 class OtpReceivedState extends AuthState {
@@ -127,6 +143,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         //     emit(ErrorAuthState(loginResponse));
         //   }
         // }
+      } else if (event is RegisterEvent) {
+        emit(LoadingAuthState());
+
+        final response = await ApiServices.register(event.credential,
+            event.password, event.tos_agreement, event.referral_code);
+
+        print(response.runtimeType);
+
+        if (response.runtimeType.toString() == 'Response<dynamic>') {
+          print("status code ${response}");
+          if (response.statusCode == 200) {
+            print(response);
+            emit(RegisterSuccessState(RegisterModel.fromJson(response.data)));
+          } else {
+            emit(ErrorAuthState(response.data));
+          }
+        } else if (response.runtimeType.toString() == 'DioException') {
+          Map<String, dynamic> errorData = response.response?.data;
+          emit(ErrorAuthState(AuthErrorModel.fromJson(errorData)));
+          print(response);
+        }
       }
     });
   }

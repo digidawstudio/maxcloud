@@ -23,6 +23,28 @@ class ApiServices {
     }
   }
 
+  static Future<dynamic> register(String credential, String password,
+      bool tos_agreement, String referral_code) async {
+    try {
+      final response = await dio.post(Endpoints.register,
+          data: {
+            "credential": credential,
+            "password": password,
+            "password_confirmation": password,
+            "tos_agreement": tos_agreement,
+            "referral_code": referral_code,
+            "type": "EMAIL",
+            "request_type": "REGISTER"
+          },
+          options: Options(headers: {"x-mobile-token": "=U-wQEy1xn0uBgcy"}));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
   static Future<dynamic> requestOtp(String credential) async {
     try {
       final response = await dio.post(Endpoints.requestOtp,
