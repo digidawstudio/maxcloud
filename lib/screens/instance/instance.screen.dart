@@ -155,7 +155,7 @@ class _InstanceScreenState extends State<InstanceScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            InstanceDetailScreen()));
+                                            InstanceDetailScreen(data: e)));
                               }, data: e);
                             }).toList(),
                           ),

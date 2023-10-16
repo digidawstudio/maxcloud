@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
 
 class CustomWidget {
-
   static Widget loader() {
     return Container(
       height: ScreenUtil().screenHeight,
@@ -62,7 +61,8 @@ class CustomWidget {
     );
   }
 
-  static Widget InstanceSpecs(Function() onPressInstance, {InstanceData? data}) {
+  static Widget InstanceSpecs(Function() onPressInstance,
+      {InstanceData? data}) {
     return GestureDetector(
       onTap: onPressInstance,
       child: ResourceWidget(
@@ -202,10 +202,17 @@ class CustomWidget {
                                   color: Color(0xffBBBBBB),
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600))),
-                      Image.network(
-                        data.os!.image!,
-                        height: 22,
-                      ),
+                                  SizedBox(height: 2.h,),
+                      Row(
+                        children: [
+                          Image.network(
+                            data.os!.image!,
+                            height: 22,
+                          ),
+                          // SizedBox(width: 5.w,),
+                          // Text(data.os!.name!, style: TextStyle(fontSize: 10.sp),)
+                        ],
+                      )
                     ],
                   ),
                 ],
