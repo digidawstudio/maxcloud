@@ -20,7 +20,6 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
-
   AuthBloc? authBloc;
 
   @override
@@ -34,16 +33,25 @@ class _OtpScreenState extends State<OtpScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        if(state is OtpReceivedState) {
-          WidgetsBinding.instance.addPostFrameCallback((_) => Flushbar(message: "Otp Sent!", flushbarPosition: FlushbarPosition.TOP, backgroundColor: Colors.greenAccent, messageColor: Colors.white,).show(context));
-          
-        } else if(state is ErrorAuthState) {
-          WidgetsBinding.instance.addPostFrameCallback((_) => Flushbar(message: state.error.message, backgroundColor: Colors.red, messageColor: Colors.white,));
-        } else if(state is OtpValidatedState) {
+        if (state is OtpReceivedState) {
+          WidgetsBinding.instance.addPostFrameCallback((_) => Flushbar(
+                message: "Otp Sent!",
+                flushbarPosition: FlushbarPosition.TOP,
+                backgroundColor: Colors.greenAccent,
+                messageColor: Colors.white,
+              ).show(context));
+        } else if (state is ErrorAuthState) {
+          WidgetsBinding.instance.addPostFrameCallback((_) => Flushbar(
+                message: state.error.message,
+                backgroundColor: Colors.red,
+                messageColor: Colors.white,
+              ));
+        } else if (state is OtpValidatedState) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pop(context);
             Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => NavbarComponent()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => NavbarComponent()));
           });
         }
 
@@ -142,7 +150,8 @@ class _OtpScreenState extends State<OtpScreen> {
 
                           onCompleted: (v) {
                             debugPrint("Completed");
-                            authBloc?.add(ValidateOtpEvent(widget.loginData?.data?.email ?? "", v));
+                            authBloc?.add(ValidateOtpEvent(
+                                widget.loginData?.data?.email ?? "", v));
                             // Navigator.push(
                             //     context,
                             //     MaterialPageRoute(

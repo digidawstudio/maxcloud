@@ -26,7 +26,11 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state is LoadedAuthState) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => OtpScreen(loginData: state.data,)));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => OtpScreen(
+                          loginData: state.data,
+                        )));
           });
         }
 

@@ -143,7 +143,12 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_dotenv
+<<<<<<< HEAD
+      sha256: "9357883bdd153ab78cbf9ffa07656e336b8bbb2b5a3ca596b0b27e119f7c7d77"
+      url: "https://pub.dev"
+=======
       url: "https://pub.dartlang.org"
+>>>>>>> 8af2fae9d143ee200ee66b44e053d429525fa0a5
     source: hosted
     version: "5.1.0"
   flutter_lints:
