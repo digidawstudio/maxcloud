@@ -10,4 +10,5 @@ class Endpoints {
 
   // Profile Endpoints
   static String getProfile = '/mobile/profile';
+  static String myInstance = '/mobile/instance/instances';
 }

@@ -304,15 +304,15 @@ class _HomeScreenState extends State<HomeScreen> {
               iconPath: 'assets/svg/icons/guard-circle.svg',
               percentage: "+6,32%",
             )),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: CustomWidget.InstanceSpecs(() {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => InstanceDetailScreen()));
-              }),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 28),
+            //   child: CustomWidget.InstanceSpecs(() {
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => InstanceDetailScreen()));
+            //   }),
+            // ),
             SizedBox(height: 40.h)
           ],
         ),

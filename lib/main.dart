@@ -11,7 +11,6 @@ import 'package:maxcloud/bloc/profile/profile.bloc.dart';
 import 'package:maxcloud/bloc/user/user.bloc.dart';
 import 'package:maxcloud/screens/auth/login-screen.dart';
 import 'package:maxcloud/screens/splash/splash_screen.dart';
-import 'package:maxcloud/screens/users/user-screen.dart';
 import 'package:maxcloud/utils/constants.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -24,6 +23,7 @@ void main() async {
       BlocProvider(create: (context) => MonthSummaryBloc()),
       BlocProvider(create: (context) => ProfileBloc()),
       BlocProvider(create: (context) => UserBloc()),
+      BlocProvider(create: (context) => ProductBloc())
     ],
     child: MyApp(),
   ));

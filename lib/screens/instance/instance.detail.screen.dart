@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
 import 'package:maxcloud/screens/instance/components/line.chart.dart';
 import 'package:maxcloud/utils/widgets.dart';
 
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class InstanceDetailScreen extends StatefulWidget {
-  const InstanceDetailScreen({super.key});
+  final InstanceData data;
+  const InstanceDetailScreen({super.key, required this.data});
 
   @override
   State<InstanceDetailScreen> createState() => _InstanceDetailScreenState();
