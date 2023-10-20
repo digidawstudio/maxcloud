@@ -61,7 +61,40 @@ class ApiServices {
   static Future<dynamic> getMyInstances(String token) async {
     try {
       final response = await dio.get(Endpoints.myInstance,
-          options: Options(headers: {"x-mobile-token": "=U-wQEy1xn0uBgcy", 'Authorization': 'Bearer $token'}));
+          options: Options(headers: {
+            "x-mobile-token": "=U-wQEy1xn0uBgcy",
+            'Authorization': 'Bearer $token'
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> getLatestVM(String token) async {
+    try {
+      final response = await dio.get(Endpoints.myLatestVM,
+          options: Options(headers: {
+            "x-mobile-token": "=U-wQEy1xn0uBgcy",
+            'Authorization': 'Bearer $token'
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> getTotalResource(String token) async {
+    try {
+      final response = await dio.get(Endpoints.getTotalResource,
+          options: Options(headers: {
+            "x-mobile-token": "=U-wQEy1xn0uBgcy",
+            'Authorization': 'Bearer $token'
+          }));
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);

@@ -9,6 +9,7 @@ import 'package:maxcloud/bloc/billing/month-summary.bloc.dart';
 import 'package:maxcloud/screens/home/notification/notification.screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
 
+import '../../bloc/product/product.bloc.dart';
 import '../../bloc/profile/profile.bloc.dart';
 import '../instance/instance.detail.screen.dart';
 
@@ -24,10 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
   ProfileBloc? profileBloc;
   final storage = new FlutterSecureStorage();
 
+  ProductBloc? productBloc;
+
   @override
   void initState() {
     monthSummaryBloc = BlocProvider.of<MonthSummaryBloc>(context);
     profileBloc = BlocProvider.of<ProfileBloc>(context);
+    productBloc = BlocProvider.of<ProductBloc>(context);
+
     getAccessToken();
     super.initState();
   }
@@ -36,6 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
     String? accessToken = await storage.read(key: 'accessToken');
     monthSummaryBloc?.add(FetchCurrentMonthSummaryEvent(accessToken ?? ""));
     profileBloc?.add(FetchProfileEvent(accessToken ?? ""));
+    productBloc?.add(FetchTotalResourceEvent(accessToken ?? ""));
+    productBloc?.add(FetchLatestVMEvent(accessToken ?? ""));
   }
 
   @override
@@ -285,34 +292,66 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Container();
               }
             }),
-            ResourceWidget(
-                child: ResourceItem(
-                    title: "Total Resource",
-                    amount: "8",
-                    iconPath: 'assets/svg/icons/cloud-circle.svg',
-                    percentage: "+6,32%")),
-            ResourceWidget(
-                child: ResourceItem(
-                    title: "Running Resource",
-                    amount: "8",
-                    iconPath: 'assets/svg/icons/stat-circle.svg',
-                    percentage: "+6,32%")),
-            ResourceWidget(
-                child: ResourceItem(
-              title: "Stopped Resource",
-              amount: "2",
-              iconPath: 'assets/svg/icons/guard-circle.svg',
-              percentage: "+6,32%",
-            )),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 28),
-            //   child: CustomWidget.InstanceSpecs(() {
-            //     Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //             builder: (context) => InstanceDetailScreen()));
-            //   }),
-            // ),
+            BlocBuilder<ProductBloc, ProductState>(builder: (context, state) {
+              if (state is LoadedTotalResourceState) {
+                LoadedTotalResourceState totalResource = state;
+
+                return Column(
+                  children: [
+                    ResourceWidget(
+                        child: ResourceItem(
+                            title: "Total Resource",
+                            amount: totalResource
+                                .totalResource.data?.totalResource
+                                .toString(),
+                            iconPath: 'assets/svg/icons/cloud-circle.svg',
+                            percentage: "+6,32%")),
+                    ResourceWidget(
+                        child: ResourceItem(
+                            title: "Running Resource",
+                            amount: totalResource
+                                .totalResource.data?.totalRunning
+                                .toString(),
+                            iconPath: 'assets/svg/icons/stat-circle.svg',
+                            percentage: "+6,32%")),
+                    ResourceWidget(
+                        child: ResourceItem(
+                      title: "Stopped Resource",
+                      amount: totalResource.totalResource.data?.totalStopped
+                          .toString(),
+                      iconPath: 'assets/svg/icons/guard-circle.svg',
+                      percentage: "+6,32%",
+                    )),
+                  ],
+                );
+              } else {
+                return Container();
+              }
+            }),
+            BlocBuilder<ProductBloc, ProductState>(builder: (context, state) {
+              if (state is LoadedLatestVMState) {
+                LoadedLatestVMState latestVM = state;
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 28),
+                  child: latestVM.latestVm.data!.isNotEmpty
+                      ? Column(
+                          children: latestVM.latestVm.data!.map((e) {
+                            return CustomWidget.InstanceSpecs(() {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          InstanceDetailScreen(data: e)));
+                            }, data: e);
+                          }).toList(),
+                        )
+                      : SizedBox.shrink(),
+                );
+              } else {
+                return Container();
+              }
+            }),
             SizedBox(height: 40.h)
           ],
         ),

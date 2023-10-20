@@ -55,10 +55,12 @@ class _OtpScreenState extends State<OtpScreen> {
         } else if (state is OtpValidatedState) {
           setAccessToken(state.data.data?.accessToken);
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pop(context);
-            Navigator.pop(context);
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => NavbarComponent()));
+            // Navigator.pop(context);
+            // Navigator.pop(context);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => NavbarComponent()),
+                ModalRoute.withName('/'));
           });
         }
 
