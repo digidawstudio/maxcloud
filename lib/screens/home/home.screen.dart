@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:indexed/indexed.dart';
+import 'package:maxcloud/bloc/billing/month-summary.bloc.dart';
 import 'package:maxcloud/screens/home/notification/notification.screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
 
+import '../../bloc/profile/profile.bloc.dart';
 import '../instance/instance.detail.screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +20,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  MonthSummaryBloc? monthSummaryBloc;
+  ProfileBloc? profileBloc;
+  final storage = new FlutterSecureStorage();
+
+  @override
+  void initState() {
+    monthSummaryBloc = BlocProvider.of<MonthSummaryBloc>(context);
+    profileBloc = BlocProvider.of<ProfileBloc>(context);
+    getAccessToken();
+    super.initState();
+  }
+
+  void getAccessToken() async {
+    String? accessToken = await storage.read(key: 'accessToken');
+    monthSummaryBloc?.add(FetchCurrentMonthSummaryEvent(accessToken ?? ""));
+    profileBloc?.add(FetchProfileEvent(accessToken ?? ""));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,211 +46,245 @@ class _HomeScreenState extends State<HomeScreen> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: 400.h,
-              child: Stack(
-                children: [
-                  Container(
-                    transform: Matrix4.translationValues(0, 200.h, 0),
-                    height: 188.h,
-                    width: ScreenUtil().screenWidth,
-                    padding: EdgeInsets.only(
-                        left: 31.w, right: 31.w, top: 50.h, bottom: 23.h),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.r),
-                      color: Color.fromARGB(255, 235, 235, 235),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 5.h,
+            BlocBuilder<MonthSummaryBloc, MonthSummaryState>(
+                builder: (context, state) {
+              if (state is LoadedMonthSummaryState) {
+                return Container(
+                  height: 400.h,
+                  child: Stack(
+                    children: [
+                      Container(
+                        transform: Matrix4.translationValues(0, 200.h, 0),
+                        height: 188.h,
+                        width: ScreenUtil().screenWidth,
+                        padding: EdgeInsets.only(
+                            left: 31.w, right: 31.w, top: 50.h, bottom: 23.h),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.r),
+                          color: Color.fromARGB(255, 235, 235, 235),
                         ),
-                        Text("Current Cost",
-                            style: GoogleFonts.manrope(
-                                textStyle: TextStyle(
-                                    fontSize: 10.sp,
-                                    color: Color(0xff232226),
-                                    fontWeight: FontWeight.w500))),
-                        RichText(
-                            text: TextSpan(
-                                text: "Rp ",
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            Text("Current Cost",
                                 style: GoogleFonts.manrope(
                                     textStyle: TextStyle(
-                                        fontSize: 20.sp,
-                                        color: Color(0xff232226),
-                                        fontWeight: FontWeight.w400)),
-                                children: [
-                              TextSpan(
-                                  text: "0 ,00",
-                                  style: TextStyle(
-                                      fontSize: 20.sp,
-                                      color: Color(0xff232226),
-                                      fontWeight: FontWeight.w700))
-                            ])),
-                        Expanded(child: Container()),
-                        Text("Estimated Monthly Cost",
-                            style: GoogleFonts.manrope(
-                                textStyle: TextStyle(
-                                    fontSize: 10.sp,
-                                    color: Color(0xff232226),
-                                    fontWeight: FontWeight.w500))),
-                        RichText(
-                            text: TextSpan(
-                                text: "Rp ",
-                                style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
-                                        fontSize: 20.sp,
-                                        color: Color(0xff232226),
-                                        fontWeight: FontWeight.w400)),
-                                children: [
-                              TextSpan(
-                                  text: "100.000.000,00",
-                                  style: TextStyle(
-                                      fontSize: 20.sp,
-                                      color: Color(0xff232226),
-                                      fontWeight: FontWeight.w700))
-                            ])),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 242.h,
-                    width: ScreenUtil().screenWidth,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30.w, vertical: 25.h),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(15.r),
-                            bottomRight: Radius.circular(15.r)),
-                        color: const Color(0xff009EFF),
-                        boxShadow: const [
-                          BoxShadow(color: Colors.black26, blurRadius: 20)
-                        ]),
-                    child: SafeArea(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              const Image(
-                                  height: 26,
-                                  image:
-                                      AssetImage("assets/images/maxcloud.png")),
-                              Expanded(child: Container()),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              NotificationScreen()));
-                                },
-                                child: Icon(Icons.notifications_active_rounded,
-                                    color: Colors.white, size: 20.w),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 18.h,
-                          ),
-                          Flexible(
-                              child: RichText(
-                                  text: TextSpan(
-                                      text: "Selamat Datang ",
-                                      style: GoogleFonts.manrope(
-                                          textStyle: TextStyle(
-                                              fontSize: 10.sp,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w400)),
-                                      children: [
-                                TextSpan(
-                                    text: "Didan Alzabar!",
-                                    style: TextStyle(
                                         fontSize: 10.sp,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700))
-                              ]))),
-                          Flexible(
-                              child: SizedBox(
-                            height: 12.h,
-                          )),
-                          Container(
-                            height: 80.h,
-                            padding: EdgeInsets.symmetric(horizontal: 15.w),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15.r)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Flexible(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                        color: Color(0xff232226),
+                                        fontWeight: FontWeight.w500))),
+                            RichText(
+                                text: TextSpan(
+                                    text: "Rp ",
+                                    style: GoogleFonts.manrope(
+                                        textStyle: TextStyle(
+                                            fontSize: 20.sp,
+                                            color: Color(0xff232226),
+                                            fontWeight: FontWeight.w400)),
                                     children: [
-                                      Flexible(
-                                          child: Text("Saldo Anda",
-                                              style: GoogleFonts.manrope(
-                                                  textStyle: TextStyle(
-                                                      fontSize: 12.sp,
-                                                      color: Color(0xffBBBBBB),
-                                                      fontWeight:
-                                                          FontWeight.w500)))),
-                                      SizedBox(
-                                        height: 2.h,
+                                  TextSpan(
+                                      text:
+                                          "${state.data.data?.currentCost},00",
+                                      style: TextStyle(
+                                          fontSize: 20.sp,
+                                          color: Color(0xff232226),
+                                          fontWeight: FontWeight.w700))
+                                ])),
+                            Expanded(child: Container()),
+                            Text("Estimated Monthly Cost",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        fontSize: 10.sp,
+                                        color: Color(0xff232226),
+                                        fontWeight: FontWeight.w500))),
+                            RichText(
+                                text: TextSpan(
+                                    text: "Rp ",
+                                    style: GoogleFonts.manrope(
+                                        textStyle: TextStyle(
+                                            fontSize: 20.sp,
+                                            color: Color(0xff232226),
+                                            fontWeight: FontWeight.w400)),
+                                    children: [
+                                  TextSpan(
+                                      text:
+                                          "${state.data.data?.estimatedMonthlyTotal},00",
+                                      style: TextStyle(
+                                          fontSize: 20.sp,
+                                          color: Color(0xff232226),
+                                          fontWeight: FontWeight.w700))
+                                ])),
+                          ],
+                        ),
+                      ),
+                      BlocBuilder<ProfileBloc, ProfileState>(
+                          builder: (context, state) {
+                        if (state is LoadedProfileState) {
+                          return Container(
+                            height: 242.h,
+                            width: ScreenUtil().screenWidth,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 30.w, vertical: 25.h),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(15.r),
+                                    bottomRight: Radius.circular(15.r)),
+                                color: const Color(0xff009EFF),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black26, blurRadius: 20)
+                                ]),
+                            child: SafeArea(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Image(
+                                          height: 26,
+                                          image: AssetImage(
+                                              "assets/images/maxcloud.png")),
+                                      Expanded(child: Container()),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      NotificationScreen()));
+                                        },
+                                        child: Icon(
+                                            Icons.notifications_active_rounded,
+                                            color: Colors.white,
+                                            size: 20.w),
                                       ),
-                                      Flexible(
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              "Rp",
-                                              style: GoogleFonts.manrope(
-                                                  textStyle: TextStyle(
-                                                      fontSize: 20.sp,
-                                                      color: Color(0xff232226),
-                                                      fontWeight:
-                                                          FontWeight.w500)),
-                                            ),
-                                            SizedBox(
-                                              width: 7.w,
-                                            ),
-                                            Text("124.000",
-                                                style: GoogleFonts.manrope(
-                                                    textStyle: TextStyle(
-                                                        fontSize: 30.sp,
-                                                        color:
-                                                            Color(0xff009EFF),
-                                                        fontWeight:
-                                                            FontWeight.w700))),
-                                          ],
-                                        ),
-                                      )
                                     ],
                                   ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    //TODO: add function
-                                  },
-                                  child: const Image(
-                                    image: AssetImage(
-                                        "assets/images/add-button.png"),
+                                  SizedBox(
+                                    height: 18.h,
                                   ),
-                                )
-                              ],
+                                  Flexible(
+                                      child: RichText(
+                                          text: TextSpan(
+                                              text: "Selamat Datang ",
+                                              style: GoogleFonts.manrope(
+                                                  textStyle: TextStyle(
+                                                      fontSize: 10.sp,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w400)),
+                                              children: [
+                                        TextSpan(
+                                            text:
+                                                "${state.data.data?.fullName}!",
+                                            style: TextStyle(
+                                                fontSize: 10.sp,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700))
+                                      ]))),
+                                  Flexible(
+                                      child: SizedBox(
+                                    height: 12.h,
+                                  )),
+                                  Container(
+                                    height: 80.h,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 15.w),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(15.r)),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Flexible(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Flexible(
+                                                  child: Text("Saldo Anda",
+                                                      style: GoogleFonts.manrope(
+                                                          textStyle: TextStyle(
+                                                              fontSize: 12.sp,
+                                                              color: Color(
+                                                                  0xffBBBBBB),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500)))),
+                                              SizedBox(
+                                                height: 2.h,
+                                              ),
+                                              Flexible(
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      "Rp",
+                                                      style: GoogleFonts.manrope(
+                                                          textStyle: TextStyle(
+                                                              fontSize: 20.sp,
+                                                              color: Color(
+                                                                  0xff232226),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500)),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 7.w,
+                                                    ),
+                                                    Text(
+                                                        state.data.data
+                                                                ?.currentBalance
+                                                                .toString() ??
+                                                            "0",
+                                                        style: GoogleFonts.manrope(
+                                                            textStyle: TextStyle(
+                                                                fontSize: 20.sp,
+                                                                color: Color(
+                                                                    0xff009EFF),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700))),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            //TODO: add function
+                                          },
+                                          child: const Image(
+                                            image: AssetImage(
+                                                "assets/images/add-button.png"),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      }),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                );
+              } else {
+                return Container();
+              }
+            }),
             ResourceWidget(
                 child: ResourceItem(
                     title: "Total Resource",

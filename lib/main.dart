@@ -5,7 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxcloud/bloc/auth/auth.bloc.dart';
+import 'package:maxcloud/bloc/billing/month-summary.bloc.dart';
 import 'package:maxcloud/bloc/product/product.bloc.dart';
+import 'package:maxcloud/bloc/profile/profile.bloc.dart';
 import 'package:maxcloud/bloc/user/user.bloc.dart';
 import 'package:maxcloud/screens/auth/login-screen.dart';
 import 'package:maxcloud/screens/splash/splash_screen.dart';
@@ -18,6 +20,8 @@ void main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (context) => AuthBloc()),
+      BlocProvider(create: (context) => MonthSummaryBloc()),
+      BlocProvider(create: (context) => ProfileBloc()),
       BlocProvider(create: (context) => UserBloc()),
       BlocProvider(create: (context) => ProductBloc())
     ],

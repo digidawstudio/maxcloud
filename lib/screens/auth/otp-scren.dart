@@ -10,6 +10,7 @@ import 'package:maxcloud/screens/auth/pin-screen.dart';
 import 'package:maxcloud/screens/navbar.component.dart';
 import 'package:maxcloud/utils/widgets.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class OtpScreen extends StatefulWidget {
   final LoginModel? loginData;
@@ -21,12 +22,17 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   AuthBloc? authBloc;
+  final storage = new FlutterSecureStorage();
 
   @override
   void initState() {
     authBloc = BlocProvider.of<AuthBloc>(context);
     authBloc?.add(RequestOtpEvent(widget.loginData?.data?.email ?? ""));
     super.initState();
+  }
+
+  void setAccessToken(token) async {
+    await storage.write(key: 'accessToken', value: token);
   }
 
   @override
@@ -47,6 +53,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 messageColor: Colors.white,
               ));
         } else if (state is OtpValidatedState) {
+          setAccessToken(state.data.data?.accessToken);
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pop(context);
             Navigator.pop(context);

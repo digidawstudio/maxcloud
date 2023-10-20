@@ -83,6 +83,36 @@ class ApiServices {
     }
   }
 
+  static Future<dynamic> getCurrentMonthSummary(String accessToken) async {
+    try {
+      final response = await dio.get(Endpoints.getCurrentMonthSummary,
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> getProfile(String accessToken) async {
+    try {
+      final response = await dio.get(Endpoints.getProfile,
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
   static Future<void> setSomething() async {
     try {
       dio.post("memek", options: Options(headers: {"applications": ""}));
