@@ -10,5 +10,9 @@ class Endpoints {
 
   // Profile Endpoints
   static String getProfile = '/mobile/profile';
+
+  // Virtual Machine Endpoints
   static String myInstance = '/mobile/instance/instances';
+  static String myLatestVM = '/mobile/dashboard/instances';
+  static String getTotalResource = '/mobile/dashboard/resources';
 }
