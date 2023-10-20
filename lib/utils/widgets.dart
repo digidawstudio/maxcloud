@@ -96,7 +96,7 @@ class CustomWidget {
                           SizedBox(height: 5.h),
                           Flexible(
                             child: Text(
-                              data.owner!,
+                              data.owner ?? "",
                               style: GoogleFonts.manrope(
                                   textStyle: TextStyle(
                                       color: Color(0xff009EFF),
@@ -160,7 +160,7 @@ class CustomWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(data.status!,
+                      Text(data.status ?? "",
                           style: GoogleFonts.manrope(
                               textStyle: TextStyle(
                                   color: Color(0xffBBBBBB),
@@ -202,7 +202,9 @@ class CustomWidget {
                                   color: Color(0xffBBBBBB),
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600))),
-                                  SizedBox(height: 2.h,),
+                      SizedBox(
+                        height: 2.h,
+                      ),
                       Row(
                         children: [
                           Image.network(
@@ -231,7 +233,7 @@ class CustomWidget {
                                   color: Color(0xffBBBBBB),
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600))),
-                      Text("Rp ${data.pricePerHour!.floor()}",
+                      Text("Rp ${(data.pricePerHour ?? 0).floor()}",
                           style: GoogleFonts.manrope(
                               textStyle: TextStyle(
                                   color: Color(0xff232226),
@@ -249,7 +251,7 @@ class CustomWidget {
                                   color: Color(0xffBBBBBB),
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600))),
-                      Text("Rp ${data.estimatedMonthlyCost!.floor()}",
+                      Text("Rp ${(data.estimatedMonthlyCost ?? 0).floor()}",
                           style: GoogleFonts.manrope(
                               textStyle: TextStyle(
                                   color: Color(0xff232226),
