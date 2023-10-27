@@ -293,6 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             }),
             BlocBuilder<ProductBloc, ProductState>(builder: (context, state) {
+              print("current state" + state.toString());
               if (state is LoadedTotalResourceState) {
                 LoadedTotalResourceState totalResource = state;
 
