@@ -7,6 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxcloud/bloc/auth/auth.bloc.dart';
 import 'package:maxcloud/bloc/billing/month-summary.bloc.dart';
 import 'package:maxcloud/bloc/product/product.bloc.dart';
+import 'package:maxcloud/bloc/product/rrd-data.bloc.dart';
+import 'package:maxcloud/bloc/product/total-resource.bloc.dart';
 import 'package:maxcloud/bloc/profile/profile.bloc.dart';
 import 'package:maxcloud/bloc/user/user.bloc.dart';
 import 'package:maxcloud/screens/auth/login-screen.dart';
@@ -14,12 +16,17 @@ import 'package:maxcloud/screens/splash/splash_screen.dart';
 import 'package:maxcloud/utils/constants.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'bloc/product/latest-vm.bloc.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (context) => AuthBloc()),
+      BlocProvider(create: (context) => RRDDataBloc()),
+      BlocProvider(create: (context) => LatestVMBloc()),
+      BlocProvider(create: (context) => TotalResourceBloc()),
       BlocProvider(create: (context) => MonthSummaryBloc()),
       BlocProvider(create: (context) => ProfileBloc()),
       BlocProvider(create: (context) => UserBloc()),

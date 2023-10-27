@@ -15,4 +15,5 @@ class Endpoints {
   static String myInstance = '/mobile/instance/instances';
   static String myLatestVM = '/mobile/dashboard/instances';
   static String getTotalResource = '/mobile/dashboard/resources';
+  static String getVMDetail = '/mobile/instance/';
 }

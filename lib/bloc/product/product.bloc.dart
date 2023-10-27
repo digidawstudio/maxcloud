@@ -18,49 +18,24 @@ class FetchProductEvent extends ProductEvent {
   FetchProductEvent(this.token);
 }
 
-class FetchLatestVMEvent extends ProductEvent {
-  final String? token;
-
-  FetchLatestVMEvent(this.token);
-}
-
-class FetchTotalResourceEvent extends ProductEvent {
-  final String? token;
-
-  FetchTotalResourceEvent(this.token);
-}
-
 class FetchVMDetailEvent extends ProductEvent {
   final String? token;
+  final String? vmUuid;
 
-  FetchVMDetailEvent(this.token);
+  FetchVMDetailEvent(this.token, this.vmUuid);
 }
 
 abstract class ProductState {}
 
 class InitialProductState extends ProductState {}
 
-class InitialTotalResourceState extends ProductState {}
-
 class LoadingProductState extends ProductState {}
-
-class LoadingTotalResourceState extends ProductState {}
 
 class LoadingVMDetailState extends ProductState {}
 
 class LoadedProductState extends ProductState {
   final MyVirtualMachines products;
   LoadedProductState(this.products);
-}
-
-class LoadedLatestVMState extends ProductState {
-  final LatestVMModel latestVm;
-  LoadedLatestVMState(this.latestVm);
-}
-
-class LoadedTotalResourceState extends ProductState {
-  final TotalResourceModel totalResource;
-  LoadedTotalResourceState(this.totalResource);
 }
 
 class LoadedVMDetailState extends ProductState {
@@ -99,53 +74,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
               AuthErrorModel.fromJson(errorData).message ?? ""));
           print(response);
         }
-      } else if (event is FetchLatestVMEvent) {
-        emit(LoadingProductState());
+      }
 
-        final response = await ApiServices.getLatestVM(event.token!);
-
-        print(response.runtimeType);
-
-        if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code ${response}");
-          if (response.statusCode == 200) {
-            print(response);
-            emit(LoadedLatestVMState(LatestVMModel.fromJson(response.data)));
-          } else {
-            emit(ErrorProductState(response.data));
-          }
-        } else if (response.runtimeType.toString() == 'DioException') {
-          Map<String, dynamic> errorData = response.response?.data;
-          emit(ErrorProductState(
-              AuthErrorModel.fromJson(errorData).message ?? ""));
-          print(response);
-        }
-      } else if (event is FetchTotalResourceEvent) {
-        emit(LoadingTotalResourceState());
-
-        final response = await ApiServices.getTotalResource(event.token!);
-
-        print(response.runtimeType);
-
-        if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code ${response}");
-          if (response.statusCode == 200) {
-            print(response);
-            emit(LoadedTotalResourceState(
-                TotalResourceModel.fromJson(response.data)));
-          } else {
-            emit(ErrorProductState(response.data));
-          }
-        } else if (response.runtimeType.toString() == 'DioException') {
-          Map<String, dynamic> errorData = response.response?.data;
-          emit(ErrorProductState(
-              AuthErrorModel.fromJson(errorData).message ?? ""));
-          print(response);
-        }
-      } else if (event is FetchVMDetailEvent) {
+      if (event is FetchVMDetailEvent) {
         emit(LoadingVMDetailState());
 
-        final response = await ApiServices.getTotalResource(event.token!);
+        final response =
+            await ApiServices.getVMDetail(event.token!, event.vmUuid!);
 
         print(response.runtimeType);
 
@@ -153,12 +88,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           print("status code ${response}");
           if (response.statusCode == 200) {
             print(response);
-            emit(LoadedTotalResourceState(
-                TotalResourceModel.fromJson(response.data)));
+            emit(LoadedVMDetailState(VMDetailModel.fromJson(response.data)));
           } else {
             emit(ErrorProductState(response.data));
           }
-        } else if (response.runtimeType.toString() == 'DioException') {
+        }
+        if (response.runtimeType.toString() == 'DioException') {
           Map<String, dynamic> errorData = response.response?.data;
           emit(ErrorProductState(
               AuthErrorModel.fromJson(errorData).message ?? ""));

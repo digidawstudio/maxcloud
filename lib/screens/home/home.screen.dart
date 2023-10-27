@@ -6,10 +6,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:indexed/indexed.dart';
 import 'package:maxcloud/bloc/billing/month-summary.bloc.dart';
+import 'package:maxcloud/bloc/product/total-resource.bloc.dart';
 import 'package:maxcloud/screens/home/notification/notification.screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
 
-import '../../bloc/product/product.bloc.dart';
+import '../../bloc/product/latest-vm.bloc.dart';
 import '../../bloc/profile/profile.bloc.dart';
 import '../instance/instance.detail.screen.dart';
 
@@ -25,13 +26,15 @@ class _HomeScreenState extends State<HomeScreen> {
   ProfileBloc? profileBloc;
   final storage = new FlutterSecureStorage();
 
-  ProductBloc? productBloc;
+  LatestVMBloc? latestVMBloc;
+  TotalResourceBloc? totalResourceBloc;
 
   @override
   void initState() {
     monthSummaryBloc = BlocProvider.of<MonthSummaryBloc>(context);
     profileBloc = BlocProvider.of<ProfileBloc>(context);
-    productBloc = BlocProvider.of<ProductBloc>(context);
+    latestVMBloc = BlocProvider.of<LatestVMBloc>(context);
+    totalResourceBloc = BlocProvider.of<TotalResourceBloc>(context);
 
     getAccessToken();
     super.initState();
@@ -41,8 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
     String? accessToken = await storage.read(key: 'accessToken');
     monthSummaryBloc?.add(FetchCurrentMonthSummaryEvent(accessToken ?? ""));
     profileBloc?.add(FetchProfileEvent(accessToken ?? ""));
-    productBloc?.add(FetchTotalResourceEvent(accessToken ?? ""));
-    productBloc?.add(FetchLatestVMEvent(accessToken ?? ""));
+    totalResourceBloc?.add(FetchTotalResourceEvent(accessToken ?? ""));
+    latestVMBloc?.add(FetchLatestVMEvent(accessToken ?? ""));
   }
 
   @override
@@ -292,7 +295,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Container();
               }
             }),
-            BlocBuilder<ProductBloc, ProductState>(builder: (context, state) {
+            BlocBuilder<TotalResourceBloc, TotalResourceState>(
+                builder: (context, state) {
               if (state is LoadedTotalResourceState) {
                 LoadedTotalResourceState totalResource = state;
 
@@ -328,7 +332,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Container();
               }
             }),
-            BlocBuilder<ProductBloc, ProductState>(builder: (context, state) {
+            BlocBuilder<LatestVMBloc, LatestVMState>(builder: (context, state) {
               if (state is LoadedLatestVMState) {
                 LoadedLatestVMState latestVM = state;
 
