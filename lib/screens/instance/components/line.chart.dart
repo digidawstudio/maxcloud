@@ -3,25 +3,43 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class CustomLineChart {
-  static SfCartesianChart buildDefaultLineChart(List<ChartData>? chartData) {
+  static String labelDenom(String title) {
+    String denom = '';
+    if (title.toLowerCase().contains('cpu')) {
+      denom = '%';
+    }
+    if (title.toLowerCase().contains('memory')) {
+      denom = 'mb';
+    }
+    if (title.toLowerCase().contains('network')) {
+      denom = 'b';
+    }
+    if (title.toLowerCase().contains('disk')) {
+      denom = 'b';
+    }
+    return denom;
+  }
+
+  static SfCartesianChart buildDefaultLineChart(
+      String title, List<ChartData>? chartData) {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
           alignment: ChartAlignment.near,
-          text: 'CPU Usage',
+          text: title,
           textStyle: GoogleFonts.manrope(
               textStyle: const TextStyle(
                   color: Color(0xff353333),
                   fontSize: 14,
                   fontWeight: FontWeight.w600))),
-      primaryXAxis: NumericAxis(
-          labelFormat: '{value}.00',
+      primaryXAxis: DateTimeAxis(
+          labelFormat: '{value}',
           edgeLabelPlacement: EdgeLabelPlacement.shift,
           axisLine: const AxisLine(width: 1),
           interval: 2,
           majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
-          labelFormat: '{value}%',
+          labelFormat: '{value}' + labelDenom(title),
           axisLine: const AxisLine(width: 1),
           majorTickLines: const MajorTickLines(width: 1),
           majorGridLines: const MajorGridLines(width: 0)),
@@ -30,7 +48,7 @@ class CustomLineChart {
     );
   }
 
-  static List<ChartSeries<ChartData, num>> _getDefaultLineSeries(
+  static List<ChartSeries<ChartData, DateTime>> _getDefaultLineSeries(
       List<ChartData>? chartData) {
     final List<Color> color = <Color>[];
     color.add(Color(0x59d8f3ff));
@@ -46,8 +64,8 @@ class CustomLineChart {
         begin: Alignment.bottomCenter,
         end: Alignment.topCenter);
 
-    return <ChartSeries<ChartData, num>>[
-      AreaSeries<ChartData, num>(
+    return <ChartSeries<ChartData, DateTime>>[
+      AreaSeries<ChartData, DateTime>(
           borderColor: Color(0xFF009EFF),
           borderWidth: 1.2,
           gradient: gradientColors,
@@ -59,8 +77,8 @@ class CustomLineChart {
           markerSettings: const MarkerSettings(
             isVisible: true,
             borderWidth: 0,
-            width: 5,
-            height: 5,
+            width: 0,
+            height: 0,
             color: Color(0xFF009EFF),
           )),
     ];
@@ -69,6 +87,6 @@ class CustomLineChart {
 
 class ChartData {
   ChartData(this.x, this.y);
-  final double x;
+  final DateTime x;
   final double y;
 }
