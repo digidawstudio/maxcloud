@@ -94,16 +94,27 @@ class CustomWidget {
                                     fontWeight: FontWeight.w600)),
                           ),
                           SizedBox(height: 5.h),
-                          Flexible(
-                            child: Text(
-                              data.owner ?? "",
-                              style: GoogleFonts.manrope(
-                                  textStyle: TextStyle(
-                                      color: Color(0xff009EFF),
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w600)),
-                            ),
-                          ),
+                          data.owner != null
+                              ? Flexible(
+                                  child: Text(
+                                    data.owner ?? "",
+                                    style: GoogleFonts.manrope(
+                                        textStyle: TextStyle(
+                                            color: Color(0xff009EFF),
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w600)),
+                                  ),
+                                )
+                              : Flexible(
+                                  child: Text(
+                                    data.hostname ?? "",
+                                    style: GoogleFonts.manrope(
+                                        textStyle: TextStyle(
+                                            color: Color(0xff009EFF),
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w600)),
+                                  ),
+                                ),
                         ],
                       ),
                     ),
@@ -157,24 +168,28 @@ class CustomWidget {
               padding: EdgeInsets.all(10.0.h),
               child: Row(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(data.status ?? "",
-                          style: GoogleFonts.manrope(
-                              textStyle: TextStyle(
-                                  color: Color(0xffBBBBBB),
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w600))),
-                      Text("Running",
-                          style: GoogleFonts.manrope(
-                              textStyle: TextStyle(
-                                  color: Color(0xff00FF38),
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w600))),
-                    ],
-                  ),
-                  Expanded(child: Container()),
+                  data.status != null
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Status",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        color: Color(0xffBBBBBB),
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.w600))),
+                            Text(data.status ?? "",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        color: Color(0xff00FF38),
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w600))),
+                          ],
+                        )
+                      : SizedBox.shrink(),
+                  data.status != null
+                      ? Expanded(child: Container())
+                      : SizedBox.shrink(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -217,6 +232,9 @@ class CustomWidget {
                       )
                     ],
                   ),
+                  data.status == null
+                      ? Expanded(child: Container())
+                      : SizedBox.shrink(),
                 ],
               ),
             ),
@@ -224,24 +242,28 @@ class CustomWidget {
               padding: EdgeInsets.all(10.0.h),
               child: Row(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Price Per Hour",
-                          style: GoogleFonts.manrope(
-                              textStyle: TextStyle(
-                                  color: Color(0xffBBBBBB),
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w600))),
-                      Text("Rp ${(data.pricePerHour ?? 0).floor()}",
-                          style: GoogleFonts.manrope(
-                              textStyle: TextStyle(
-                                  color: Color(0xff232226),
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w600))),
-                    ],
-                  ),
-                  Expanded(child: Container()),
+                  data.pricePerHour != null
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Price Per Hour",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        color: Color(0xffBBBBBB),
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.w600))),
+                            Text("Rp ${(data.pricePerHour ?? 0).floor()}",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        color: Color(0xff232226),
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w600))),
+                          ],
+                        )
+                      : SizedBox.shrink(),
+                  data.pricePerHour != null
+                      ? Expanded(child: Container())
+                      : SizedBox.shrink(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -259,6 +281,28 @@ class CustomWidget {
                                   fontWeight: FontWeight.w600))),
                     ],
                   ),
+                  (data.createdAt != null && data.status == null)
+                      ? Expanded(child: Container())
+                      : SizedBox.shrink(),
+                  (data.createdAt != null && data.status == null)
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Created At",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        color: Color(0xffBBBBBB),
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.w600))),
+                            Text(data.createdAt ?? "",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        color: Color(0xff232226),
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w600))),
+                          ],
+                        )
+                      : SizedBox.shrink(),
                   Expanded(child: Container()),
                   SizedBox(
                     width: 19.w,

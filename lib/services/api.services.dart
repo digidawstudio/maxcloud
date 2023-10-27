@@ -103,6 +103,40 @@ class ApiServices {
     }
   }
 
+  static Future<dynamic> getVMDetail(String token, String vmUuid) async {
+    try {
+      final response = await dio.get(
+          Endpoints.getVMDetail + '/$vmUuid' + '/detail',
+          options: Options(headers: {
+            "x-mobile-token": "=U-wQEy1xn0uBgcy",
+            'Authorization': 'Bearer $token'
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> getRRDData(
+      String token, String vmUuid, String period) async {
+    try {
+      final response = await dio.get(
+          Endpoints.getVMDetail + '/$vmUuid' + '/rrd',
+          queryParameters: {"periode": period},
+          options: Options(headers: {
+            "x-mobile-token": "=U-wQEy1xn0uBgcy",
+            'Authorization': 'Bearer $token'
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
   static Future<dynamic> validateOtp(String credential, String code) async {
     try {
       final response = await dio.post(Endpoints.validateOtp,
