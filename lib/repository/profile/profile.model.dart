@@ -29,9 +29,9 @@ class Data {
   double? actualBalance;
   Country? country;
   Province? province;
-  Null? cProvince;
+  String? cProvince;
   City? city;
-  Null? cCity;
+  String? cCity;
   District? district;
   String? address;
   int? isActive;
@@ -159,7 +159,7 @@ class Province {
   String? name;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  String? deletedAt;
 
   Province(
       {this.id, this.name, this.createdAt, this.updatedAt, this.deletedAt});
