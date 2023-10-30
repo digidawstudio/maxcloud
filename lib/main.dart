@@ -30,7 +30,8 @@ void main() async {
       BlocProvider(create: (context) => MonthSummaryBloc()),
       BlocProvider(create: (context) => ProfileBloc()),
       BlocProvider(create: (context) => UserBloc()),
-      BlocProvider(create: (context) => ProductBloc())
+      BlocProvider(create: (context) => ProductBloc()),
+      BlocProvider(create: (context) => UpdateUserBloc())
     ],
     child: MyApp(),
   ));
