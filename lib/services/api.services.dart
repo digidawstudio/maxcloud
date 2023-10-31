@@ -1,6 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:maxcloud/repository/profile/updateprofile.model.dart';
 import 'package:maxcloud/utils/constants.dart';
 import 'package:maxcloud/utils/endpoints.dart';
+
+enum PlaceType {
+  country,
+  province,
+  city,
+  district
+}
 
 class ApiServices {
   static Dio dio = Dio(BaseOptions(
@@ -168,6 +176,55 @@ class ApiServices {
   static Future<dynamic> getProfile(String accessToken) async {
     try {
       final response = await dio.get(Endpoints.getProfile,
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+  
+  static Future<dynamic> placesLookup(PlaceType type, {String param = ""}) async {
+    try {
+
+      String endpoints = "";
+
+      switch (type) {
+        case PlaceType.country:
+          endpoints = Endpoints.countryLookup;
+          break;
+        case PlaceType.province:
+          endpoints = Endpoints.provinceLookup;
+          break;
+        case PlaceType.city:
+          endpoints = Endpoints.cityLookup + param;
+          break;
+        case PlaceType.district:
+          endpoints = Endpoints.districtLookup + param;
+          break;
+      }
+
+      final response = await dio.get(endpoints,
+          options: Options(headers: {
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> updateProfile(
+      String accessToken, UpdateProfile body) async {
+    try {
+      final response = await dio.patch(Endpoints.updateProfile,
+          data: body.toJson(),
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
             "x-mobile-token": "=U-wQEy1xn0uBgcy"

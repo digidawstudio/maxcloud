@@ -11,6 +11,7 @@ class Endpoints {
 
   // Profile Endpoints
   static String getProfile = '/mobile/profile';
+  static String updateProfile = '/mobile/profile';
 
   // Virtual Machine Endpoints
   static String myInstance = '/mobile/instance/instances';
@@ -20,4 +21,9 @@ class Endpoints {
 
   // Notifications Endpoints
   static String getNotifications = '/mobile/notifications/all';
+  //places lookup
+  static String countryLookup = '/lookup/country';
+  static String provinceLookup = '/lookup/province';
+  static String cityLookup = '/lookup/city';
+  static String districtLookup = '/lookup/district';
 }
