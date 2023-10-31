@@ -6,9 +6,12 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxcloud/bloc/auth/auth.bloc.dart';
 import 'package:maxcloud/bloc/billing/month-summary.bloc.dart';
+import 'package:maxcloud/bloc/billing/payment-method.bloc.dart';
+import 'package:maxcloud/bloc/notifications/notifications.bloc.dart';
 import 'package:maxcloud/bloc/product/product.bloc.dart';
 import 'package:maxcloud/bloc/product/rrd-data.bloc.dart';
 import 'package:maxcloud/bloc/product/total-resource.bloc.dart';
+import 'package:maxcloud/bloc/product/vm-detail.bloc.dart';
 import 'package:maxcloud/bloc/profile/profile.bloc.dart';
 import 'package:maxcloud/bloc/user/user.bloc.dart';
 import 'package:maxcloud/screens/auth/login-screen.dart';
@@ -25,6 +28,9 @@ void main() async {
     providers: [
       BlocProvider(create: (context) => AuthBloc()),
       BlocProvider(create: (context) => RRDDataBloc()),
+      BlocProvider(create: (context) => NotificationBloc()),
+      BlocProvider(create: (context) => PaymentMethodBloc()),
+      BlocProvider(create: (context) => VMDetailBloc()),
       BlocProvider(create: (context) => LatestVMBloc()),
       BlocProvider(create: (context) => TotalResourceBloc()),
       BlocProvider(create: (context) => MonthSummaryBloc()),

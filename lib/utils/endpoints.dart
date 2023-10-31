@@ -7,6 +7,7 @@ class Endpoints {
 
   // Billing Endpoints
   static String getCurrentMonthSummary = '/mobile/billing/summary';
+  static String getPaymentMethods = '/mobile/billing/v2/payment-methods';
 
   // Profile Endpoints
   static String getProfile = '/mobile/profile';
@@ -18,10 +19,11 @@ class Endpoints {
   static String getTotalResource = '/mobile/dashboard/resources';
   static String getVMDetail = '/mobile/instance/';
 
+  // Notifications Endpoints
+  static String getNotifications = '/mobile/notifications/all';
   //places lookup
   static String countryLookup = '/lookup/country';
   static String provinceLookup = '/lookup/province';
   static String cityLookup = '/lookup/city';
   static String districtLookup = '/lookup/district';
-
 }

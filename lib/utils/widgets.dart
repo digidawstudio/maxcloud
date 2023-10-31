@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
 
 class CustomWidget {
@@ -252,7 +253,15 @@ class CustomWidget {
                                         color: Color(0xffBBBBBB),
                                         fontSize: 10.sp,
                                         fontWeight: FontWeight.w600))),
-                            Text("Rp ${(data.pricePerHour ?? 0).floor()}",
+                            Text(
+                                "Rp " +
+                                    NumberFormat.currency(
+                                      locale: 'id',
+                                      symbol: "",
+                                      decimalDigits: 0,
+                                    ).format(data.pricePerHour ?? 0) +
+                                    ",00",
+                                // "Rp ${(data.pricePerHour ?? 0).floor()}",
                                 style: GoogleFonts.manrope(
                                     textStyle: TextStyle(
                                         color: Color(0xff232226),
@@ -273,7 +282,15 @@ class CustomWidget {
                                   color: Color(0xffBBBBBB),
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600))),
-                      Text("Rp ${(data.estimatedMonthlyCost ?? 0).floor()}",
+                      Text(
+                          "Rp " +
+                              NumberFormat.currency(
+                                locale: 'id',
+                                symbol: "",
+                                decimalDigits: 0,
+                              ).format(data.estimatedMonthlyCost ?? 0) +
+                              ",00",
+                          // "Rp ${(data.estimatedMonthlyCost ?? 0).floor()}",
                           style: GoogleFonts.manrope(
                               textStyle: TextStyle(
                                   color: Color(0xff232226),

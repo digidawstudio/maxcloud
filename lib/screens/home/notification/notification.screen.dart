@@ -1,7 +1,11 @@
 import "package:flutter/material.dart";
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maxcloud/bloc/notifications/notifications.bloc.dart';
+import 'package:maxcloud/repository/notifications/notifications.model.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -11,6 +15,16 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenStateState extends State<NotificationScreen> {
+  NotificationBloc? notificationBloc;
+
+  final storage = new FlutterSecureStorage();
+
+  String token = "";
+
+  String type = "General";
+  int page = 1;
+  int limit = 10;
+
   int currentActive = 0; // 0 for general 1 for service
 
   List generalNotification = [
@@ -29,6 +43,23 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
     "Virtual Machine Created",
     "Virtual Machine Created",
   ];
+
+  @override
+  void initState() {
+    notificationBloc = BlocProvider.of<NotificationBloc>(context);
+
+    getAccessToken();
+    super.initState();
+  }
+
+  void getAccessToken() async {
+    String? accessToken = await storage.read(key: 'accessToken');
+    notificationBloc
+        ?.add(FetchNotificationEvent(accessToken ?? "", type, page, limit));
+    setState(() {
+      token = accessToken!;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,15 +104,23 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
                   Row(
                     children: [
                       GestureDetector(
-                          onTap: () => setState(() {
-                                currentActive = 0;
-                              }),
+                          onTap: () {
+                            notificationBloc?.add(FetchNotificationEvent(
+                                token, "General", page, limit));
+                            setState(() {
+                              currentActive = 0;
+                            });
+                          },
                           child: ToggleButton("General")),
                       Expanded(child: Container()),
                       GestureDetector(
-                          onTap: () => setState(() {
-                                currentActive = 1;
-                              }),
+                          onTap: () {
+                            notificationBloc?.add(FetchNotificationEvent(
+                                token, "Service", page, limit));
+                            setState(() {
+                              currentActive = 1;
+                            });
+                          },
                           child: ToggleButton("Service")),
                     ],
                   ),
@@ -101,32 +140,41 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
             ),
           ),
           Flexible(
-            child: ListView.builder(
-              itemCount: currentActive == 0
-                  ? generalNotification.length
-                  : serviceNotification.length,
-              shrinkWrap: true,
-              itemBuilder: (context, i) => NotificationItem(currentActive == 0
-                  ? generalNotification[i]
-                  : serviceNotification[i]),
-            ),
+            child: BlocBuilder<NotificationBloc, NotificationState>(
+                builder: (context, state) {
+              if (state is LoadedNotificationState) {
+                return ListView.builder(
+                  itemCount: currentActive == 0
+                      ? state.data.data?.notifData?.length
+                      : state.data.data?.notifData?.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, i) => NotificationItem(
+                      currentActive == 0
+                          ? state.data.data?.notifData![i]
+                          : state.data.data?.notifData![i]),
+                );
+              } else {
+                return Container();
+              }
+            }),
           )
         ],
       ),
     );
   }
 
-  Widget NotificationItem(String title) {
+  Widget NotificationItem(NotifData? notifData) {
     return Container(
       height: 103.h,
       padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 15.h),
-      color: Color(0xfff1f1f1f1),
+      color:
+          notifData?.readAt != null ? Color(0xfff1f1f1f1) : Color(0xffE3F3FD),
       child: Column(
         children: [
           Row(
             children: [
               Text(
-                title,
+                notifData?.title ?? "",
                 style: GoogleFonts.manrope(
                     textStyle: TextStyle(
                         color: Color(0xff232226),
@@ -135,7 +183,7 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
               ),
               Expanded(child: Container()),
               Text(
-                "2 days ago",
+                notifData?.createdAtHrf ?? "",
                 style: GoogleFonts.manrope(
                     textStyle: TextStyle(
                         color: Color(0xffBBBBBB),
@@ -146,7 +194,7 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
           ),
           SizedBox(height: 8.h),
           Text(
-            "Virtual machine with uuid c6019e94-971d-4afb-9e6c-fa42ffe9c60c successfully created.",
+            notifData?.content ?? "",
             style: GoogleFonts.manrope(
                 textStyle: TextStyle(
                     color: Color(0xffBBBBBB),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +10,10 @@ import 'package:maxcloud/screens/instance/instance.detail.screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../../bloc/billing/payment-method.bloc.dart';
+import '../../bloc/profile/profile.bloc.dart';
+import '../../repository/billing/payment-method.model.dart';
+
 class BillingPaymentScreen extends StatefulWidget {
   const BillingPaymentScreen({super.key});
 
@@ -17,7 +22,26 @@ class BillingPaymentScreen extends StatefulWidget {
 }
 
 class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
-  String dropdownValue = 'E-Wallet';
+  String selectedMethod = "Bank";
+
+  List<Bank>? bankList;
+  List<String>? bankNameList;
+  Bank? selectedBank;
+
+  // @override
+  // void initState() {
+  //   final LoadedPaymentMethodState paymentMethodState =
+  //       BlocProvider.of<PaymentMethodBloc>(context).state
+  //           as LoadedPaymentMethodState;
+
+  //   selectedBank = paymentMethodState.data.data?.bank?[0];
+  //   bankList = paymentMethodState.data.data?.bank;
+  //   paymentMethodState.data.data?.bank!.map((e) =>
+
+  //   );
+
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +116,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                     child: ButtonTheme(
                         alignedDropdown: true,
                         child: DropdownButton<String>(
-                          value: dropdownValue,
+                          value: selectedMethod,
                           icon: SvgPicture.asset(
                               'assets/svg/icons/dropdown.svg',
                               height: 15.h,
@@ -107,11 +131,16 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                                   fontWeight: FontWeight.w500)),
                           onChanged: (String? newValue) {
                             setState(() {
-                              dropdownValue = newValue!;
+                              selectedMethod = newValue!;
                             });
                           },
-                          items: <String>['E-Wallet', 'Virtual Account', 'QRIS']
-                              .map<DropdownMenuItem<String>>((String value) {
+                          items: <String>[
+                            'Bank',
+                            'Card',
+                            'Ritel',
+                            'EWallet',
+                            'Qris'
+                          ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -140,7 +169,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                     child: ButtonTheme(
                         alignedDropdown: true,
                         child: DropdownButton<String>(
-                          value: "OVO",
+                          value: selectedBank?.name,
                           icon: SvgPicture.asset(
                               'assets/svg/icons/dropdown.svg',
                               height: 15.h,
