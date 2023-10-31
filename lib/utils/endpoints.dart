@@ -7,6 +7,7 @@ class Endpoints {
 
   // Billing Endpoints
   static String getCurrentMonthSummary = '/mobile/billing/summary';
+  static String getPaymentMethods = '/mobile/billing/v2/payment-methods';
 
   // Profile Endpoints
   static String getProfile = '/mobile/profile';
@@ -16,4 +17,7 @@ class Endpoints {
   static String myLatestVM = '/mobile/dashboard/instances';
   static String getTotalResource = '/mobile/dashboard/resources';
   static String getVMDetail = '/mobile/instance/';
+
+  // Notifications Endpoints
+  static String getNotifications = '/mobile/notifications/all';
 }

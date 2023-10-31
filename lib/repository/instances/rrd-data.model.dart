@@ -80,7 +80,7 @@ class Cpu {
 
   Cpu.fromJson(Map<String, dynamic> json) {
     time = json['time'];
-    cpu = json['cpu'];
+    cpu = double.parse(json['cpu'].toString());
   }
 
   Map<String, dynamic> toJson() {
@@ -168,7 +168,7 @@ class Disk {
 
   Disk.fromJson(Map<String, dynamic> json) {
     time = json['time'];
-    rawDiskwrite = json['raw_diskwrite'];
+    rawDiskwrite = double.parse(json['raw_diskwrite'].toString());
     diskwrite = json['diskwrite'];
     rawDiskread = json['raw_diskread'];
     diskread = json['diskread'];

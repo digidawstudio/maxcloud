@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maxcloud/bloc/auth/auth.bloc.dart';
@@ -20,20 +21,20 @@ class InstanceScreen extends StatefulWidget {
 
 class _InstanceScreenState extends State<InstanceScreen> {
   ProductBloc? productBloc;
-  AuthBloc authBloc = AuthBloc();
+
+  final storage = new FlutterSecureStorage();
 
   @override
   void initState() {
     productBloc = BlocProvider.of<ProductBloc>(context);
 
-    final OtpValidatedState authState =
-        BlocProvider.of<AuthBloc>(context).state as OtpValidatedState;
-
-    if (productBloc != null) {
-      productBloc?.add(FetchProductEvent(authState.data.data?.accessToken!));
-    }
-
+    getAccessToken();
     super.initState();
+  }
+
+  void getAccessToken() async {
+    String? accessToken = await storage.read(key: 'accessToken');
+    productBloc?.add(FetchProductEvent(accessToken ?? ""));
   }
 
   @override
@@ -173,9 +174,11 @@ class _InstanceScreenState extends State<InstanceScreen> {
                 ],
               ),
             ));
-          } else if (state is LoadingProductState) {
-            return CustomWidget.loader();
-          } else if (state is ErrorProductState) {
+          }
+          // else if (state is LoadingProductState) {
+          //   return CustomWidget.loader();
+          // }
+          else if (state is ErrorProductState) {
             return Container(
               height: ScreenUtil().screenHeight,
               width: ScreenUtil().screenWidth,

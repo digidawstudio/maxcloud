@@ -43,7 +43,7 @@ class _OtpScreenState extends State<OtpScreen> {
           WidgetsBinding.instance.addPostFrameCallback((_) => Flushbar(
                 message: "Otp Sent!",
                 flushbarPosition: FlushbarPosition.TOP,
-                backgroundColor: Colors.greenAccent,
+                backgroundColor: Color(0xff4BB04F),
                 messageColor: Colors.white,
               ).show(context));
         } else if (state is ErrorAuthState) {

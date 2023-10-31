@@ -180,11 +180,87 @@ class ApiServices {
     }
   }
 
-  static Future<void> setSomething() async {
+  static Future<dynamic> getNotifications(
+      String accessToken, String type, int page, int limit) async {
     try {
-      dio.post("memek", options: Options(headers: {"applications": ""}));
+      final response = await dio.get(Endpoints.getNotifications,
+          queryParameters: {"type": type, "page": page, "limit": limit},
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
     } on DioException catch (e) {
-      print(e.stackTrace);
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> getPaymentMethods(
+      String accessToken, int amount) async {
+    try {
+      final response = await dio.get(Endpoints.getPaymentMethods,
+          queryParameters: {"amount": amount},
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> startVMState(String accessToken, String vmUuid) async {
+    try {
+      final response = await dio.get(
+          Endpoints.getVMDetail + '/$vmUuid' + '/start',
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> restartVMState(
+      String accessToken, String vmUuid) async {
+    try {
+      final response = await dio.get(
+          Endpoints.getVMDetail + '/$vmUuid' + '/restart',
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> shutdownVMState(
+      String accessToken, String vmUuid) async {
+    try {
+      final response = await dio.get(
+          Endpoints.getVMDetail + '/$vmUuid' + '/restart',
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
     }
   }
 }

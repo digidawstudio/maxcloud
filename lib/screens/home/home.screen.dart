@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:indexed/indexed.dart';
+import 'package:intl/intl.dart';
 import 'package:maxcloud/bloc/billing/month-summary.bloc.dart';
 import 'package:maxcloud/bloc/product/total-resource.bloc.dart';
 import 'package:maxcloud/screens/home/notification/notification.screen.dart';
@@ -95,8 +96,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                             fontWeight: FontWeight.w400)),
                                     children: [
                                   TextSpan(
-                                      text:
-                                          "${state.data.data?.currentCost},00",
+                                      text: NumberFormat.currency(
+                                            locale: 'id',
+                                            symbol: "",
+                                            decimalDigits: 0,
+                                          ).format(
+                                              state.data.data?.currentCost ??
+                                                  0) +
+                                          ",00",
                                       style: TextStyle(
                                           fontSize: 20.sp,
                                           color: Color(0xff232226),
@@ -119,8 +126,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                             fontWeight: FontWeight.w400)),
                                     children: [
                                   TextSpan(
-                                      text:
-                                          "${state.data.data?.estimatedMonthlyTotal},00",
+                                      text: NumberFormat.currency(
+                                            locale: 'id',
+                                            symbol: "",
+                                            decimalDigits: 0,
+                                          ).format(state.data.data
+                                                  ?.estimatedMonthlyTotal ??
+                                              0) +
+                                          ",00",
                                       style: TextStyle(
                                           fontSize: 20.sp,
                                           color: Color(0xff232226),
@@ -250,13 +263,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       width: 7.w,
                                                     ),
                                                     Text(
-                                                        state.data.data
-                                                                ?.currentBalance
-                                                                .toString() ??
-                                                            "0",
+                                                        NumberFormat.currency(
+                                                              locale: 'id',
+                                                              symbol: "",
+                                                              decimalDigits: 0,
+                                                            ).format(state
+                                                                    .data
+                                                                    .data
+                                                                    ?.currentBalance ??
+                                                                0) +
+                                                            ",00",
                                                         style: GoogleFonts.manrope(
                                                             textStyle: TextStyle(
-                                                                fontSize: 20.sp,
+                                                                fontSize: 22.sp,
                                                                 color: Color(
                                                                     0xff009EFF),
                                                                 fontWeight:
