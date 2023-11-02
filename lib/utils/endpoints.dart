@@ -26,4 +26,8 @@ class Endpoints {
   static String provinceLookup = '/lookup/province';
   static String cityLookup = '/lookup/city';
   static String districtLookup = '/lookup/district';
+
+
+  static String helpDeskItems = '/mobile/ticket/tickets';
+  static String ticketConversation = '/mobile/ticket';
 }

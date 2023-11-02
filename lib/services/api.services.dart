@@ -3,12 +3,7 @@ import 'package:maxcloud/repository/profile/updateprofile.model.dart';
 import 'package:maxcloud/utils/constants.dart';
 import 'package:maxcloud/utils/endpoints.dart';
 
-enum PlaceType {
-  country,
-  province,
-  city,
-  district
-}
+enum PlaceType { country, province, city, district }
 
 class ApiServices {
   static Dio dio = Dio(BaseOptions(
@@ -187,10 +182,10 @@ class ApiServices {
       return e;
     }
   }
-  
-  static Future<dynamic> placesLookup(PlaceType type, {String param = ""}) async {
-    try {
 
+  static Future<dynamic> placesLookup(PlaceType type,
+      {String param = ""}) async {
+    try {
       String endpoints = "";
 
       switch (type) {
@@ -209,9 +204,7 @@ class ApiServices {
       }
 
       final response = await dio.get(endpoints,
-          options: Options(headers: {
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
-          }));
+          options: Options(headers: {"x-mobile-token": "=U-wQEy1xn0uBgcy"}));
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -309,6 +302,68 @@ class ApiServices {
     try {
       final response = await dio.get(
           Endpoints.getVMDetail + '/$vmUuid' + '/restart',
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> fetchHelpDeskItems(String accessToken,
+      {int page = 1}) async {
+    try {
+      final response = await dio.get(
+          "${Endpoints.helpDeskItems}?limit=10&page=$page",
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> fetchConversations(
+      String accessToken, String convToken,
+      {int page = 1}) async {
+    try {
+      final response = await dio.get(
+          "${Endpoints.ticketConversation}/$convToken/conversations?limit=10&page=$page",
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> sendMessage(
+      String accessToken, String convToken, String message,
+      {List<String> attachments = const []}) async {
+    try {
+      Map<String, dynamic> data = {"content": message};
+
+      for (int i = 0; i < attachments.length; i++) {
+        data["attachments[$i]"] = attachments[i];
+      }
+
+      print(data);
+
+      final response = await dio.post(
+          "${Endpoints.ticketConversation}/$convToken/reply",
+          data: data,
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
             "x-mobile-token": "=U-wQEy1xn0uBgcy"

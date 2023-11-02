@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxcloud/bloc/auth/auth.bloc.dart';
 import 'package:maxcloud/bloc/billing/month-summary.bloc.dart';
 import 'package:maxcloud/bloc/billing/payment-method.bloc.dart';
+import 'package:maxcloud/bloc/helpdesk/helpdesk.bloc.dart';
 import 'package:maxcloud/bloc/notifications/notifications.bloc.dart';
 import 'package:maxcloud/bloc/product/product.bloc.dart';
 import 'package:maxcloud/bloc/product/rrd-data.bloc.dart';
@@ -37,7 +38,10 @@ void main() async {
       BlocProvider(create: (context) => ProfileBloc()),
       BlocProvider(create: (context) => UserBloc()),
       BlocProvider(create: (context) => ProductBloc()),
-      BlocProvider(create: (context) => UpdateUserBloc())
+      BlocProvider(create: (context) => UpdateUserBloc()),
+      BlocProvider(create: (context) => HelpDeskBloc()),
+      BlocProvider(create: (context) => TicketConversationBloc()),
+      BlocProvider(create: (context) => SendMessageBloc()),
     ],
     child: MyApp(),
   ));

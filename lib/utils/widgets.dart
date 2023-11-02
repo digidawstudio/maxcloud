@@ -5,12 +5,14 @@ import 'package:intl/intl.dart';
 import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
 
 class CustomWidget {
-  static Widget loader() {
+
+  
+  static Widget loader({double? size, Color? backgroundColor, Color? loaderColor}) {
     return Container(
-      height: ScreenUtil().screenHeight,
-      width: ScreenUtil().screenWidth,
-      color: Colors.grey.withOpacity(0.5),
-      child: Center(child: CircularProgressIndicator()),
+      height: size != null ? size.h : ScreenUtil().screenHeight,
+      width: size != null ? size.w : ScreenUtil().screenWidth,
+      color: backgroundColor ?? Colors.grey.withOpacity(0.5),
+      child: Center(child: CircularProgressIndicator(color: loaderColor,)),
     );
   }
 

@@ -1,8 +1,13 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maxcloud/bloc/helpdesk/helpdesk.bloc.dart';
+import 'package:maxcloud/repository/tickets.model.dart';
+import 'package:maxcloud/screens/auth/login-screen.dart';
 import 'package:maxcloud/screens/help/helpdesk-detail.screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
 import 'package:simple_shadow/simple_shadow.dart';
@@ -15,6 +20,11 @@ class HelpDeskScreen extends StatefulWidget {
 }
 
 class _HelpDeskScreenState extends State<HelpDeskScreen> {
+  HelpDeskBloc helpdeskBloc = HelpDeskBloc();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+  FlutterSecureStorage storage = FlutterSecureStorage();
+
   List defaultState = [
     "test",
     "test",
@@ -31,6 +41,21 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
   ];
 
   bool isSavedPressed = false;
+
+  @override
+  void initState() {
+    storage.read(key: "accessToken").then((token) {
+      helpdeskBloc = BlocProvider.of<HelpDeskBloc>(context);
+
+      if (token != null) {
+        helpdeskBloc.add(FetchHelpDeskItemsEvent(token, 1));
+      } else {
+        Navigator.popUntil(context, (route) => route.isFirst);
+      }
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +113,150 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                enableDrag: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) {
+                                  return Container(
+                                    height: 500.h,
+                                    padding: EdgeInsets.all(25.w),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                        color: Colors.white),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Enter Subject"),
+                                        SizedBox(
+                                          height: 9.h,
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                              hintText: "Free Delivery",
+                                              border: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.black),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.r))),
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        Flexible(
+                                          child: Container(
+                                            height: 90.h,
+                                            child: Row(
+                                              children: [
+                                                Flexible(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text("Select Department"),
+                                                      SizedBox(
+                                                        height: 9.h,
+                                                      ),
+                                                      TextFormField(
+                                                        decoration:
+                                                            InputDecoration(
+                                                          hintText: "Billing",
+                                                          border:
+                                                              OutlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
+                                                                    color: Colors
+                                                                        .black),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.r),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 20.w,
+                                                ),
+                                                Flexible(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text("Select Department"),
+                                                      SizedBox(
+                                                        height: 9.h,
+                                                      ),
+                                                      TextFormField(
+                                                        decoration:
+                                                            InputDecoration(
+                                                          hintText: "Billing",
+                                                          border:
+                                                              OutlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
+                                                                    color: Colors
+                                                                        .black),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.r),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Text("Message"),
+                                        SizedBox(
+                                          height: 9.h,
+                                        ),
+                                        Flexible(
+                                          child: SizedBox(
+                                            height: 160.h,
+                                            child: TextFormField(
+                                              maxLines: 20,
+                                              decoration: InputDecoration(
+                                                  hintText: "Type Reply",
+                                                  border: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.black),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.r))),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Container(),
+                                            ),
+                                            ElevatedButton(
+                                                onPressed: () {},
+                                                child: Text("Send"))
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                });
+                          },
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -143,24 +311,54 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                     ],
                   )),
               Flexible(
-                child: Container(
-                  height: ScreenUtil().screenHeight,
-                  child: ListView.builder(
-                    // shrinkWrap: true,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 25.w,
-                      vertical: 15.h,
-                    ),
-                    itemCount: isSavedPressed
-                        ? savedState.length
-                        : defaultState.length,
-                    itemBuilder: (context, i) => GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HelpDeskDetailScreen()));
-                      },
-                      child: helpdeskItems(),
-                    ),
-                  ),
+                child: BlocBuilder<HelpDeskBloc, FetchHelpDeskItemsState>(
+                  builder: (context, state) {
+                    if (state is ErrorFetchHelpDeskState) {
+                      print("kudaniil haml");
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()),
+                            (route) => false);
+                      });
+                    }
+
+                    if (state is LoadingFetchHelpDeskItemsState) {
+                      return CustomWidget.loader();
+                    }
+
+                    if (state is LoadedFetchHelpDeskItemsState) {
+                      return Container(
+                        height: ScreenUtil().screenHeight,
+                        child: ListView.builder(
+                          // shrinkWrap: true,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 25.w,
+                            vertical: 15.h,
+                          ),
+                          itemCount: isSavedPressed
+                              ? savedState.length
+                              : state.data.data?.data.length,
+                          itemBuilder: (context, i) => GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          HelpDeskDetailScreen(
+                                              ticket:
+                                                  state.data.data?.data[i] ??
+                                                      TicketData())));
+                            },
+                            child: helpdeskItems(state.data.data?.data[i]),
+                          ),
+                        ),
+                      );
+                    }
+
+                    return Container();
+                  },
                 ),
               ),
             ],
@@ -169,148 +367,148 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
       ),
     );
   }
+}
 
-  Widget helpdeskItems() {
-    return SimpleShadow(
-      opacity: 0.3, // Default: 0.5
-      color: Colors.grey, // Default: Black
-      offset: Offset(0, 5), // Default: Offset(2, 2)
-      sigma: 7, // Default: 2
-      child: Container(
-        height: 184.h,
-        margin: EdgeInsets.only(bottom: 25.h),
-        padding: EdgeInsets.all(15.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.r),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+Widget helpdeskItems(TicketData? ticket) {
+  return SimpleShadow(
+    opacity: 0.3, // Default: 0.5
+    color: Colors.grey, // Default: Black
+    offset: Offset(0, 5), // Default: Offset(2, 2)
+    sigma: 7, // Default: 2
+    child: Container(
+      height: 184.h,
+      margin: EdgeInsets.only(bottom: 25.h),
+      padding: EdgeInsets.all(15.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    ticket?.subject ?? "",
+                    style: GoogleFonts.manrope(
+                        textStyle: TextStyle(
+                            color: Color(0xff232226),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600)),
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    ticket?.createdAt ?? "",
+                    style: GoogleFonts.manrope(
+                        textStyle: TextStyle(
+                            color: Color(0xffBBBBBB),
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500)),
+                  ),
+                ],
+              ),
+              Expanded(child: Container()),
+              Container(
+                width: 30.w,
+                child: Stack(
                   children: [
-                    Text(
-                      "Free Delivery",
-                      style: GoogleFonts.manrope(
-                          textStyle: TextStyle(
-                              color: Color(0xff232226),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600)),
+                    Positioned(
+                      child: CircleAvatar(
+                        backgroundColor: Colors.blue,
+                        radius: 10.r,
+                      ),
                     ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      "19 September 2023",
-                      style: GoogleFonts.manrope(
-                          textStyle: TextStyle(
-                              color: Color(0xffBBBBBB),
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500)),
-                    ),
+                    Positioned(
+                      right: 0,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.red,
+                        radius: 10.r,
+                      ),
+                    )
                   ],
                 ),
-                Expanded(child: Container()),
-                Container(
-                  width: 30.w,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        child: CircleAvatar(
-                          backgroundColor: Colors.blue,
-                          radius: 10.r,
-                        ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.red,
-                          radius: 10.r,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: 7.w,
-                ),
-                SvgPicture.asset('assets/svg/icons/bookmark.svg',
-                    height: 15, fit: BoxFit.scaleDown)
-              ],
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Text(
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.",
-              style: GoogleFonts.manrope(
-                  textStyle: TextStyle(
-                      color: Color(0xffBBBBBB),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500)),
-            ),
-            Expanded(child: Container()),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset('assets/svg/icons/message.svg',
-                    height: 15, fit: BoxFit.scaleDown),
-                SizedBox(
-                  width: 4.w,
-                ),
-                Text(
-                  "4",
-                  style: GoogleFonts.manrope(
-                      textStyle: TextStyle(
-                          color: Color(0xff232226),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500)),
-                ),
-                Expanded(child: Container()),
-                Flexible(
-                    child: CustomWidget.Chip(
-                        text: "Open",
-                        width: 48,
-                        height: 14,
-                        color: Color(0xffE9FCE5),
-                        radius: 5.r,
-                        fontSize: 8,
-                        fontWeight: FontWeight.w500,
-                        textColor: Color(0xff02D430))),
-                SizedBox(
-                  width: 10.w,
-                ),
-                Flexible(
-                    child: CustomWidget.Chip(
-                        text: "Support",
-                        width: 48,
-                        height: 14,
-                        color: Color(0xffAABDFF),
-                        radius: 5.r,
-                        fontSize: 8,
-                        fontWeight: FontWeight.w500,
-                        textColor: Color(0xff18369E))),
-                SizedBox(
-                  width: 10.w,
-                ),
-                CustomWidget.Chip(
-                  text: "Virtual Machine",
-                  width: 70,
-                  height: 14,
-                  fontSize: 8,
-                  color: Colors.white,
-                  radius: 5.r,
-                  useBorder: true,
-                  fontWeight: FontWeight.w500,
-                  textColor: Color(0xff232226),
-                ),
-              ],
-            ),
-          ],
-        ),
+              ),
+              SizedBox(
+                width: 7.w,
+              ),
+              SvgPicture.asset('assets/svg/icons/bookmark.svg',
+                  height: 15, fit: BoxFit.scaleDown)
+            ],
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          Text(
+            ticket?.content ?? "",
+            style: GoogleFonts.manrope(
+                textStyle: TextStyle(
+                    color: Color(0xffBBBBBB),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500)),
+          ),
+          Expanded(child: Container()),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset('assets/svg/icons/message.svg',
+                  height: 15, fit: BoxFit.scaleDown),
+              SizedBox(
+                width: 4.w,
+              ),
+              Text(
+                "4",
+                style: GoogleFonts.manrope(
+                    textStyle: TextStyle(
+                        color: Color(0xff232226),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500)),
+              ),
+              Expanded(child: Container()),
+              Flexible(
+                  child: CustomWidget.Chip(
+                      text: ticket?.status ?? "",
+                      width: 48,
+                      height: 14,
+                      color: Color(0xffE9FCE5),
+                      radius: 5.r,
+                      fontSize: 8,
+                      fontWeight: FontWeight.w500,
+                      textColor: Color(0xff02D430))),
+              SizedBox(
+                width: 10.w,
+              ),
+              Flexible(
+                  child: CustomWidget.Chip(
+                      text: ticket?.department ?? "",
+                      width: 48,
+                      height: 14,
+                      color: Color(0xffAABDFF),
+                      radius: 5.r,
+                      fontSize: 8,
+                      fontWeight: FontWeight.w500,
+                      textColor: Color(0xff18369E))),
+              SizedBox(
+                width: 10.w,
+              ),
+              CustomWidget.Chip(
+                text: ticket?.service ?? "N/A",
+                width: 70,
+                height: 14,
+                fontSize: 8,
+                color: Colors.white,
+                radius: 5.r,
+                useBorder: true,
+                fontWeight: FontWeight.w500,
+                textColor: Color(0xff232226),
+              ),
+            ],
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
 }
