@@ -1,4 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,8 +23,17 @@ class HelpDeskScreen extends StatefulWidget {
 class _HelpDeskScreenState extends State<HelpDeskScreen> {
   HelpDeskBloc helpdeskBloc = HelpDeskBloc();
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  TextEditingController deptController = TextEditingController();
+  TextEditingController serviceController = TextEditingController();
 
   FlutterSecureStorage storage = FlutterSecureStorage();
+
+  List<String> dept = ["Billing", "Support"];
+
+  List<String> services = ["Virtual Machines"];
+
+  int selectedDept = 0;
+  int selectedService = 0;
 
   List defaultState = [
     "test",
@@ -52,6 +62,11 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
       } else {
         Navigator.popUntil(context, (route) => route.isFirst);
       }
+    });
+
+    setState(() {
+      deptController.text = dept[selectedDept];
+      serviceController.text = services[selectedService];
     });
 
     super.initState();
@@ -162,20 +177,38 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                                       SizedBox(
                                                         height: 9.h,
                                                       ),
-                                                      TextFormField(
-                                                        decoration:
-                                                            InputDecoration(
-                                                          hintText: "Billing",
-                                                          border:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                                    color: Colors
-                                                                        .black),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10.r),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          showModalBottomSheet(
+                                                              context: context,
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              builder:
+                                                                  (currentContext) {
+                                                                return selector(
+                                                                    currentContext,
+                                                                    true,
+                                                                    dept);
+                                                              });
+                                                        },
+                                                        child: TextFormField(
+                                                          controller:
+                                                              deptController,
+                                                          enabled: false,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            hintText: "Billing",
+                                                            border:
+                                                                OutlineInputBorder(
+                                                              borderSide: BorderSide(
+                                                                  color: Colors
+                                                                      .black),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.r),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -186,33 +219,51 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                                   width: 20.w,
                                                 ),
                                                 Flexible(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text("Select Department"),
-                                                      SizedBox(
-                                                        height: 9.h,
-                                                      ),
-                                                      TextFormField(
-                                                        decoration:
-                                                            InputDecoration(
-                                                          hintText: "Billing",
-                                                          border:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                                    color: Colors
-                                                                        .black),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10.r),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      showModalBottomSheet(
+                                                          context: context,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          builder:
+                                                              (currentContext) {
+                                                            return selector(
+                                                                currentContext,
+                                                                false,
+                                                                services);
+                                                          });
+                                                    },
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text("Select Service"),
+                                                        SizedBox(
+                                                          height: 9.h,
+                                                        ),
+                                                        TextFormField(
+                                                          enabled: false,
+                                                          controller:
+                                                              serviceController,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            hintText: "Billing",
+                                                            border:
+                                                                OutlineInputBorder(
+                                                              borderSide: BorderSide(
+                                                                  color: Colors
+                                                                      .black),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.r),
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 )
                                               ],
@@ -367,148 +418,175 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
       ),
     );
   }
-}
 
-Widget helpdeskItems(TicketData? ticket) {
-  return SimpleShadow(
-    opacity: 0.3, // Default: 0.5
-    color: Colors.grey, // Default: Black
-    offset: Offset(0, 5), // Default: Offset(2, 2)
-    sigma: 7, // Default: 2
-    child: Container(
-      height: 184.h,
-      margin: EdgeInsets.only(bottom: 25.h),
-      padding: EdgeInsets.all(15.w),
+  Widget selector(
+      BuildContext currentContext, bool isDept, List<String> items) {
+    return Container(
+      height: 200.h,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          10.r,
+        ),
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10.r),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    ticket?.subject ?? "",
-                    style: GoogleFonts.manrope(
-                        textStyle: TextStyle(
-                            color: Color(0xff232226),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600)),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    ticket?.createdAt ?? "",
-                    style: GoogleFonts.manrope(
-                        textStyle: TextStyle(
-                            color: Color(0xffBBBBBB),
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500)),
-                  ),
-                ],
-              ),
-              Expanded(child: Container()),
-              Container(
-                width: 30.w,
-                child: Stack(
+      child: CupertinoPicker(
+        itemExtent: 32.0,
+        onSelectedItemChanged: (item) {
+          setState(() {
+            if(isDept) {
+              deptController.text = dept[item];
+            } else {
+              serviceController.text = services[item];
+            }
+          });
+        },
+        useMagnifier: true,
+        children: items.map((e) => Text(e)).toList(),
+      ),
+    );
+  }
+
+  Widget helpdeskItems(TicketData? ticket) {
+    return SimpleShadow(
+      opacity: 0.3, // Default: 0.5
+      color: Colors.grey, // Default: Black
+      offset: Offset(0, 5), // Default: Offset(2, 2)
+      sigma: 7, // Default: 2
+      child: Container(
+        height: 184.h,
+        margin: EdgeInsets.only(bottom: 25.h),
+        padding: EdgeInsets.all(15.w),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Positioned(
-                      child: CircleAvatar(
-                        backgroundColor: Colors.blue,
-                        radius: 10.r,
-                      ),
+                    Text(
+                      ticket?.subject ?? "",
+                      style: GoogleFonts.manrope(
+                          textStyle: TextStyle(
+                              color: Color(0xff232226),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600)),
                     ),
-                    Positioned(
-                      right: 0,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.red,
-                        radius: 10.r,
-                      ),
-                    )
+                    SizedBox(height: 2.h),
+                    Text(
+                      ticket?.createdAt ?? "",
+                      style: GoogleFonts.manrope(
+                          textStyle: TextStyle(
+                              color: Color(0xffBBBBBB),
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500)),
+                    ),
                   ],
                 ),
-              ),
-              SizedBox(
-                width: 7.w,
-              ),
-              SvgPicture.asset('assets/svg/icons/bookmark.svg',
-                  height: 15, fit: BoxFit.scaleDown)
-            ],
-          ),
-          SizedBox(
-            height: 10.h,
-          ),
-          Text(
-            ticket?.content ?? "",
-            style: GoogleFonts.manrope(
-                textStyle: TextStyle(
-                    color: Color(0xffBBBBBB),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500)),
-          ),
-          Expanded(child: Container()),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SvgPicture.asset('assets/svg/icons/message.svg',
-                  height: 15, fit: BoxFit.scaleDown),
-              SizedBox(
-                width: 4.w,
-              ),
-              Text(
-                "4",
-                style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
-                        color: Color(0xff232226),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500)),
-              ),
-              Expanded(child: Container()),
-              Flexible(
-                  child: CustomWidget.Chip(
-                      text: ticket?.status ?? "",
-                      width: 48,
-                      height: 14,
-                      color: Color(0xffE9FCE5),
-                      radius: 5.r,
-                      fontSize: 8,
-                      fontWeight: FontWeight.w500,
-                      textColor: Color(0xff02D430))),
-              SizedBox(
-                width: 10.w,
-              ),
-              Flexible(
-                  child: CustomWidget.Chip(
-                      text: ticket?.department ?? "",
-                      width: 48,
-                      height: 14,
-                      color: Color(0xffAABDFF),
-                      radius: 5.r,
-                      fontSize: 8,
-                      fontWeight: FontWeight.w500,
-                      textColor: Color(0xff18369E))),
-              SizedBox(
-                width: 10.w,
-              ),
-              CustomWidget.Chip(
-                text: ticket?.service ?? "N/A",
-                width: 70,
-                height: 14,
-                fontSize: 8,
-                color: Colors.white,
-                radius: 5.r,
-                useBorder: true,
-                fontWeight: FontWeight.w500,
-                textColor: Color(0xff232226),
-              ),
-            ],
-          ),
-        ],
+                Expanded(child: Container()),
+                Container(
+                  width: 30.w,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        child: CircleAvatar(
+                          backgroundColor: Colors.blue,
+                          radius: 10.r,
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.red,
+                          radius: 10.r,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 7.w,
+                ),
+                SvgPicture.asset('assets/svg/icons/bookmark.svg',
+                    height: 15, fit: BoxFit.scaleDown)
+              ],
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            Text(
+              ticket?.content ?? "",
+              style: GoogleFonts.manrope(
+                  textStyle: TextStyle(
+                      color: Color(0xffBBBBBB),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500)),
+            ),
+            Expanded(child: Container()),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SvgPicture.asset('assets/svg/icons/message.svg',
+                    height: 15, fit: BoxFit.scaleDown),
+                SizedBox(
+                  width: 4.w,
+                ),
+                Text(
+                  "4",
+                  style: GoogleFonts.manrope(
+                      textStyle: TextStyle(
+                          color: Color(0xff232226),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500)),
+                ),
+                Expanded(child: Container()),
+                Flexible(
+                    child: CustomWidget.Chip(
+                        text: ticket?.status ?? "",
+                        width: 48,
+                        height: 14,
+                        color: Color(0xffE9FCE5),
+                        radius: 5.r,
+                        fontSize: 8,
+                        fontWeight: FontWeight.w500,
+                        textColor: Color(0xff02D430))),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Flexible(
+                    child: CustomWidget.Chip(
+                        text: ticket?.department ?? "",
+                        width: 48,
+                        height: 14,
+                        color: Color(0xffAABDFF),
+                        radius: 5.r,
+                        fontSize: 8,
+                        fontWeight: FontWeight.w500,
+                        textColor: Color(0xff18369E))),
+                SizedBox(
+                  width: 10.w,
+                ),
+                CustomWidget.Chip(
+                  text: ticket?.service ?? "N/A",
+                  width: 70,
+                  height: 14,
+                  fontSize: 8,
+                  color: Colors.white,
+                  radius: 5.r,
+                  useBorder: true,
+                  fontWeight: FontWeight.w500,
+                  textColor: Color(0xff232226),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }

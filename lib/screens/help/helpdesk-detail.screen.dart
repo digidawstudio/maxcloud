@@ -6,11 +6,27 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:laravel_echo/laravel_echo.dart';
 import 'package:maxcloud/repository/tickets/ticketsconv.model.dart';
+import 'package:pusher_client/pusher_client.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:web_socket_channel/io.dart';
 
 import '../../bloc/helpdesk/helpdesk.bloc.dart';
 import '../../repository/tickets.model.dart';
 import '../../utils/widgets.dart';
+
+final REACT_APP_API_DOMAIN = "api.maxstage.id";
+final REACT_APP_WS_KEY = "z6nhzsfjvci1xel1v70at30miaohq04s";
+final REACT_APP_WS_CLUSTER = "mlg11";
+
+//Pusher
+PusherOptions options = PusherOptions(
+  cluster: REACT_APP_WS_CLUSTER,
+  host: REACT_APP_API_DOMAIN,
+);
+
+PusherClient pusherClient = PusherClient(REACT_APP_WS_KEY, options, enableLogging: true);
 
 class HelpDeskDetailScreen extends StatefulWidget {
   final TicketData ticket;
@@ -162,8 +178,8 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
                                                 backgroundColor:
                                                     Colors.transparent,
                                                 builder: (bbbb) {
-                                                  Future.delayed(
-                                                      Duration.zero, () {
+                                                  Future.delayed(Duration.zero,
+                                                      () {
                                                     Flushbar(
                                                             message:
                                                                 "Message Sent",

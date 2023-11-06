@@ -65,6 +65,10 @@ dependencies:
   another_flushbar:
   flutter_secure_storage: ^8.1.0
   skeletons:
+  web_socket_channel: 
+  pusher_client_fixed:
+  socket_io_client:
+  laravel_echo_null:
 
 dev_dependencies:
   flutter_test:
