@@ -30,15 +30,15 @@ class UpdateProfile {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['country_id'] = this.countryId;
-    data['province_id'] = this.provinceId;
-    data['city_id'] = this.cityId;
-    data['district_id'] = this.districtId;
-    data['address'] = this.address;
-    data['phone'] = this.phone;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['country_id'] = countryId;
+    data['province_id'] = provinceId;
+    data['city_id'] = cityId;
+    data['district_id'] = districtId;
+    data['address'] = address;
+    data['phone'] = phone;
     return data;
   }
 }
@@ -75,15 +75,15 @@ class UpdatedProfile {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['country_id'] = this.countryId;
-    data['province_id'] = this.provinceId;
-    data['city_id'] = this.cityId;
-    data['district_id'] = this.districtId;
-    data['address'] = this.address;
-    data['phone'] = this.phone;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['country_id'] = countryId;
+    data['province_id'] = provinceId;
+    data['city_id'] = cityId;
+    data['district_id'] = districtId;
+    data['address'] = address;
+    data['phone'] = phone;
     return data;
   }
 }
@@ -98,8 +98,8 @@ class UpdateProfileErrorModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
 
     return data;
   }

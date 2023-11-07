@@ -27,15 +27,15 @@ class ApiServices {
   }
 
   static Future<dynamic> register(String credential, String password,
-      bool tos_agreement, String referral_code) async {
+      bool tosAgreement, String referralCode) async {
     try {
       final response = await dio.post(Endpoints.register,
           data: {
             "credential": credential,
             "password": password,
             "password_confirmation": password,
-            "tos_agreement": tos_agreement,
-            "referral_code": referral_code,
+            "tos_agreement": tosAgreement,
+            "referral_code": referralCode,
             "type": "EMAIL",
             "request_type": "REGISTER"
           },
@@ -109,7 +109,7 @@ class ApiServices {
   static Future<dynamic> getVMDetail(String token, String vmUuid) async {
     try {
       final response = await dio.get(
-          Endpoints.getVMDetail + '/$vmUuid' + '/detail',
+          '${Endpoints.getVMDetail}/$vmUuid/detail',
           options: Options(headers: {
             "x-mobile-token": "=U-wQEy1xn0uBgcy",
             'Authorization': 'Bearer $token'
@@ -126,7 +126,7 @@ class ApiServices {
       String token, String vmUuid, String period) async {
     try {
       final response = await dio.get(
-          Endpoints.getVMDetail + '/$vmUuid' + '/rrd',
+          '${Endpoints.getVMDetail}/$vmUuid/rrd',
           queryParameters: {"periode": period},
           options: Options(headers: {
             "x-mobile-token": "=U-wQEy1xn0uBgcy",
@@ -267,7 +267,7 @@ class ApiServices {
   static Future<dynamic> startVMState(String accessToken, String vmUuid) async {
     try {
       final response = await dio.get(
-          Endpoints.getVMDetail + '/$vmUuid' + '/start',
+          '${Endpoints.getVMDetail}/$vmUuid/start',
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
             "x-mobile-token": "=U-wQEy1xn0uBgcy"
@@ -284,7 +284,7 @@ class ApiServices {
       String accessToken, String vmUuid) async {
     try {
       final response = await dio.get(
-          Endpoints.getVMDetail + '/$vmUuid' + '/restart',
+          '${Endpoints.getVMDetail}/$vmUuid/restart',
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
             "x-mobile-token": "=U-wQEy1xn0uBgcy"
@@ -301,7 +301,7 @@ class ApiServices {
       String accessToken, String vmUuid) async {
     try {
       final response = await dio.get(
-          Endpoints.getVMDetail + '/$vmUuid' + '/restart',
+          '${Endpoints.getVMDetail}/$vmUuid/restart',
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
             "x-mobile-token": "=U-wQEy1xn0uBgcy"

@@ -6,12 +6,12 @@ class MyVirtualMachines {
 
   MyVirtualMachines.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -30,21 +30,21 @@ class Data {
     if (json['data'] != null) {
       data = <InstanceData>[];
       json['data'].forEach((v) {
-        data!.add(new InstanceData.fromJson(v));
+        data!.add(InstanceData.fromJson(v));
       });
     }
     activeOperation = json['active_operation'];
-    page = json['page'] != null ? new Page.fromJson(json['page']) : null;
+    page = json['page'] != null ? Page.fromJson(json['page']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['active_operation'] = this.activeOperation;
-    if (this.page != null) {
-      data['page'] = this.page!.toJson();
+    data['active_operation'] = activeOperation;
+    if (page != null) {
+      data['page'] = page!.toJson();
     }
     return data;
   }
@@ -98,7 +98,7 @@ class InstanceData {
     memory = json['memory'];
     storage = json['storage'];
     status = json['status'];
-    os = json['os'] != null ? new Os.fromJson(json['os']) : null;
+    os = json['os'] != null ? Os.fromJson(json['os']) : null;
     location = json['location'];
     tier = json['tier'];
     pricePerHour = json['price_per_hour'];
@@ -109,26 +109,26 @@ class InstanceData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['uuid'] = this.uuid;
-    data['owner'] = this.owner;
-    data['owner_email'] = this.ownerEmail;
-    data['hostname'] = this.hostname;
-    data['ip_address'] = this.ipAddress;
-    data['cpu'] = this.cpu;
-    data['memory'] = this.memory;
-    data['storage'] = this.storage;
-    data['status'] = this.status;
-    if (this.os != null) {
-      data['os'] = this.os!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['uuid'] = uuid;
+    data['owner'] = owner;
+    data['owner_email'] = ownerEmail;
+    data['hostname'] = hostname;
+    data['ip_address'] = ipAddress;
+    data['cpu'] = cpu;
+    data['memory'] = memory;
+    data['storage'] = storage;
+    data['status'] = status;
+    if (os != null) {
+      data['os'] = os!.toJson();
     }
-    data['location'] = this.location;
-    data['tier'] = this.tier;
-    data['price_per_hour'] = this.pricePerHour;
-    data['estimated_monthly_cost'] = this.estimatedMonthlyCost;
-    data['cost'] = this.cost;
-    data['operation_flag'] = this.operationFlag;
-    data['created_at'] = this.createdAt;
+    data['location'] = location;
+    data['tier'] = tier;
+    data['price_per_hour'] = pricePerHour;
+    data['estimated_monthly_cost'] = estimatedMonthlyCost;
+    data['cost'] = cost;
+    data['operation_flag'] = operationFlag;
+    data['created_at'] = createdAt;
     return data;
   }
 }
@@ -145,9 +145,9 @@ class Os {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['image'] = this.image;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['image'] = image;
     return data;
   }
 }
@@ -175,12 +175,12 @@ class Page {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['total'] = this.total;
-    data['count'] = this.count;
-    data['per_page'] = this.perPage;
-    data['current_page'] = this.currentPage;
-    data['total_pages'] = this.totalPages;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['total'] = total;
+    data['count'] = count;
+    data['per_page'] = perPage;
+    data['current_page'] = currentPage;
+    data['total_pages'] = totalPages;
     return data;
   }
 }

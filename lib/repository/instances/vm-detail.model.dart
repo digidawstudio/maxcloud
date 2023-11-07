@@ -6,12 +6,12 @@ class VMDetailModel {
 
   VMDetailModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -88,7 +88,7 @@ class Data {
     location = json['location'];
     tierId = json['tier_id'];
     tier = json['tier'];
-    os = json['os'] != null ? new Os.fromJson(json['os']) : null;
+    os = json['os'] != null ? Os.fromJson(json['os']) : null;
     pricePerHour = json['price_per_hour'];
     estimatedMonthlyPrice = json['estimated_monthly_price'];
     cost = json['cost'];
@@ -99,33 +99,33 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['uuid'] = this.uuid;
-    data['hostname'] = this.hostname;
-    data['username'] = this.username;
-    data['cpu'] = this.cpu;
-    data['is_cpu_dedicated'] = this.isCpuDedicated;
-    data['memory'] = this.memory;
-    data['storage'] = this.storage;
-    data['status'] = this.status;
-    data['os_name'] = this.osName;
-    data['ip_address'] = this.ipAddress;
-    data['rdns'] = this.rdns;
-    data['private_network'] = this.privateNetwork;
-    data['location_id'] = this.locationId;
-    data['location'] = this.location;
-    data['tier_id'] = this.tierId;
-    data['tier'] = this.tier;
-    if (this.os != null) {
-      data['os'] = this.os!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['uuid'] = uuid;
+    data['hostname'] = hostname;
+    data['username'] = username;
+    data['cpu'] = cpu;
+    data['is_cpu_dedicated'] = isCpuDedicated;
+    data['memory'] = memory;
+    data['storage'] = storage;
+    data['status'] = status;
+    data['os_name'] = osName;
+    data['ip_address'] = ipAddress;
+    data['rdns'] = rdns;
+    data['private_network'] = privateNetwork;
+    data['location_id'] = locationId;
+    data['location'] = location;
+    data['tier_id'] = tierId;
+    data['tier'] = tier;
+    if (os != null) {
+      data['os'] = os!.toJson();
     }
-    data['price_per_hour'] = this.pricePerHour;
-    data['estimated_monthly_price'] = this.estimatedMonthlyPrice;
-    data['cost'] = this.cost;
-    data['operation_flag'] = this.operationFlag;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['last_started_at'] = this.lastStartedAt;
+    data['price_per_hour'] = pricePerHour;
+    data['estimated_monthly_price'] = estimatedMonthlyPrice;
+    data['cost'] = cost;
+    data['operation_flag'] = operationFlag;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['last_started_at'] = lastStartedAt;
     return data;
   }
 }
@@ -148,12 +148,12 @@ class Os {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['template_id'] = this.templateId;
-    data['version'] = this.version;
-    data['os_id'] = this.osId;
-    data['name'] = this.name;
-    data['image'] = this.image;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['template_id'] = templateId;
+    data['version'] = version;
+    data['os_id'] = osId;
+    data['name'] = name;
+    data['image'] = image;
     return data;
   }
 }

@@ -40,12 +40,12 @@ class HelpDeskBloc extends Bloc<HelpDeskEvent, FetchHelpDeskItemsState> {
         final response =
             await ApiServices.fetchHelpDeskItems(event.token, page: event.page);
 
-        print(response.runtimeType);
+        // print(response.runtimeType);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code ${response}");
+          print("status code $response");
           if (response.statusCode == 200) {
-            print(response.data);
+            // print(response.data);
             emit(LoadedFetchHelpDeskItemsState(
                 TicketsModel.fromJson(response.data)));
           } else {
@@ -54,7 +54,7 @@ class HelpDeskBloc extends Bloc<HelpDeskEvent, FetchHelpDeskItemsState> {
         } else if (response.runtimeType.toString() == 'DioException') {
           Map<String, dynamic> errorData = response.response?.data;
           emit(ErrorFetchHelpDeskState(errorData));
-          print(response);
+          // print(response);
         }
       }
     });
@@ -95,12 +95,12 @@ class TicketConversationBloc extends Bloc<HelpDeskEvent, FetchConversationState>
         final response =
             await ApiServices.fetchConversations(event.token, event.convToken, page: event.page);
 
-        print(response.runtimeType);
+        // print(response.runtimeType);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code ${response}");
+          // print("status code $response");
           if (response.statusCode == 200) {
-            print(response.data);
+            // print(response.data);
             emit(LoadedFetchConversationState(
                 ConversationModel.fromJson(response.data)));
           } else {
@@ -109,7 +109,7 @@ class TicketConversationBloc extends Bloc<HelpDeskEvent, FetchConversationState>
         } else if (response.runtimeType.toString() == 'DioException') {
           Map<String, dynamic> errorData = response.response?.data;
           emit(ErrorFetchConversationState(errorData));
-          print(response);
+          // print(response);
         }
       }
     });
@@ -148,12 +148,12 @@ class SendMessageBloc extends Bloc<HelpDeskEvent, SendMessageState> {
         final response =
             await ApiServices.sendMessage(event.token, event.convToken, event.message, attachments: event.attachments);
 
-        print(response.runtimeType);
+        // print(response.runtimeType);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code ${response}");
+          // print("status code $response");
           if (response.statusCode == 200) {
-            print(response.data);
+            // print(response.data);
             emit(LoadedSendMessageState(
                 MessageModel.fromJson(response.data)));
           } else {
@@ -162,7 +162,7 @@ class SendMessageBloc extends Bloc<HelpDeskEvent, SendMessageState> {
         } else if (response.runtimeType.toString() == 'DioException') {
           Map<String, dynamic> errorData = response.response?.data;
           emit(ErrorSendMessageState(errorData));
-          print(response);
+          // print(response);
         }
       }
     });

@@ -6,12 +6,12 @@ class RRDModel {
 
   RRDModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -31,42 +31,42 @@ class Data {
     if (json['cpu'] != null) {
       cpu = <Cpu>[];
       json['cpu'].forEach((v) {
-        cpu!.add(new Cpu.fromJson(v));
+        cpu!.add(Cpu.fromJson(v));
       });
     }
     if (json['memory'] != null) {
       memory = <Memory>[];
       json['memory'].forEach((v) {
-        memory!.add(new Memory.fromJson(v));
+        memory!.add(Memory.fromJson(v));
       });
     }
     if (json['network'] != null) {
       network = <Network>[];
       json['network'].forEach((v) {
-        network!.add(new Network.fromJson(v));
+        network!.add(Network.fromJson(v));
       });
     }
     if (json['disk'] != null) {
       disk = <Disk>[];
       json['disk'].forEach((v) {
-        disk!.add(new Disk.fromJson(v));
+        disk!.add(Disk.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.cpu != null) {
-      data['cpu'] = this.cpu!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (cpu != null) {
+      data['cpu'] = cpu!.map((v) => v.toJson()).toList();
     }
-    if (this.memory != null) {
-      data['memory'] = this.memory!.map((v) => v.toJson()).toList();
+    if (memory != null) {
+      data['memory'] = memory!.map((v) => v.toJson()).toList();
     }
-    if (this.network != null) {
-      data['network'] = this.network!.map((v) => v.toJson()).toList();
+    if (network != null) {
+      data['network'] = network!.map((v) => v.toJson()).toList();
     }
-    if (this.disk != null) {
-      data['disk'] = this.disk!.map((v) => v.toJson()).toList();
+    if (disk != null) {
+      data['disk'] = disk!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -84,9 +84,9 @@ class Cpu {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['time'] = this.time;
-    data['cpu'] = this.cpu;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['time'] = time;
+    data['cpu'] = cpu;
     return data;
   }
 }
@@ -114,12 +114,12 @@ class Memory {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['time'] = this.time;
-    data['raw_max_memory'] = this.rawMaxMemory;
-    data['max_memory'] = this.maxMemory;
-    data['raw_usage_memory'] = this.rawUsageMemory;
-    data['usage_memory'] = this.usageMemory;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['time'] = time;
+    data['raw_max_memory'] = rawMaxMemory;
+    data['max_memory'] = maxMemory;
+    data['raw_usage_memory'] = rawUsageMemory;
+    data['usage_memory'] = usageMemory;
     return data;
   }
 }
@@ -142,12 +142,12 @@ class Network {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['time'] = this.time;
-    data['raw_netin'] = this.rawNetin;
-    data['netin'] = this.netin;
-    data['raw_netout'] = this.rawNetout;
-    data['netout'] = this.netout;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['time'] = time;
+    data['raw_netin'] = rawNetin;
+    data['netin'] = netin;
+    data['raw_netout'] = rawNetout;
+    data['netout'] = netout;
     return data;
   }
 }
@@ -175,12 +175,12 @@ class Disk {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['time'] = this.time;
-    data['raw_diskwrite'] = this.rawDiskwrite;
-    data['diskwrite'] = this.diskwrite;
-    data['raw_diskread'] = this.rawDiskread;
-    data['diskread'] = this.diskread;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['time'] = time;
+    data['raw_diskwrite'] = rawDiskwrite;
+    data['diskwrite'] = diskwrite;
+    data['raw_diskread'] = rawDiskread;
+    data['diskread'] = diskread;
     return data;
   }
 }

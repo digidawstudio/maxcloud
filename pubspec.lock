@@ -73,6 +73,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  codebase_echo:
+    dependency: "direct main"
+    description:
+      name: codebase_echo
+      sha256: "81c86a1bb8a9efc1a4a8a6d85a3318317103b3f10fcbf7c3f875ae7867c6b292"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   collection:
     dependency: transitive
     description:
@@ -392,14 +400,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.0"
-  laravel_echo_null:
+  laravel_flutter_pusher:
     dependency: "direct main"
     description:
-      name: laravel_echo_null
-      sha256: "5b9edd5ac95e726501f46a162e9204a20d95674a77cb0c0e1ac39856e287e135"
+      name: laravel_flutter_pusher
+      sha256: a83edb50e3c8b11f1e8661daef8d53fa48fe5cc7dbbff2bcc959115dbef78df6
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.5+7"
+    version: "0.0.4"
   lints:
     dependency: transitive
     description:
@@ -568,14 +576,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.5"
-  pusher_client_fixed:
-    dependency: "direct main"
-    description:
-      name: pusher_client_fixed
-      sha256: "944fd8d5f4126ceaf777214826b87308753858cedc3c1e364585b7b6127b534a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.2+2"
   sentry:
     dependency: transitive
     description:
@@ -806,5 +806,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=3.1.0 <4.0.0"
+  dart: ">=3.1.0-185.0.dev <4.0.0"
   flutter: ">=3.3.0"

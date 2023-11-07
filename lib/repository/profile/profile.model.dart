@@ -6,12 +6,12 @@ class ProfileModel {
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -74,15 +74,15 @@ class Data {
     currentBalance = json['current_balance'];
     actualBalance = json['actual_balance'];
     country =
-        json['country'] != null ? new Country.fromJson(json['country']) : null;
+        json['country'] != null ? Country.fromJson(json['country']) : null;
     province = json['province'] != null
-        ? new Province.fromJson(json['province'])
+        ? Province.fromJson(json['province'])
         : null;
     cProvince = json['c_province'];
-    city = json['city'] != null ? new City.fromJson(json['city']) : null;
+    city = json['city'] != null ? City.fromJson(json['city']) : null;
     cCity = json['c_city'];
     district = json['district'] != null
-        ? new District.fromJson(json['district'])
+        ? District.fromJson(json['district'])
         : null;
     address = json['address'];
     isActive = json['is_active'];
@@ -95,36 +95,36 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['full_name'] = this.fullName;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['email'] = this.email;
-    data['current_balance'] = this.currentBalance;
-    data['actual_balance'] = this.actualBalance;
-    if (this.country != null) {
-      data['country'] = this.country!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['full_name'] = fullName;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['email'] = email;
+    data['current_balance'] = currentBalance;
+    data['actual_balance'] = actualBalance;
+    if (country != null) {
+      data['country'] = country!.toJson();
     }
-    if (this.province != null) {
-      data['province'] = this.province!.toJson();
+    if (province != null) {
+      data['province'] = province!.toJson();
     }
-    data['c_province'] = this.cProvince;
-    if (this.city != null) {
-      data['city'] = this.city!.toJson();
+    data['c_province'] = cProvince;
+    if (city != null) {
+      data['city'] = city!.toJson();
     }
-    data['c_city'] = this.cCity;
-    if (this.district != null) {
-      data['district'] = this.district!.toJson();
+    data['c_city'] = cCity;
+    if (district != null) {
+      data['district'] = district!.toJson();
     }
-    data['address'] = this.address;
-    data['is_active'] = this.isActive;
-    data['is_registration_completed'] = this.isRegistrationCompleted;
-    data['is_suspended'] = this.isSuspended;
-    data['is_phone_verified'] = this.isPhoneVerified;
-    data['vm_limit'] = this.vmLimit;
-    data['phone'] = this.phone;
-    data['price_percentage'] = this.pricePercentage;
+    data['address'] = address;
+    data['is_active'] = isActive;
+    data['is_registration_completed'] = isRegistrationCompleted;
+    data['is_suspended'] = isSuspended;
+    data['is_phone_verified'] = isPhoneVerified;
+    data['vm_limit'] = vmLimit;
+    data['phone'] = phone;
+    data['price_percentage'] = pricePercentage;
     return data;
   }
 }
@@ -145,11 +145,11 @@ class Country {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['code'] = this.code;
-    data['name'] = this.name;
-    data['phonecode'] = this.phonecode;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['code'] = code;
+    data['name'] = name;
+    data['phonecode'] = phonecode;
     return data;
   }
 }
@@ -173,12 +173,12 @@ class Province {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -189,7 +189,7 @@ class City {
   int? provinceId;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  String? deletedAt;
 
   City(
       {this.id,
@@ -209,13 +209,13 @@ class City {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['province_id'] = this.provinceId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['province_id'] = provinceId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -226,7 +226,7 @@ class District {
   int? cityId;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  String? deletedAt;
 
   District(
       {this.id,
@@ -246,13 +246,13 @@ class District {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['city_id'] = this.cityId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['city_id'] = cityId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 }
@@ -267,8 +267,8 @@ class ProfileErrorModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
 
     return data;
   }

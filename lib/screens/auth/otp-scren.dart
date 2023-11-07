@@ -1,12 +1,10 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maxcloud/bloc/auth/auth.bloc.dart';
 import 'package:maxcloud/repository/auth/login.model.dart';
-import 'package:maxcloud/screens/auth/pin-screen.dart';
 import 'package:maxcloud/screens/navbar.component.dart';
 import 'package:maxcloud/utils/widgets.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -22,7 +20,7 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   AuthBloc? authBloc;
-  final storage = new FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   @override
   void initState() {
@@ -43,7 +41,7 @@ class _OtpScreenState extends State<OtpScreen> {
           WidgetsBinding.instance.addPostFrameCallback((_) => Flushbar(
                 message: "Otp Sent!",
                 flushbarPosition: FlushbarPosition.TOP,
-                backgroundColor: Color(0xff4BB04F),
+                backgroundColor: const Color(0xff4BB04F),
                 messageColor: Colors.white,
               ).show(context));
         } else if (state is ErrorAuthState) {
@@ -59,7 +57,7 @@ class _OtpScreenState extends State<OtpScreen> {
             // Navigator.pop(context);
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => NavbarComponent()),
+                MaterialPageRoute(builder: (context) => const NavbarComponent()),
                 ModalRoute.withName('/'));
           });
         }
@@ -76,7 +74,7 @@ class _OtpScreenState extends State<OtpScreen> {
               children: <Widget>[
                 Text("Kode OTP",
                     style: GoogleFonts.manrope(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             color: Color(0xff353333),
                             fontSize: 30,
                             fontWeight: FontWeight.w600))),
@@ -94,7 +92,7 @@ class _OtpScreenState extends State<OtpScreen> {
             children: [
               SafeArea(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
                   child: Column(
@@ -103,7 +101,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     children: [
                       Text("Masukkan Kode Verifikasi OTP",
                           style: GoogleFonts.manrope(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   color: Color(0xff353333),
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600))),
@@ -112,11 +110,11 @@ class _OtpScreenState extends State<OtpScreen> {
                           "Kode Verifikasi telah dikirim melalui nomor telepon +62899",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.manrope(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   color: Color(0xffBBBBBB),
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400))),
-                      SizedBox(height: 44),
+                      const SizedBox(height: 44),
                       // OtpTextField(
                       //   numberOfFields: 6,
                       //   fieldWidth: 45,
@@ -139,7 +137,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           length: 6,
                           animationType: AnimationType.fade,
                           textStyle: GoogleFonts.manrope(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   color: Color(0xff009EFF),
                                   fontSize: 30,
                                   fontWeight: FontWeight.w500)),
@@ -150,10 +148,10 @@ class _OtpScreenState extends State<OtpScreen> {
                               fieldHeight: 60,
                               fieldWidth: 45,
                               activeFillColor: Colors.white,
-                              inactiveColor: Color(0xffBBBBBB),
-                              activeColor: Color(0xff009EFF),
-                              selectedColor: Color(0xff009EFF)),
-                          cursorColor: Color(0xff009EFF),
+                              inactiveColor: const Color(0xffBBBBBB),
+                              activeColor: const Color(0xff009EFF),
+                              selectedColor: const Color(0xff009EFF)),
+                          cursorColor: const Color(0xff009EFF),
                           animationDuration: const Duration(milliseconds: 300),
                           keyboardType: TextInputType.number,
 
@@ -183,13 +181,13 @@ class _OtpScreenState extends State<OtpScreen> {
                           },
                         ),
                       ),
-                      SizedBox(height: 52),
+                      const SizedBox(height: 52),
                       Center(
                         child: RichText(
                           text: TextSpan(
                             text: 'Tidak menerima kode verifikasi? ',
                             style: GoogleFonts.manrope(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     color: Color(0xffBBBBBB),
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400)),
@@ -197,7 +195,7 @@ class _OtpScreenState extends State<OtpScreen> {
                               TextSpan(
                                 text: 'Kirim Ulang',
                                 style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         color: Color(0xff009EFF),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500)),

@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +8,6 @@ import 'package:maxcloud/bloc/profile/profile.bloc.dart';
 import 'package:maxcloud/bloc/user/user.bloc.dart';
 import 'package:maxcloud/repository/profile/updateprofile.model.dart';
 import 'package:maxcloud/services/api.services.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -119,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Text(
               "Profile",
               style: GoogleFonts.manrope(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                     color: Color(0xff353333),
                     fontSize: 25,
                     fontWeight: FontWeight.w600),
@@ -138,13 +136,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
           if (state is LoadedProfileState) {
             return Container(
-              padding: EdgeInsets.symmetric(horizontal: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 25),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Image.asset(
@@ -154,21 +152,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: 80,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(state.data.data?.fullName ?? "",
                         style: GoogleFonts.manrope(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 color: Color(0xff232226),
                                 fontSize: 24,
                                 fontWeight: FontWeight.w600))),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text("${state.data.data?.phone}",
                         style: GoogleFonts.manrope(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 color: Color(0xffBBBBBB),
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500))),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 5),
                       child: Row(
@@ -178,21 +176,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 'assets/svg/icons/edit-profile.svg',
                                 height: 28,
                                 fit: BoxFit.scaleDown),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text("Edit Profile",
                                 style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         color: Color(0xff232226),
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700)))
                           ]),
                     ),
-                    SizedBox(height: 10),
-                    Divider(
+                    const SizedBox(height: 10),
+                    const Divider(
                       thickness: 1,
                       color: Color(0xffBBBBBB),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: Column(
@@ -203,26 +201,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Text("First Name",
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                     autocorrect: false,
                                     keyboardType: TextInputType.text,
                                     controller: fullNameController,
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400)),
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
+                                      contentPadding: const EdgeInsets.symmetric(
                                           vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText: 'Full Name',
                                       hintStyle: GoogleFonts.manrope(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                               fontSize: 14,
                                               color: Color(0xffBBBBBB),
                                               fontWeight: FontWeight.w400)),
@@ -241,33 +239,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onEditingComplete: () {}),
                               ],
                             ),
-                            SizedBox(height: 15),
+                            const SizedBox(height: 15),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Last Name",
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                     autocorrect: false,
                                     keyboardType: TextInputType.emailAddress,
                                     controller: lastNameController,
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400)),
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
+                                      contentPadding: const EdgeInsets.symmetric(
                                           vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText: 'Full Name',
                                       hintStyle: GoogleFonts.manrope(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                               fontSize: 14,
                                               color: Color(0xffBBBBBB),
                                               fontWeight: FontWeight.w400)),
@@ -286,33 +284,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onEditingComplete: () {}),
                               ],
                             ),
-                            SizedBox(height: 15),
+                            const SizedBox(height: 15),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Phone Number",
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                     autocorrect: false,
                                     keyboardType: TextInputType.emailAddress,
                                     controller: phoneController,
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400)),
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
+                                      contentPadding: const EdgeInsets.symmetric(
                                           vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText: 'Phone Number',
                                       hintStyle: GoogleFonts.manrope(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                               fontSize: 14,
                                               color: Color(0xffBBBBBB),
                                               fontWeight: FontWeight.w400)),
@@ -331,32 +329,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onEditingComplete: () {}),
                               ],
                             ),
-                            SizedBox(height: 15),
+                            const SizedBox(height: 15),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Address",
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                     autocorrect: false,
                                     controller: addressController,
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400)),
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
+                                      contentPadding: const EdgeInsets.symmetric(
                                           vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText: 'Address',
                                       hintStyle: GoogleFonts.manrope(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                               fontSize: 14,
                                               color: Color(0xffBBBBBB),
                                               fontWeight: FontWeight.w400)),
@@ -375,33 +373,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onEditingComplete: () {}),
                               ],
                             ),
-                            SizedBox(height: 15),
+                            const SizedBox(height: 15),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Country",
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                     autocorrect: false,
                                     keyboardType: TextInputType.emailAddress,
                                     // controller: _phoneController,
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400)),
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
+                                      contentPadding: const EdgeInsets.symmetric(
                                           vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText: 'Country',
                                       hintStyle: GoogleFonts.manrope(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                               fontSize: 14,
                                               color: Color(0xffBBBBBB),
                                               fontWeight: FontWeight.w400)),
@@ -420,33 +418,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onEditingComplete: () {}),
                               ],
                             ),
-                            SizedBox(height: 15),
+                            const SizedBox(height: 15),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Select Province",
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                     autocorrect: false,
                                     keyboardType: TextInputType.emailAddress,
                                     // controller: _phoneController,
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400)),
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
+                                      contentPadding: const EdgeInsets.symmetric(
                                           vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText: 'Province',
                                       hintStyle: GoogleFonts.manrope(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                               fontSize: 14,
                                               color: Color(0xffBBBBBB),
                                               fontWeight: FontWeight.w400)),
@@ -465,33 +463,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onEditingComplete: () {}),
                               ],
                             ),
-                            SizedBox(height: 15),
+                            const SizedBox(height: 15),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Select City",
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                     autocorrect: false,
                                     keyboardType: TextInputType.emailAddress,
                                     // controller: _phoneController,
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400)),
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
+                                      contentPadding: const EdgeInsets.symmetric(
                                           vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText: 'City',
                                       hintStyle: GoogleFonts.manrope(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                               fontSize: 14,
                                               color: Color(0xffBBBBBB),
                                               fontWeight: FontWeight.w400)),
@@ -510,33 +508,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onEditingComplete: () {}),
                               ],
                             ),
-                            SizedBox(height: 15),
+                            const SizedBox(height: 15),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Select District",
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                     autocorrect: false,
                                     keyboardType: TextInputType.emailAddress,
                                     // controller: _phoneController,
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400)),
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
+                                      contentPadding: const EdgeInsets.symmetric(
                                           vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText: 'District',
                                       hintStyle: GoogleFonts.manrope(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                               fontSize: 14,
                                               color: Color(0xffBBBBBB),
                                               fontWeight: FontWeight.w400)),
@@ -555,7 +553,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onEditingComplete: () {}),
                               ],
                             ),
-                            SizedBox(height: 30),
+                            const SizedBox(height: 30),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
@@ -566,7 +564,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   minWidth: double.infinity,
                                   height: 45,
                                   elevation: 0,
-                                  color: Color(0xff009EFF),
+                                  color: const Color(0xff009EFF),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
@@ -596,11 +594,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           provinceId: "11")));
                                         },
                                   child: state is LoadingUpdateState
-                                      ? CircularProgressIndicator()
+                                      ? const CircularProgressIndicator()
                                       : Text(
                                           "Update",
                                           style: GoogleFonts.manrope(
-                                              textStyle: TextStyle(
+                                              textStyle: const TextStyle(
                                                   fontSize: 14,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w600)),
@@ -610,7 +608,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ],
                         )),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 5),
                       child: Row(
@@ -620,21 +618,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 'assets/svg/icons/change-password.svg',
                                 height: 28,
                                 fit: BoxFit.scaleDown),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text("Change Password",
                                 style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         color: Color(0xff232226),
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700)))
                           ]),
                     ),
-                    SizedBox(height: 10),
-                    Divider(
+                    const SizedBox(height: 10),
+                    const Divider(
                       thickness: 1,
                       color: Color(0xffBBBBBB),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: Column(
@@ -645,26 +643,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Text("Current Password",
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                     autocorrect: false,
                                     keyboardType: TextInputType.emailAddress,
                                     // controller: _phoneController,
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400)),
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
+                                      contentPadding: const EdgeInsets.symmetric(
                                           vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText: 'Masukkan password lama anda',
                                       hintStyle: GoogleFonts.manrope(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                               fontSize: 14,
                                               color: Color(0xffBBBBBB),
                                               fontWeight: FontWeight.w400)),
@@ -683,33 +681,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onEditingComplete: () {}),
                               ],
                             ),
-                            SizedBox(height: 15),
+                            const SizedBox(height: 15),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("New Password",
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                     autocorrect: false,
                                     keyboardType: TextInputType.emailAddress,
                                     // controller: _phoneController,
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400)),
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
+                                      contentPadding: const EdgeInsets.symmetric(
                                           vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText: 'Masukkan password baru anda',
                                       hintStyle: GoogleFonts.manrope(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                               fontSize: 14,
                                               color: Color(0xffBBBBBB),
                                               fontWeight: FontWeight.w400)),
@@ -728,34 +726,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onEditingComplete: () {}),
                               ],
                             ),
-                            SizedBox(height: 15),
+                            const SizedBox(height: 15),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Password Confirmation",
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                     autocorrect: false,
                                     keyboardType: TextInputType.emailAddress,
                                     // controller: _phoneController,
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400)),
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
+                                      contentPadding: const EdgeInsets.symmetric(
                                           vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText:
                                           'Masukkan konfirmasi password baru anda',
                                       hintStyle: GoogleFonts.manrope(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                               fontSize: 14,
                                               color: Color(0xffBBBBBB),
                                               fontWeight: FontWeight.w400)),
@@ -774,7 +772,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onEditingComplete: () {}),
                               ],
                             ),
-                            SizedBox(height: 30),
+                            const SizedBox(height: 30),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
@@ -782,7 +780,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 minWidth: double.infinity,
                                 height: 45,
                                 elevation: 0,
-                                color: Color(0xff009EFF),
+                                color: const Color(0xff009EFF),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
@@ -790,7 +788,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Text(
                                   "Update",
                                   style: GoogleFonts.manrope(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                           fontSize: 14,
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600)),
@@ -799,7 +797,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ],
                         )),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                   ],
                 ),
               ),

@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,11 +12,9 @@ import 'package:maxcloud/bloc/product/start-vm.bloc.dart';
 import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
 import 'package:maxcloud/repository/instances/rrd-data.model.dart';
 import 'package:maxcloud/screens/instance/components/line.chart.dart';
-import 'package:maxcloud/utils/widgets.dart';
 
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-import '../../bloc/product/product.bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../bloc/product/vm-detail.bloc.dart';
@@ -45,7 +42,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
   String period = 'hour';
   String token = '';
 
-  final storage = new FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   VMDetailBloc? vmDetailBloc;
   RRDDataBloc? rrdDataBloc;
@@ -101,8 +98,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
           BlocProvider.of<RRDDataBloc>(context).state as LoadedRRDDataState;
 
       // Ambil data CPU
-      if (data.rrdData.data?.cpu != null &&
-          data.rrdData.data?.cpu?.length != 0) {
+      if (data.rrdData.data?.cpu != null) {
         final Cpu? latestCpuData = data.rrdData.data?.cpu?[0];
         final double? percentage = latestCpuData?.cpu;
         cpuData = (data.rrdData.data?.cpu as List).map((item) {
@@ -113,8 +109,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
       }
 
       // Ambil data Memory
-      if (data.rrdData.data?.memory != null &&
-          data.rrdData.data?.memory?.length != 0) {
+      if (data.rrdData.data?.memory != null) {
         final Memory? latestMemoryData = data.rrdData.data?.memory?[0];
         final double? maxMemory = latestMemoryData?.rawMaxMemory;
         final double? usageMemory = latestMemoryData?.rawUsageMemory;
@@ -128,8 +123,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
       }
 
       // Ambil data Network
-      if (data.rrdData.data?.network != null &&
-          data.rrdData.data?.network?.length != 0) {
+      if (data.rrdData.data?.network != null) {
         networkData = (data.rrdData.data?.network as List).map((item) {
           return ChartData(convertTimeStringToDateTime(item.time),
               item.rawNetout.toDouble());
@@ -137,8 +131,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
       }
 
       // Ambil data Disk
-      if (data.rrdData.data?.disk != null &&
-          data.rrdData.data?.disk?.length != 0) {
+      if (data.rrdData.data?.disk != null) {
         diskData = (data.rrdData.data?.disk as List).map((item) {
           return ChartData(convertTimeStringToDateTime(item.time),
               item.rawDiskRead.toDouble());
@@ -163,7 +156,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
           children: <Widget>[
             Text("Detail",
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xff353333),
                         fontSize: 25,
                         fontWeight: FontWeight.w600))),
@@ -180,13 +173,13 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
       ),
       body: SafeArea(
           child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 25),
+        padding: const EdgeInsets.symmetric(horizontal: 25),
         width: ScreenUtil().screenWidth,
         height: ScreenUtil().screenHeight,
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 22),
+              const SizedBox(height: 22),
               BlocBuilder<VMDetailBloc, VMDetailState>(
                   builder: (context, state) {
                 if (state is LoadedVMDetailState) {
@@ -199,10 +192,10 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                             "assets/images/icons/windows.png",
                             height: 48,
                           ),
-                          SizedBox(width: 12),
+                          const SizedBox(width: 12),
                           Text(state.vmDetail.data?.hostname ?? "",
                               style: GoogleFonts.manrope(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                       color: Color(0xff009EFF),
                                       fontSize: 20,
                                       fontWeight: FontWeight.w500))),
@@ -214,7 +207,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                           minWidth: 89.w,
                           height: 20.h,
                           elevation: 0,
-                          color: Color(0xff02D430),
+                          color: const Color(0xff02D430),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
                           ),
@@ -251,15 +244,15 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                           height: 28.h, fit: BoxFit.scaleDown),
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Flexible(
                     flex: 1,
                     child: MaterialButton(
                       height: 30.h,
                       elevation: 0,
-                      color: Color(0xffF1F1F1),
+                      color: const Color(0xffF1F1F1),
                       shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Color(0xffBBBBBB)),
+                        side: const BorderSide(width: 1, color: Color(0xffBBBBBB)),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       onPressed: () {},
@@ -272,7 +265,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                             style: GoogleFonts.manrope(
                                 textStyle: TextStyle(
                                     fontSize: 12.sp,
-                                    color: Color(0xff232226),
+                                    color: const Color(0xff232226),
                                     fontWeight: FontWeight.w600)),
                           ),
                           SvgPicture.asset('assets/svg/icons/dropdown.svg',
@@ -283,7 +276,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 getGradientProgressStyle("CPU Usage", cpuPercentage.toDouble()),
                 getGradientProgressStyle(
@@ -294,7 +287,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                     "Network", networkPercentage.toDouble()),
                 getGradientProgressStyle("Memory", memoryPercentage.toDouble())
               ]),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               BlocBuilder<VMDetailBloc, VMDetailState>(
                   builder: (context, state) {
                 if (state is LoadedVMDetailState) {
@@ -311,26 +304,22 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                       rowSpec("OS", state.vmDetail.data?.osName ?? "-"),
                       rowSpec(
                         "Price Per Hour",
-                        "Rp " +
-                            NumberFormat.currency(
+                        "Rp ${NumberFormat.currency(
                               locale: 'id',
                               symbol: "",
                               decimalDigits: 0,
-                            ).format(state.vmDetail.data?.pricePerHour ?? 0) +
-                            ",00",
+                            ).format(state.vmDetail.data?.pricePerHour ?? 0)},00",
                         // "Rp ${state.vmDetail.data?.pricePerHour ?? 0}"
                       ),
                       rowSpec(
                         "Estimated Monthly Cost",
-                        "Rp " +
-                            NumberFormat.currency(
+                        "Rp ${NumberFormat.currency(
                               locale: 'id',
                               symbol: "",
                               decimalDigits: 0,
                             ).format(
                                 state.vmDetail.data?.estimatedMonthlyPrice ??
-                                    0) +
-                            ",00",
+                                    0)},00",
                         // "Rp ${state.vmDetail.data?.estimatedMonthlyPrice ?? 0}"
                       ),
                       rowSpec("Private Network",
@@ -345,7 +334,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                   return Container();
                 }
               }),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10.h),
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
@@ -359,7 +348,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                     child: CustomLineChart.buildDefaultLineChart(
                         'CPU Usage', cpuData)),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10.h),
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
@@ -373,7 +362,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                     child: CustomLineChart.buildDefaultLineChart(
                         'Memory Usage', memoryData)),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10.h),
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
@@ -387,7 +376,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                     child: CustomLineChart.buildDefaultLineChart(
                         'Network Usage', networkData)),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10.h),
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
@@ -401,7 +390,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                     child: CustomLineChart.buildDefaultLineChart(
                         'Disk Usage', diskData)),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -423,7 +412,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
               style: GoogleFonts.manrope(
                   textStyle: TextStyle(
                       fontSize: 13.sp,
-                      color: Color(0xffBBBBBB),
+                      color: const Color(0xffBBBBBB),
                       fontWeight: FontWeight.w500)),
             ),
           ),
@@ -438,7 +427,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
               style: GoogleFonts.manrope(
                   textStyle: TextStyle(
                       fontSize: 13.sp,
-                      color: Color(0xff232226),
+                      color: const Color(0xff232226),
                       fontWeight: FontWeight.w500)),
             ),
           ),
@@ -485,15 +474,15 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                         Text(
                           title,
                           style: GoogleFonts.manrope(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   fontSize: 10,
                                   color: Color(0xffBBBBBB),
                                   fontWeight: FontWeight.w600)),
                         ),
                         Text(
-                          percent.toStringAsFixed(0) + '%',
+                          '${percent.toStringAsFixed(0)}%',
                           style: GoogleFonts.manrope(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   fontSize: 25,
                                   color: Color(0xff009EFF),
                                   fontWeight: FontWeight.w600)),

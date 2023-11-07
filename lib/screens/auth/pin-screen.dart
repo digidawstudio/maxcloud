@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maxcloud/screens/navbar.component.dart';
@@ -27,7 +26,7 @@ class _PinScreenState extends State<PinScreen> {
           children: <Widget>[
             Text("PIN",
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xff353333),
                         fontSize: 30,
                         fontWeight: FontWeight.w600))),
@@ -43,15 +42,15 @@ class _PinScreenState extends State<PinScreen> {
       ),
       body: SafeArea(
           child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 25),
+        padding: const EdgeInsets.symmetric(horizontal: 25),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
-            SizedBox(height: 42),
+            const SizedBox(height: 42),
             Text("Masukkan PIN",
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xff353333),
                         fontSize: 20,
                         fontWeight: FontWeight.w600))),
@@ -59,11 +58,11 @@ class _PinScreenState extends State<PinScreen> {
             Text("Masukkan PIN yang mudah diingat bagi anda",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xffBBBBBB),
                         fontSize: 12,
                         fontWeight: FontWeight.w400))),
-            SizedBox(height: 44),
+            const SizedBox(height: 44),
             Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 8.0,
@@ -74,7 +73,7 @@ class _PinScreenState extends State<PinScreen> {
                 length: 6,
                 animationType: AnimationType.fade,
                 textStyle: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xff009EFF),
                         fontSize: 30,
                         fontWeight: FontWeight.w500)),
@@ -85,10 +84,10 @@ class _PinScreenState extends State<PinScreen> {
                     fieldHeight: 60,
                     fieldWidth: 45,
                     activeFillColor: Colors.white,
-                    inactiveColor: Color(0xffBBBBBB),
-                    activeColor: Color(0xff009EFF),
-                    selectedColor: Color(0xff009EFF)),
-                cursorColor: Color(0xff009EFF),
+                    inactiveColor: const Color(0xffBBBBBB),
+                    activeColor: const Color(0xff009EFF),
+                    selectedColor: const Color(0xff009EFF)),
+                cursorColor: const Color(0xff009EFF),
                 animationDuration: const Duration(milliseconds: 300),
                 keyboardType: TextInputType.number,
 
@@ -97,7 +96,7 @@ class _PinScreenState extends State<PinScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => NavbarComponent()));
+                          builder: (context) => const NavbarComponent()));
                 },
                 // onTap: () {
                 //   print("Pressed");

@@ -1,4 +1,3 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +25,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
   TextEditingController deptController = TextEditingController();
   TextEditingController serviceController = TextEditingController();
 
-  FlutterSecureStorage storage = FlutterSecureStorage();
+  FlutterSecureStorage storage = const FlutterSecureStorage();
 
   List<String> dept = ["Billing", "Support"];
 
@@ -85,7 +84,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
           children: <Widget>[
             Text(isSavedPressed ? "Saved" : "Help Desk",
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xff353333),
                         fontSize: 25,
                         fontWeight: FontWeight.w600))),
@@ -124,7 +123,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                           minWidth: 171.w,
                           height: 30.h,
                           elevation: 0,
-                          color: Color(0xff009EFF),
+                          color: const Color(0xff009EFF),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -145,7 +144,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text("Enter Subject"),
+                                        const Text("Enter Subject"),
                                         SizedBox(
                                           height: 9.h,
                                         ),
@@ -153,7 +152,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                           decoration: InputDecoration(
                                               hintText: "Free Delivery",
                                               border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
+                                                  borderSide: const BorderSide(
                                                       color: Colors.black),
                                                   borderRadius:
                                                       BorderRadius.circular(
@@ -163,7 +162,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                           height: 10.h,
                                         ),
                                         Flexible(
-                                          child: Container(
+                                          child: SizedBox(
                                             height: 90.h,
                                             child: Row(
                                               children: [
@@ -173,7 +172,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Text("Select Department"),
+                                                      const Text("Select Department"),
                                                       SizedBox(
                                                         height: 9.h,
                                                       ),
@@ -201,7 +200,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                                             hintText: "Billing",
                                                             border:
                                                                 OutlineInputBorder(
-                                                              borderSide: BorderSide(
+                                                              borderSide: const BorderSide(
                                                                   color: Colors
                                                                       .black),
                                                               borderRadius:
@@ -239,7 +238,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Text("Select Service"),
+                                                        const Text("Select Service"),
                                                         SizedBox(
                                                           height: 9.h,
                                                         ),
@@ -252,7 +251,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                                             hintText: "Billing",
                                                             border:
                                                                 OutlineInputBorder(
-                                                              borderSide: BorderSide(
+                                                              borderSide: const BorderSide(
                                                                   color: Colors
                                                                       .black),
                                                               borderRadius:
@@ -270,7 +269,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                             ),
                                           ),
                                         ),
-                                        Text("Message"),
+                                        const Text("Message"),
                                         SizedBox(
                                           height: 9.h,
                                         ),
@@ -282,7 +281,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                               decoration: InputDecoration(
                                                   hintText: "Type Reply",
                                                   border: OutlineInputBorder(
-                                                      borderSide: BorderSide(
+                                                      borderSide: const BorderSide(
                                                           color: Colors.black),
                                                       borderRadius:
                                                           BorderRadius.circular(
@@ -300,7 +299,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                             ),
                                             ElevatedButton(
                                                 onPressed: () {},
-                                                child: Text("Send"))
+                                                child: const Text("Send"))
                                           ],
                                         )
                                       ],
@@ -327,7 +326,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                           ),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Flexible(
                         flex: 2,
                         child: MaterialButton(
@@ -336,7 +335,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
                             side:
-                                BorderSide(width: 1, color: Color(0xffBBBBBB)),
+                                const BorderSide(width: 1, color: Color(0xffBBBBBB)),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           onPressed: () {},
@@ -349,10 +348,10 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                 style: GoogleFonts.manrope(
                                     textStyle: TextStyle(
                                         fontSize: 14.sp,
-                                        color: Color(0xff353333),
+                                        color: const Color(0xff353333),
                                         fontWeight: FontWeight.w400)),
                               ),
-                              SizedBox(width: 30),
+                              const SizedBox(width: 30),
                               SvgPicture.asset('assets/svg/icons/filter.svg',
                                   height: 15.h, fit: BoxFit.scaleDown),
                             ],
@@ -370,7 +369,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginScreen()),
+                                builder: (context) => const LoginScreen()),
                             (route) => false);
                       });
                     }
@@ -380,7 +379,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                     }
 
                     if (state is LoadedFetchHelpDeskItemsState) {
-                      return Container(
+                      return SizedBox(
                         height: ScreenUtil().screenHeight,
                         child: ListView.builder(
                           // shrinkWrap: true,
@@ -450,7 +449,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
     return SimpleShadow(
       opacity: 0.3, // Default: 0.5
       color: Colors.grey, // Default: Black
-      offset: Offset(0, 5), // Default: Offset(2, 2)
+      offset: const Offset(0, 5), // Default: Offset(2, 2)
       sigma: 7, // Default: 2
       child: Container(
         height: 184.h,
@@ -472,7 +471,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                     Text(
                       ticket?.subject ?? "",
                       style: GoogleFonts.manrope(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                               color: Color(0xff232226),
                               fontSize: 16,
                               fontWeight: FontWeight.w600)),
@@ -481,7 +480,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                     Text(
                       ticket?.createdAt ?? "",
                       style: GoogleFonts.manrope(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                               color: Color(0xffBBBBBB),
                               fontSize: 10,
                               fontWeight: FontWeight.w500)),
@@ -489,7 +488,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                   ],
                 ),
                 Expanded(child: Container()),
-                Container(
+                SizedBox(
                   width: 30.w,
                   child: Stack(
                     children: [
@@ -522,7 +521,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
             Text(
               ticket?.content ?? "",
               style: GoogleFonts.manrope(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                       color: Color(0xffBBBBBB),
                       fontSize: 12,
                       fontWeight: FontWeight.w500)),
@@ -539,7 +538,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                 Text(
                   "4",
                   style: GoogleFonts.manrope(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                           color: Color(0xff232226),
                           fontSize: 12,
                           fontWeight: FontWeight.w500)),
@@ -550,11 +549,11 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                         text: ticket?.status ?? "",
                         width: 48,
                         height: 14,
-                        color: Color(0xffE9FCE5),
+                        color: const Color(0xffE9FCE5),
                         radius: 5.r,
                         fontSize: 8,
                         fontWeight: FontWeight.w500,
-                        textColor: Color(0xff02D430))),
+                        textColor: const Color(0xff02D430))),
                 SizedBox(
                   width: 10.w,
                 ),
@@ -563,11 +562,11 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                         text: ticket?.department ?? "",
                         width: 48,
                         height: 14,
-                        color: Color(0xffAABDFF),
+                        color: const Color(0xffAABDFF),
                         radius: 5.r,
                         fontSize: 8,
                         fontWeight: FontWeight.w500,
-                        textColor: Color(0xff18369E))),
+                        textColor: const Color(0xff18369E))),
                 SizedBox(
                   width: 10.w,
                 ),
@@ -580,7 +579,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                   radius: 5.r,
                   useBorder: true,
                   fontWeight: FontWeight.w500,
-                  textColor: Color(0xff232226),
+                  textColor: const Color(0xff232226),
                 ),
               ],
             ),

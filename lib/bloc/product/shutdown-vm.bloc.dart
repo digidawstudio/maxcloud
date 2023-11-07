@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:maxcloud/repository/instances/vm-state.model.dart';
@@ -44,7 +43,7 @@ class ShutdownVMBloc extends Bloc<ShutdownVMEvent, ShutdownVMState> {
         print(response.runtimeType);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code ${response}");
+          print("status code $response");
           if (response.statusCode == 200) {
             print(response);
             emit(LoadedShutdownVMState(VMStateModel.fromJson(response.data)));

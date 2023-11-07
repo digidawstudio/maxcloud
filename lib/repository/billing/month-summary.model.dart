@@ -6,12 +6,12 @@ class MonthSummaryModel {
 
   MonthSummaryModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -39,11 +39,11 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['current_balance'] = this.currentBalance;
-    data['current_cost'] = this.currentCost;
-    data['actual_balance'] = this.actualBalance;
-    data['estimated_monthly_total'] = this.estimatedMonthlyTotal;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_balance'] = currentBalance;
+    data['current_cost'] = currentCost;
+    data['actual_balance'] = actualBalance;
+    data['estimated_monthly_total'] = estimatedMonthlyTotal;
     return data;
   }
 }
@@ -58,8 +58,8 @@ class MonthSummaryErrorModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
 
     return data;
   }

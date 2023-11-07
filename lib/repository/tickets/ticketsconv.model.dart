@@ -6,11 +6,11 @@ class ConversationModel {
 
   ConversationModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
@@ -32,11 +32,11 @@ class Data {
         data!.add(ConversationData.fromJson(v));
       });
     }
-    page = json['page'] != null ? new Page.fromJson(json['page']) : null;
+    page = json['page'] != null ? Page.fromJson(json['page']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -72,7 +72,7 @@ class ConversationData {
   ConversationData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     content = json['content'];
-    isAdmin = json['is_admin'];
+    isAdmin = json['is_admin'] == true ? 1 : json['is_admin'] == false ? 0 : json['is_admin'];
     creatorId = json['creator_id'];
     creatorName = json['creator_name'];
     creatorEmail = json['creator_email'];
@@ -81,13 +81,13 @@ class ConversationData {
     if (json['attachments'] != null) {
       attachments = <Attachments>[];
       json['attachments'].forEach((v) {
-        attachments!.add(new Attachments.fromJson(v));
+        attachments!.add(Attachments.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['content'] = content;
     data['is_admin'] = isAdmin;
@@ -121,7 +121,7 @@ class Attachments {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['filename'] = filename;
     data['extension'] = extension;
@@ -154,7 +154,7 @@ class Page {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['total'] = total;
     data['count'] = count;
     data['per_page'] = perPage;

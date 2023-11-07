@@ -6,12 +6,12 @@ class PaymentMethodModel {
 
   PaymentMethodModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -32,51 +32,51 @@ class Data {
     if (json['bank'] != null) {
       bank = <Bank>[];
       json['bank'].forEach((v) {
-        bank!.add(new Bank.fromJson(v));
+        bank!.add(Bank.fromJson(v));
       });
     }
     if (json['card'] != null) {
       card = <Card>[];
       json['card'].forEach((v) {
-        card!.add(new Card.fromJson(v));
+        card!.add(Card.fromJson(v));
       });
     }
     if (json['ritel'] != null) {
       ritel = <Ritel>[];
       json['ritel'].forEach((v) {
-        ritel!.add(new Ritel.fromJson(v));
+        ritel!.add(Ritel.fromJson(v));
       });
     }
     if (json['ewallet'] != null) {
       ewallet = <Ewallet>[];
       json['ewallet'].forEach((v) {
-        ewallet!.add(new Ewallet.fromJson(v));
+        ewallet!.add(Ewallet.fromJson(v));
       });
     }
     if (json['qris'] != null) {
       qris = <Qris>[];
       json['qris'].forEach((v) {
-        qris!.add(new Qris.fromJson(v));
+        qris!.add(Qris.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.bank != null) {
-      data['bank'] = this.bank!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (bank != null) {
+      data['bank'] = bank!.map((v) => v.toJson()).toList();
     }
-    if (this.card != null) {
-      data['card'] = this.card!.map((v) => v.toJson()).toList();
+    if (card != null) {
+      data['card'] = card!.map((v) => v.toJson()).toList();
     }
-    if (this.ritel != null) {
-      data['ritel'] = this.ritel!.map((v) => v.toJson()).toList();
+    if (ritel != null) {
+      data['ritel'] = ritel!.map((v) => v.toJson()).toList();
     }
-    if (this.ewallet != null) {
-      data['ewallet'] = this.ewallet!.map((v) => v.toJson()).toList();
+    if (ewallet != null) {
+      data['ewallet'] = ewallet!.map((v) => v.toJson()).toList();
     }
-    if (this.qris != null) {
-      data['qris'] = this.qris!.map((v) => v.toJson()).toList();
+    if (qris != null) {
+      data['qris'] = qris!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -100,12 +100,12 @@ class Bank {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['code'] = this.code;
-    data['image'] = this.image;
-    data['fee'] = this.fee;
-    data['vat'] = this.vat;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['code'] = code;
+    data['image'] = image;
+    data['fee'] = fee;
+    data['vat'] = vat;
     return data;
   }
 }
@@ -128,12 +128,12 @@ class Card {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['code'] = this.code;
-    data['image'] = this.image;
-    data['fee'] = this.fee;
-    data['vat'] = this.vat;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['code'] = code;
+    data['image'] = image;
+    data['fee'] = fee;
+    data['vat'] = vat;
     return data;
   }
 }
@@ -156,12 +156,12 @@ class Ritel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['code'] = this.code;
-    data['image'] = this.image;
-    data['fee'] = this.fee;
-    data['vat'] = this.vat;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['code'] = code;
+    data['image'] = image;
+    data['fee'] = fee;
+    data['vat'] = vat;
     return data;
   }
 }
@@ -184,12 +184,12 @@ class Ewallet {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['code'] = this.code;
-    data['image'] = this.image;
-    data['fee'] = this.fee;
-    data['vat'] = this.vat;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['code'] = code;
+    data['image'] = image;
+    data['fee'] = fee;
+    data['vat'] = vat;
     return data;
   }
 }
@@ -212,12 +212,12 @@ class Qris {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['code'] = this.code;
-    data['image'] = this.image;
-    data['fee'] = this.fee;
-    data['vat'] = this.vat;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['code'] = code;
+    data['image'] = image;
+    data['fee'] = fee;
+    data['vat'] = vat;
     return data;
   }
 }

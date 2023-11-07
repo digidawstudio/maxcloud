@@ -10,8 +10,8 @@ class OtpModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -31,9 +31,9 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['credential'] = this.credential;
-    data['request_type'] = this.requestType;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['credential'] = credential;
+    data['request_type'] = requestType;
     return data;
   }
 }
@@ -50,8 +50,8 @@ class OtpValidate {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -71,9 +71,9 @@ class OtpValidateData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['access_token'] = this.accessToken;
-    data['customer'] = this.customer;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['access_token'] = accessToken;
+    data['customer'] = customer;
     return data;
   }
 }

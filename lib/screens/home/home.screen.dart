@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:indexed/indexed.dart';
 import 'package:intl/intl.dart';
 import 'package:maxcloud/bloc/billing/month-summary.bloc.dart';
 import 'package:maxcloud/bloc/product/total-resource.bloc.dart';
@@ -25,7 +24,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   MonthSummaryBloc? monthSummaryBloc;
   ProfileBloc? profileBloc;
-  final storage = new FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   LatestVMBloc? latestVMBloc;
   TotalResourceBloc? totalResourceBloc;
@@ -51,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: ScreenUtil().screenHeight,
       width: ScreenUtil().screenWidth,
       child: SingleChildScrollView(
@@ -60,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
             BlocBuilder<MonthSummaryBloc, MonthSummaryState>(
                 builder: (context, state) {
               if (state is LoadedMonthSummaryState) {
-                return Container(
+                return SizedBox(
                   height: 400.h,
                   child: Stack(
                     children: [
@@ -72,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             left: 31.w, right: 31.w, top: 50.h, bottom: 23.h),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15.r),
-                          color: Color.fromARGB(255, 235, 235, 235),
+                          color: const Color.fromARGB(255, 235, 235, 235),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: GoogleFonts.manrope(
                                     textStyle: TextStyle(
                                         fontSize: 10.sp,
-                                        color: Color(0xff232226),
+                                        color: const Color(0xff232226),
                                         fontWeight: FontWeight.w500))),
                             RichText(
                                 text: TextSpan(
@@ -92,21 +91,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: GoogleFonts.manrope(
                                         textStyle: TextStyle(
                                             fontSize: 20.sp,
-                                            color: Color(0xff232226),
+                                            color: const Color(0xff232226),
                                             fontWeight: FontWeight.w400)),
                                     children: [
                                   TextSpan(
-                                      text: NumberFormat.currency(
+                                      text: "${NumberFormat.currency(
                                             locale: 'id',
                                             symbol: "",
                                             decimalDigits: 0,
                                           ).format(
                                               state.data.data?.currentCost ??
-                                                  0) +
-                                          ",00",
+                                                  0)},00",
                                       style: TextStyle(
                                           fontSize: 20.sp,
-                                          color: Color(0xff232226),
+                                          color: const Color(0xff232226),
                                           fontWeight: FontWeight.w700))
                                 ])),
                             Expanded(child: Container()),
@@ -114,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: GoogleFonts.manrope(
                                     textStyle: TextStyle(
                                         fontSize: 10.sp,
-                                        color: Color(0xff232226),
+                                        color: const Color(0xff232226),
                                         fontWeight: FontWeight.w500))),
                             RichText(
                                 text: TextSpan(
@@ -122,21 +120,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: GoogleFonts.manrope(
                                         textStyle: TextStyle(
                                             fontSize: 20.sp,
-                                            color: Color(0xff232226),
+                                            color: const Color(0xff232226),
                                             fontWeight: FontWeight.w400)),
                                     children: [
                                   TextSpan(
-                                      text: NumberFormat.currency(
+                                      text: "${NumberFormat.currency(
                                             locale: 'id',
                                             symbol: "",
                                             decimalDigits: 0,
                                           ).format(state.data.data
                                                   ?.estimatedMonthlyTotal ??
-                                              0) +
-                                          ",00",
+                                              0)},00",
                                       style: TextStyle(
                                           fontSize: 20.sp,
-                                          color: Color(0xff232226),
+                                          color: const Color(0xff232226),
                                           fontWeight: FontWeight.w700))
                                 ])),
                           ],
@@ -176,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      NotificationScreen()));
+                                                      const NotificationScreen()));
                                         },
                                         child: Icon(
                                             Icons.notifications_active_rounded,
@@ -235,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       style: GoogleFonts.manrope(
                                                           textStyle: TextStyle(
                                                               fontSize: 12.sp,
-                                                              color: Color(
+                                                              color: const Color(
                                                                   0xffBBBBBB),
                                                               fontWeight:
                                                                   FontWeight
@@ -253,7 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       style: GoogleFonts.manrope(
                                                           textStyle: TextStyle(
                                                               fontSize: 20.sp,
-                                                              color: Color(
+                                                              color: const Color(
                                                                   0xff232226),
                                                               fontWeight:
                                                                   FontWeight
@@ -263,7 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       width: 7.w,
                                                     ),
                                                     Text(
-                                                        NumberFormat.currency(
+                                                        "${NumberFormat.currency(
                                                               locale: 'id',
                                                               symbol: "",
                                                               decimalDigits: 0,
@@ -271,12 +268,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     .data
                                                                     .data
                                                                     ?.currentBalance ??
-                                                                0) +
-                                                            ",00",
+                                                                0)},00",
                                                         style: GoogleFonts.manrope(
                                                             textStyle: TextStyle(
                                                                 fontSize: 22.sp,
-                                                                color: Color(
+                                                                color: const Color(
                                                                     0xff009EFF),
                                                                 fontWeight:
                                                                     FontWeight
@@ -369,7 +365,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             }, data: e);
                           }).toList(),
                         )
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                 );
               } else {
                 return Container();
@@ -415,7 +411,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       "20GB Regular Cloud Compute",
                       style:
-                          TextStyle(fontSize: 8.sp, color: Color(0xffbbbbbb)),
+                          TextStyle(fontSize: 8.sp, color: const Color(0xffbbbbbb)),
                     ),
                     SizedBox(
                       height: 5.h,
@@ -423,12 +419,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       "Mark Zuckerberg",
                       style:
-                          TextStyle(fontSize: 12.sp, color: Color(0xff009EFF)),
+                          TextStyle(fontSize: 12.sp, color: const Color(0xff009EFF)),
                     ),
                   ],
                 ),
                 Expanded(child: Container()),
-                VerticalDivider(
+                const VerticalDivider(
                   color: Colors.black,
                 ),
                 SizedBox(
@@ -440,7 +436,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       "IP Address",
                       style:
-                          TextStyle(fontSize: 8.sp, color: Color(0xffbbbbbb)),
+                          TextStyle(fontSize: 8.sp, color: const Color(0xffbbbbbb)),
                     ),
                     SizedBox(
                       height: 5.h,
@@ -448,14 +444,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       "127.0.0.1",
                       style:
-                          TextStyle(fontSize: 12.sp, color: Color(0xff009EFF)),
+                          TextStyle(fontSize: 12.sp, color: const Color(0xff009EFF)),
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          Divider(
+          const Divider(
             color: Color(0xffbbbbbb),
             thickness: 1,
           ),
@@ -463,7 +459,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.all(10.0.h),
             child: Row(
               children: [
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -485,7 +481,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Expanded(child: Container()),
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -506,7 +502,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Expanded(child: Container()),
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -533,7 +529,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.all(10.0.h),
             child: Row(
               children: [
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -554,7 +550,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Expanded(child: Container()),
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -597,7 +593,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: GoogleFonts.manrope(
                     textStyle: TextStyle(
                         fontSize: 12.sp,
-                        color: Color(0xffBBBBBB),
+                        color: const Color(0xffBBBBBB),
                         fontWeight: FontWeight.w600))),
             Expanded(child: Container()),
             SvgPicture.asset(iconPath!, height: 18, fit: BoxFit.scaleDown)
@@ -610,7 +606,7 @@ class _HomeScreenState extends State<HomeScreen> {
               amount ?? "",
               style: TextStyle(
                   fontSize: 20.sp,
-                  color: Color(0xff232226),
+                  color: const Color(0xff232226),
                   fontWeight: FontWeight.w600),
             ),
             Expanded(child: Container()),
@@ -618,7 +614,7 @@ class _HomeScreenState extends State<HomeScreen> {
               width: 46,
               height: 16,
               text: percentage ?? "",
-              color: Color(0xffE7F6FF),
+              color: const Color(0xffE7F6FF),
             )
           ],
         )

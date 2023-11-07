@@ -25,7 +25,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           children: <Widget>[
             Text("Payment History",
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xff353333),
                         fontSize: 25,
                         fontWeight: FontWeight.w600))),
@@ -58,7 +58,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           minWidth: 219.w,
                           height: 30.h,
                           elevation: 0,
-                          color: Color(0xff009EFF),
+                          color: const Color(0xff009EFF),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -89,7 +89,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 height: 19.h,
               ),
               Flexible(
-                child: Container(
+                child: SizedBox(
                   height: ScreenUtil().screenHeight,
                   child: SingleChildScrollView(
                     padding: EdgeInsets.only(left: 26.w, right: 26.w),
@@ -103,7 +103,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               horizontal: 15.w, vertical: 28.h),
                           decoration: BoxDecoration(
                               border: Border.all(
-                                  color: Color(0xffbbbbbb), width: 1),
+                                  color: const Color(0xffbbbbbb), width: 1),
                               borderRadius: BorderRadius.circular(15.r)),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,7 +111,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               Text(
                                 "Account Balance",
                                 style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         color: Color(0xffBBBBBB),
                                         fontSize: 10,
                                         fontWeight: FontWeight.w500)),
@@ -122,16 +122,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               RichText(
                                 text: TextSpan(
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 20,
                                             fontWeight: FontWeight.w400)),
                                     children: [
-                                      TextSpan(text: "Rp "),
+                                      const TextSpan(text: "Rp "),
                                       TextSpan(
                                           text: "0 ,00",
                                           style: GoogleFonts.manrope(
-                                              textStyle: TextStyle(
+                                              textStyle: const TextStyle(
                                                   color: Color(0xff009EFF),
                                                   fontSize: 20,
                                                   fontWeight:
@@ -142,7 +142,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               Text(
                                 "Charge This Month",
                                 style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         color: Color(0xffBBBBBB),
                                         fontSize: 10,
                                         fontWeight: FontWeight.w500)),
@@ -153,16 +153,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               RichText(
                                 text: TextSpan(
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 20,
                                             fontWeight: FontWeight.w400)),
                                     children: [
-                                      TextSpan(text: "Rp "),
+                                      const TextSpan(text: "Rp "),
                                       TextSpan(
                                           text: "100.000.000,00",
                                           style: GoogleFonts.manrope(
-                                              textStyle: TextStyle(
+                                              textStyle: const TextStyle(
                                                   color: Color(0xff009EFF),
                                                   fontSize: 20,
                                                   fontWeight:
@@ -173,7 +173,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               Text(
                                 "Estimated Balance",
                                 style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         color: Color(0xffBBBBBB),
                                         fontSize: 10,
                                         fontWeight: FontWeight.w500)),
@@ -184,16 +184,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               RichText(
                                 text: TextSpan(
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 20,
                                             fontWeight: FontWeight.w400)),
                                     children: [
-                                      TextSpan(text: "Rp "),
+                                      const TextSpan(text: "Rp "),
                                       TextSpan(
                                           text: "100.000.000,00",
                                           style: GoogleFonts.manrope(
-                                              textStyle: TextStyle(
+                                              textStyle: const TextStyle(
                                                   color: Color(0xff009EFF),
                                                   fontSize: 20,
                                                   fontWeight:
@@ -228,7 +228,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return SimpleShadow(
       opacity: 0.3, // Default: 0.5
       color: Colors.grey, // Default: Black
-      offset: Offset(0, 5), // Default: Offset(2, 2)
+      offset: const Offset(0, 5), // Default: Offset(2, 2)
       sigma: 7, // Default: 2
       child: Container(
         height: 65.h,
@@ -248,7 +248,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 Text(
                   "Top Up",
                   style: GoogleFonts.manrope(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                           color: Color(0xff009EFF),
                           fontSize: 12,
                           fontWeight: FontWeight.w700)),
@@ -259,7 +259,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 Text(
                   "BCA 123456992",
                   style: GoogleFonts.manrope(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                           color: Color(0xffBBBBBB),
                           fontSize: 10,
                           fontWeight: FontWeight.w500)),
@@ -269,7 +269,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             Expanded(child: Container()),
             Text("-Rp 50.000",
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xff232226),
                         fontSize: 12,
                         fontWeight: FontWeight.w700)))

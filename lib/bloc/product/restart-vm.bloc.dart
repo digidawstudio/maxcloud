@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:maxcloud/repository/instances/vm-state.model.dart';
@@ -44,7 +43,7 @@ class RestartVMBloc extends Bloc<RestartVMEvent, RestartVMState> {
         print(response.runtimeType);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code ${response}");
+          print("status code $response");
           if (response.statusCode == 200) {
             print(response);
             emit(LoadedRestartVMState(VMStateModel.fromJson(response.data)));

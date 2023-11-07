@@ -17,7 +17,7 @@ class NotificationScreen extends StatefulWidget {
 class _NotificationScreenStateState extends State<NotificationScreen> {
   NotificationBloc? notificationBloc;
 
-  final storage = new FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   String token = "";
 
@@ -74,7 +74,7 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
           children: <Widget>[
             Text("Notification",
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xff353333),
                         fontSize: 25,
                         fontWeight: FontWeight.w600))),
@@ -130,7 +130,7 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
                   Text(
                     "Mark all as read",
                     style: GoogleFonts.manrope(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             color: Color(0xff009EFF),
                             fontSize: 14,
                             fontWeight: FontWeight.w600)),
@@ -168,7 +168,7 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
       height: 103.h,
       padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 15.h),
       color:
-          notifData?.readAt != null ? Color(0xfff1f1f1f1) : Color(0xffE3F3FD),
+          notifData?.readAt != null ? const Color(0xfff1f1f1f1) : const Color(0xffE3F3FD),
       child: Column(
         children: [
           Row(
@@ -176,7 +176,7 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
               Text(
                 notifData?.title ?? "",
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xff232226),
                         fontSize: 14,
                         fontWeight: FontWeight.w700)),
@@ -185,7 +185,7 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
               Text(
                 notifData?.createdAtHrf ?? "",
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xffBBBBBB),
                         fontSize: 10,
                         fontWeight: FontWeight.w500)),
@@ -196,7 +196,7 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
           Text(
             notifData?.content ?? "",
             style: GoogleFonts.manrope(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                     color: Color(0xffBBBBBB),
                     fontSize: 12,
                     fontWeight: FontWeight.w500)),
@@ -210,11 +210,11 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
     return Material(
       borderRadius: BorderRadius.circular(10.r),
       color: currentActive == 0 && type == "General"
-          ? Color(0xff009EFF)
+          ? const Color(0xff009EFF)
           : currentActive == 1 && type == "Service"
-              ? Color(0xff009EFF)
-              : Color(0xf1f1f1f1),
-      child: Container(
+              ? const Color(0xff009EFF)
+              : const Color(0xf1f1f1f1),
+      child: SizedBox(
         height: 39.h,
         width: 140.w,
         child: Center(
@@ -226,7 +226,7 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
                       ? Colors.white
                       : currentActive == 1 && type == "Service"
                           ? Colors.white
-                          : Color(0xffbbbbbb),
+                          : const Color(0xffbbbbbb),
                   fontSize: 14,
                   fontWeight: FontWeight.w700)),
         )),

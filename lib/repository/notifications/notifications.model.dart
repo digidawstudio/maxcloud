@@ -6,12 +6,12 @@ class NotificationModel {
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -29,19 +29,19 @@ class Data {
     if (json['data'] != null) {
       notifData = <NotifData>[];
       json['data'].forEach((v) {
-        notifData!.add(new NotifData.fromJson(v));
+        notifData!.add(NotifData.fromJson(v));
       });
     }
-    page = json['page'] != null ? new Page.fromJson(json['page']) : null;
+    page = json['page'] != null ? Page.fromJson(json['page']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.notifData != null) {
-      data['data'] = this.notifData!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (notifData != null) {
+      data['data'] = notifData!.map((v) => v.toJson()).toList();
     }
-    if (this.page != null) {
-      data['page'] = this.page!.toJson();
+    if (page != null) {
+      data['page'] = page!.toJson();
     }
     return data;
   }
@@ -79,15 +79,15 @@ class NotifData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['type'] = this.type;
-    data['title'] = this.title;
-    data['content'] = this.content;
-    data['redirect'] = this.redirect;
-    data['created_at'] = this.createdAt;
-    data['created_at_hrf'] = this.createdAtHrf;
-    data['read_at'] = this.readAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['type'] = type;
+    data['title'] = title;
+    data['content'] = content;
+    data['redirect'] = redirect;
+    data['created_at'] = createdAt;
+    data['created_at_hrf'] = createdAtHrf;
+    data['read_at'] = readAt;
     return data;
   }
 }
@@ -115,12 +115,12 @@ class Page {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['total'] = this.total;
-    data['count'] = this.count;
-    data['per_page'] = this.perPage;
-    data['current_page'] = this.currentPage;
-    data['total_pages'] = this.totalPages;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['total'] = total;
+    data['count'] = count;
+    data['per_page'] = perPage;
+    data['current_page'] = currentPage;
+    data['total_pages'] = totalPages;
     return data;
   }
 }

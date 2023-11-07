@@ -1,10 +1,6 @@
-import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:maxcloud/repository/billing/month-summary.model.dart';
-import 'package:maxcloud/repository/billing/payment-method.model.dart';
 import 'package:maxcloud/services/api.services.dart';
 
 abstract class PaymentMethodEvent {}
@@ -47,7 +43,7 @@ class PaymentMethodBloc extends Bloc<PaymentMethodEvent, PaymentMethodState> {
         print(response.runtimeType);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code ${response}");
+          print("status code $response");
           if (response.statusCode == 200) {
             print(response);
             emit(LoadedPaymentMethodState(response.data["data"]));

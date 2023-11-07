@@ -1,8 +1,5 @@
-import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:maxcloud/services/api.services.dart';
 
 import '../../repository/profile/profile.model.dart';
@@ -46,9 +43,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         print(response.runtimeType);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code get profile ${response}");
+          print("status code get profile $response");
           if (response.statusCode == 200) {
-            print("get profile data:  ${response}");
+            print("get profile data:  $response");
             emit(LoadedProfileState(ProfileModel.fromJson(response.data)));
           } else {
             emit(ErrorProfileState(response.data));

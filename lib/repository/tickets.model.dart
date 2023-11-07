@@ -6,12 +6,12 @@ class TicketsModel {
 
   TicketsModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -36,12 +36,10 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
-    }
-    if (this.page != null) {
-      data['page'] = this.page!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['data'] = this.data.map((v) => v.toJson()).toList();
+      if (page != null) {
+      data['page'] = page!.toJson();
     }
     return data;
   }
@@ -85,7 +83,7 @@ class TicketData {
     if (json['members'] != null) {
       members = <Members>[];
       json['members'].forEach((v) {
-        members!.add(new Members.fromJson(v));
+        members!.add(Members.fromJson(v));
       });
     }
     createdAt = json['created_at'];
@@ -93,20 +91,20 @@ class TicketData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['token'] = this.token;
-    data['subject'] = this.subject;
-    data['content'] = this.content;
-    data['service'] = this.service;
-    data['status'] = this.status;
-    data['priority'] = this.priority;
-    data['department'] = this.department;
-    data['conversation_count'] = this.conversationCount;
-    if (this.members != null) {
-      data['members'] = this.members!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['token'] = token;
+    data['subject'] = subject;
+    data['content'] = content;
+    data['service'] = service;
+    data['status'] = status;
+    data['priority'] = priority;
+    data['department'] = department;
+    data['conversation_count'] = conversationCount;
+    if (members != null) {
+      data['members'] = members!.map((v) => v.toJson()).toList();
     }
-    data['created_at'] = this.createdAt;
-    data['created_at_hrm'] = this.createdAtHrm;
+    data['created_at'] = createdAt;
+    data['created_at_hrm'] = createdAtHrm;
     return data;
   }
 }
@@ -125,10 +123,10 @@ class Members {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['is_admin'] = this.isAdmin;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['is_admin'] = isAdmin;
     return data;
   }
 }
@@ -156,12 +154,12 @@ class Page {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['total'] = this.total;
-    data['count'] = this.count;
-    data['per_page'] = this.perPage;
-    data['current_page'] = this.currentPage;
-    data['total_pages'] = this.totalPages;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['total'] = total;
+    data['count'] = count;
+    data['per_page'] = perPage;
+    data['current_page'] = currentPage;
+    data['total_pages'] = totalPages;
     return data;
   }
 }

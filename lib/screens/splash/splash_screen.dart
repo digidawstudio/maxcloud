@@ -22,15 +22,15 @@ class _SplashScreenState extends State<SplashScreen> {
     /**TODO: Change navigation to auth first or if you have alredy created auth function please do check if users have session then push the user into home screen else push the user into auth screen
      *
      */
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
       if(getAccessToken() == "") {
         Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+          context, MaterialPageRoute(builder: (context) => const LoginScreen()));
           return;
       }
 
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => NavbarComponent()));
+          context, MaterialPageRoute(builder: (context) => const NavbarComponent()));
     });
     super.initState();
   }

@@ -6,12 +6,12 @@ class MessageModel {
 
   MessageModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -53,24 +53,24 @@ class Data {
     createdAt = json['created_at'];
     id = json['id'];
     creator =
-        json['creator'] != null ? new Creator.fromJson(json['creator']) : null;
+        json['creator'] != null ? Creator.fromJson(json['creator']) : null;
     attachments = json['attachments'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['content'] = this.content;
-    data['creator_id'] = this.creatorId;
-    data['creator_type'] = this.creatorType;
-    data['is_admin'] = this.isAdmin;
-    data['ticket_id'] = this.ticketId;
-    data['updated_at'] = this.updatedAt;
-    data['created_at'] = this.createdAt;
-    data['id'] = this.id;
-    if (this.creator != null) {
-      data['creator'] = this.creator!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['content'] = content;
+    data['creator_id'] = creatorId;
+    data['creator_type'] = creatorType;
+    data['is_admin'] = isAdmin;
+    data['ticket_id'] = ticketId;
+    data['updated_at'] = updatedAt;
+    data['created_at'] = createdAt;
+    data['id'] = id;
+    if (creator != null) {
+      data['creator'] = creator!.toJson();
     }
-    data['attachments'] = this.attachments;
+    data['attachments'] = attachments;
     return data;
   }
 }
@@ -182,40 +182,40 @@ class Creator {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['firstname'] = this.firstname;
-    data['lastname'] = this.lastname;
-    data['email'] = this.email;
-    data['address'] = this.address;
-    data['email_verified_at'] = this.emailVerifiedAt;
-    data['last_login_at'] = this.lastLoginAt;
-    data['last_login_ip'] = this.lastLoginIp;
-    data['last_login_user_agent'] = this.lastLoginUserAgent;
-    data['login_attempt'] = this.loginAttempt;
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    data['is_registration_completed'] = this.isRegistrationCompleted;
-    data['suspended_at'] = this.suspendedAt;
-    data['vm_limit'] = this.vmLimit;
-    data['phone'] = this.phone;
-    data['current_balance'] = this.currentBalance;
-    data['province_id'] = this.provinceId;
-    data['city_id'] = this.cityId;
-    data['district_id'] = this.districtId;
-    data['social_type'] = this.socialType;
-    data['country_id'] = this.countryId;
-    data['province_custom'] = this.provinceCustom;
-    data['city_custom'] = this.cityCustom;
-    data['minus_at'] = this.minusAt;
-    data['low_balance_notice'] = this.lowBalanceNotice;
-    data['actual_balance'] = this.actualBalance;
-    data['phone_verified_at'] = this.phoneVerifiedAt;
-    data['locked_at'] = this.lockedAt;
-    data['price_percentage'] = this.pricePercentage;
-    data['referral_code'] = this.referralCode;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['firstname'] = firstname;
+    data['lastname'] = lastname;
+    data['email'] = email;
+    data['address'] = address;
+    data['email_verified_at'] = emailVerifiedAt;
+    data['last_login_at'] = lastLoginAt;
+    data['last_login_ip'] = lastLoginIp;
+    data['last_login_user_agent'] = lastLoginUserAgent;
+    data['login_attempt'] = loginAttempt;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    data['is_registration_completed'] = isRegistrationCompleted;
+    data['suspended_at'] = suspendedAt;
+    data['vm_limit'] = vmLimit;
+    data['phone'] = phone;
+    data['current_balance'] = currentBalance;
+    data['province_id'] = provinceId;
+    data['city_id'] = cityId;
+    data['district_id'] = districtId;
+    data['social_type'] = socialType;
+    data['country_id'] = countryId;
+    data['province_custom'] = provinceCustom;
+    data['city_custom'] = cityCustom;
+    data['minus_at'] = minusAt;
+    data['low_balance_notice'] = lowBalanceNotice;
+    data['actual_balance'] = actualBalance;
+    data['phone_verified_at'] = phoneVerifiedAt;
+    data['locked_at'] = lockedAt;
+    data['price_percentage'] = pricePercentage;
+    data['referral_code'] = referralCode;
     return data;
   }
 }

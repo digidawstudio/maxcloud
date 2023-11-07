@@ -1,8 +1,6 @@
-import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:maxcloud/repository/auth/login.model.dart';
 import 'package:maxcloud/repository/auth/otp.model.dart';
 import 'package:maxcloud/repository/auth/register.model.dart';
@@ -85,7 +83,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         print(response.runtimeType);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code ${response}");
+          print("status code $response");
           if (response.statusCode == 200) {
             print(response);
             emit(LoadedAuthState(LoginModel.fromJson(response.data)));
@@ -103,7 +101,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final response = await ApiServices.requestOtp(event.credentials);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code ${response}");
+          print("status code $response");
           if (response.statusCode == 200) {
             print(response);
             emit(OtpReceivedState(OtpModel.fromJson(response.data)));
@@ -152,7 +150,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         print(response.runtimeType);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code ${response}");
+          print("status code $response");
           if (response.statusCode == 200) {
             print(response);
             emit(RegisterSuccessState(RegisterModel.fromJson(response.data)));

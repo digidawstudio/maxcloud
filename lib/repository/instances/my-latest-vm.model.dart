@@ -11,14 +11,14 @@ class LatestVMModel {
     if (json['data'] != null) {
       data = <InstanceData>[];
       json['data'].forEach((v) {
-        data!.add(new InstanceData.fromJson(v));
+        data!.add(InstanceData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }

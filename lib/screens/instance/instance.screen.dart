@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:maxcloud/bloc/auth/auth.bloc.dart';
 import 'package:maxcloud/bloc/product/product.bloc.dart';
-import 'package:maxcloud/screens/instance/instance.create.screen.dart';
 import 'package:maxcloud/screens/instance/instance.detail.screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 class InstanceScreen extends StatefulWidget {
   const InstanceScreen({super.key});
@@ -22,7 +18,7 @@ class InstanceScreen extends StatefulWidget {
 class _InstanceScreenState extends State<InstanceScreen> {
   ProductBloc? productBloc;
 
-  final storage = new FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   @override
   void initState() {
@@ -51,7 +47,7 @@ class _InstanceScreenState extends State<InstanceScreen> {
           children: <Widget>[
             Text("Instances",
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xff353333),
                         fontSize: 25,
                         fontWeight: FontWeight.w600))),
@@ -70,7 +66,7 @@ class _InstanceScreenState extends State<InstanceScreen> {
 
             return SafeArea(
                 child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 25),
               width: ScreenUtil().screenWidth,
               height: ScreenUtil().screenHeight,
               child: Column(
@@ -114,7 +110,7 @@ class _InstanceScreenState extends State<InstanceScreen> {
                       //   ),
                       // ),
                       Flexible(flex: 3, child: Container()),
-                      Spacer(),
+                      const Spacer(),
                       Flexible(
                         flex: 2,
                         child: MaterialButton(
@@ -123,7 +119,7 @@ class _InstanceScreenState extends State<InstanceScreen> {
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
                             side:
-                                BorderSide(width: 1, color: Color(0xffBBBBBB)),
+                                const BorderSide(width: 1, color: Color(0xffBBBBBB)),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           onPressed: () {},
@@ -136,10 +132,10 @@ class _InstanceScreenState extends State<InstanceScreen> {
                                 style: GoogleFonts.manrope(
                                     textStyle: TextStyle(
                                         fontSize: 14.sp,
-                                        color: Color(0xff353333),
+                                        color: const Color(0xff353333),
                                         fontWeight: FontWeight.w400)),
                               ),
-                              SizedBox(width: 30),
+                              const SizedBox(width: 30),
                               SvgPicture.asset('assets/svg/icons/filter.svg',
                                   height: 15.h, fit: BoxFit.scaleDown),
                             ],
@@ -163,10 +159,10 @@ class _InstanceScreenState extends State<InstanceScreen> {
                           ),
                         )
                       : Flexible(
-                          child: Container(
+                          child: SizedBox(
                             height: ScreenUtil().screenHeight,
                             width: ScreenUtil().screenWidth,
-                            child: Center(
+                            child: const Center(
                               child: Text("There is no instances"),
                             ),
                           ),
@@ -179,10 +175,10 @@ class _InstanceScreenState extends State<InstanceScreen> {
           //   return CustomWidget.loader();
           // }
           else if (state is ErrorProductState) {
-            return Container(
+            return SizedBox(
               height: ScreenUtil().screenHeight,
               width: ScreenUtil().screenWidth,
-              child: Center(
+              child: const Center(
                 child: Text(
                   "Error occured, please contact administrator",
                   style: TextStyle(color: Colors.red),

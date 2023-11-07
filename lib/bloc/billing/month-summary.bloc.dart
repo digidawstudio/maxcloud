@@ -1,8 +1,5 @@
-import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:maxcloud/repository/billing/month-summary.model.dart';
 import 'package:maxcloud/services/api.services.dart';
 
@@ -44,7 +41,7 @@ class MonthSummaryBloc extends Bloc<MonthSummaryEvent, MonthSummaryState> {
         print(response.runtimeType);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code ${response}");
+          print("status code $response");
           if (response.statusCode == 200) {
             print(response);
             emit(LoadedMonthSummaryState(

@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maxcloud/screens/billing/history.screen.dart';
-import 'package:maxcloud/screens/instance/instance.create.screen.dart';
-import 'package:maxcloud/screens/instance/instance.detail.screen.dart';
-import 'package:maxcloud/utils/widgets.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../../bloc/billing/payment-method.bloc.dart';
-import '../../bloc/profile/profile.bloc.dart';
 import '../../repository/billing/payment-method.model.dart';
 
 class BillingPaymentScreen extends StatefulWidget {
@@ -57,7 +49,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
           children: <Widget>[
             Text("Billing",
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xff353333),
                         fontSize: 25,
                         fontWeight: FontWeight.w600))),
@@ -67,12 +59,12 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
           GestureDetector(
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => HistoryScreen()));
+                  MaterialPageRoute(builder: (context) => const HistoryScreen()));
             },
             child: SvgPicture.asset('assets/svg/icons/billing-history.svg',
                 height: 33.h, fit: BoxFit.scaleDown),
           ),
-          SizedBox(width: 25)
+          const SizedBox(width: 25)
         ],
         leading: IconButton(
           icon: SvgPicture.asset('assets/svg/icons/ios-back.svg',
@@ -84,7 +76,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
       ),
       body: SafeArea(
           child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
         width: ScreenUtil().screenWidth,
         height: ScreenUtil().screenHeight,
         child: SingleChildScrollView(
@@ -94,21 +86,21 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                 alignment: Alignment.topLeft,
                 child: Text("Choose Payment Method",
                     style: GoogleFonts.manrope(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             color: Color(0xff232226),
                             fontSize: 18,
                             fontWeight: FontWeight.w500))),
               ),
-              SizedBox(height: 25),
+              const SizedBox(height: 25),
               Container(
                 width: double.infinity,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: Color(0xffF1F1F1),
+                  color: const Color(0xffF1F1F1),
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                     width: 1,
-                    color: Color(
+                    color: const Color(
                         0xFFBBBBBB), // Ubah warna border sesuai kebutuhan Anda
                   ),
                 ),
@@ -125,7 +117,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                           elevation: 0,
                           borderRadius: BorderRadius.all(Radius.circular(10.r)),
                           style: GoogleFonts.manrope(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   color: Color(0xff232226),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500)),
@@ -148,20 +140,20 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                           }).toList(),
                         ))),
               ),
-              SizedBox(height: 8),
-              Divider(
+              const SizedBox(height: 8),
+              const Divider(
                 thickness: 1,
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Container(
                 width: double.infinity,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: Color(0xffF1F1F1),
+                  color: const Color(0xffF1F1F1),
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                     width: 1,
-                    color: Color(
+                    color: const Color(
                         0xFFBBBBBB), // Ubah warna border sesuai kebutuhan Anda
                   ),
                 ),
@@ -178,7 +170,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                           elevation: 0,
                           borderRadius: BorderRadius.all(Radius.circular(10.r)),
                           style: GoogleFonts.manrope(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   color: Color(0xff232226),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600)),
@@ -213,7 +205,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                       text: TextSpan(
                           text: "Admin fee ",
                           style: GoogleFonts.manrope(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   color: Color(0xffBBBBBB),
                                   fontSize: 10,
                                   fontWeight: FontWeight.w500)),
@@ -221,7 +213,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                         TextSpan(
                             text: "Rp 2.500",
                             style: GoogleFonts.manrope(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     color: Color(0xff232226),
                                     fontSize: 10,
                                     fontWeight: FontWeight.w500)))
@@ -235,7 +227,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                   minWidth: double.infinity,
                   height: 45,
                   elevation: 0,
-                  color: Color(0xff009EFF),
+                  color: const Color(0xff009EFF),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
@@ -243,7 +235,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                   child: Text(
                     "Confirm Payment",
                     style: GoogleFonts.manrope(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             fontSize: 14,
                             color: Colors.white,
                             fontWeight: FontWeight.w600)),
@@ -259,19 +251,19 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                   children: [
                     Text("Number",
                         style: GoogleFonts.manrope(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 color: Color(0xff232226),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500))),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     TextField(
                         autocorrect: false,
                         // controller: _phoneController,
                         style: GoogleFonts.manrope(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w500)),
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.5, horizontal: 15),
                           isDense: true,
                           suffixIcon: SvgPicture.asset(
@@ -280,7 +272,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                               fit: BoxFit.scaleDown),
                           hintText: '-',
                           hintStyle: GoogleFonts.manrope(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   fontSize: 14,
                                   color: Color(0xffBBBBBB),
                                   fontWeight: FontWeight.w400)),
@@ -300,7 +292,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               AbsorbPointer(
                 absorbing: false,
                 child: Column(
@@ -313,28 +305,28 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                       children: [
                         Text("Amount",
                             style: GoogleFonts.manrope(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     color: Color(0xff232226),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500))),
                         Text("Details",
                             style: GoogleFonts.manrope(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     decoration: TextDecoration.underline,
                                     color: Color(0xff009EFF),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500))),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     TextField(
                         autocorrect: false,
                         // controller: _phoneController,
                         style: GoogleFonts.manrope(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w500)),
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.5, horizontal: 15),
                           isDense: true,
                           suffixIcon: SvgPicture.asset(
@@ -343,7 +335,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                               fit: BoxFit.scaleDown),
                           hintText: 'Rp -',
                           hintStyle: GoogleFonts.manrope(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   fontSize: 14,
                                   color: Color(0xffBBBBBB),
                                   fontWeight: FontWeight.w400)),
@@ -363,18 +355,18 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 25),
+              const SizedBox(height: 25),
               Container(
                 width: 200.w,
                 height: 32.h,
                 decoration: BoxDecoration(
-                  color: Color(0xff02D430),
+                  color: const Color(0xff02D430),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
                   child: Text("Transaction Success!",
                       style: GoogleFonts.manrope(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                               color: Colors.white,
                               fontSize: 12,
                               fontWeight: FontWeight.w600))),

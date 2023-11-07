@@ -1,9 +1,5 @@
-import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
-import 'package:maxcloud/repository/instances/my-latest-vm.model.dart';
-import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
 import 'package:maxcloud/repository/instances/vm-detail.model.dart';
 import 'package:maxcloud/services/api.services.dart';
 
@@ -48,7 +44,7 @@ class VMDetailBloc extends Bloc<VMDetailEvent, VMDetailState> {
         print(response.runtimeType);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code ${response}");
+          print("status code $response");
           if (response.statusCode == 200) {
             print(response);
             emit(LoadedVMDetailState(VMDetailModel.fromJson(response.data)));
