@@ -541,12 +541,13 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                         }
 
                         if (state is LoadedFetchHelpDeskItemsState) {
-                          return SizedBox(
+                          return Container(
+                            
                             height: ScreenUtil().screenHeight,
                             child: ListView.builder(
                               // shrinkWrap: true,
                               padding: EdgeInsets.symmetric(
-                                horizontal: 25.w,
+                                // horizontal: 25.w,
                                 vertical: 15.h,
                               ),
                               itemCount: state.data.data?.data.length,
@@ -616,7 +617,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
       sigma: 7, // Default: 2
       child: Container(
         height: 184.h,
-        margin: EdgeInsets.only(bottom: 25.h),
+        margin: EdgeInsets.only(bottom: 25.h, left: 25.w, right: 25.w),
         padding: EdgeInsets.all(15.w),
         decoration: BoxDecoration(
           color: Colors.white,
