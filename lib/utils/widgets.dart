@@ -5,14 +5,16 @@ import 'package:intl/intl.dart';
 import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
 
 class CustomWidget {
-
-  
-  static Widget loader({double? size, Color? backgroundColor, Color? loaderColor}) {
+  static Widget loader(
+      {double? size, Color? backgroundColor, Color? loaderColor}) {
     return Container(
       height: size != null ? size.h : ScreenUtil().screenHeight,
       width: size != null ? size.w : ScreenUtil().screenWidth,
       color: backgroundColor ?? Colors.grey.withOpacity(0.5),
-      child: Center(child: CircularProgressIndicator(color: loaderColor,)),
+      child: Center(
+          child: CircularProgressIndicator(
+        color: loaderColor ?? Colors.blue,
+      )),
     );
   }
 
@@ -257,10 +259,10 @@ class CustomWidget {
                                         fontWeight: FontWeight.w600))),
                             Text(
                                 "Rp ${NumberFormat.currency(
-                                      locale: 'id',
-                                      symbol: "",
-                                      decimalDigits: 0,
-                                    ).format(data.pricePerHour ?? 0)},00",
+                                  locale: 'id',
+                                  symbol: "",
+                                  decimalDigits: 0,
+                                ).format(data.pricePerHour ?? 0)},00",
                                 // "Rp ${(data.pricePerHour ?? 0).floor()}",
                                 style: GoogleFonts.manrope(
                                     textStyle: TextStyle(
@@ -284,10 +286,10 @@ class CustomWidget {
                                   fontWeight: FontWeight.w600))),
                       Text(
                           "Rp ${NumberFormat.currency(
-                                locale: 'id',
-                                symbol: "",
-                                decimalDigits: 0,
-                              ).format(data.estimatedMonthlyCost ?? 0)},00",
+                            locale: 'id',
+                            symbol: "",
+                            decimalDigits: 0,
+                          ).format(data.estimatedMonthlyCost ?? 0)},00",
                           // "Rp ${(data.estimatedMonthlyCost ?? 0).floor()}",
                           style: GoogleFonts.manrope(
                               textStyle: TextStyle(

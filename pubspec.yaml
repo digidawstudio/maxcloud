@@ -72,6 +72,8 @@ dependencies:
   # pusher_client: ^2.0.0
   laravel_flutter_pusher:
   socket_io_client: 
+  image_picker:
+  easy_image_viewer:
 
 dev_dependencies:
   flutter_test:

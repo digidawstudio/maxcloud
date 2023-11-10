@@ -5,6 +5,8 @@ PODS:
     - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
+  - image_picker_ios (0.0.1):
+    - Flutter
   - laravel_flutter_pusher (0.0.4):
     - Flutter
     - PusherSwift (~> 7.2)
@@ -22,6 +24,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - laravel_flutter_pusher (from `.symlinks/plugins/laravel_flutter_pusher/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
 
@@ -39,6 +42,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   laravel_flutter_pusher:
     :path: ".symlinks/plugins/laravel_flutter_pusher/ios"
   path_provider_foundation:
@@ -49,6 +54,7 @@ SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
+  image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
   laravel_flutter_pusher: ff759f90a32f9b3cb22ce9ad2afeb0024975725f
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   PusherSwift: a5369a01e8a9106b4897e9186265af1426726062

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:maxcloud/repository/profile/updateprofile.model.dart';
 import 'package:maxcloud/utils/constants.dart';
 import 'package:maxcloud/utils/endpoints.dart';
@@ -108,8 +109,7 @@ class ApiServices {
 
   static Future<dynamic> getVMDetail(String token, String vmUuid) async {
     try {
-      final response = await dio.get(
-          '${Endpoints.getVMDetail}/$vmUuid/detail',
+      final response = await dio.get('${Endpoints.getVMDetail}/$vmUuid/detail',
           options: Options(headers: {
             "x-mobile-token": "=U-wQEy1xn0uBgcy",
             'Authorization': 'Bearer $token'
@@ -125,8 +125,7 @@ class ApiServices {
   static Future<dynamic> getRRDData(
       String token, String vmUuid, String period) async {
     try {
-      final response = await dio.get(
-          '${Endpoints.getVMDetail}/$vmUuid/rrd',
+      final response = await dio.get('${Endpoints.getVMDetail}/$vmUuid/rrd',
           queryParameters: {"periode": period},
           options: Options(headers: {
             "x-mobile-token": "=U-wQEy1xn0uBgcy",
@@ -266,8 +265,7 @@ class ApiServices {
 
   static Future<dynamic> startVMState(String accessToken, String vmUuid) async {
     try {
-      final response = await dio.get(
-          '${Endpoints.getVMDetail}/$vmUuid/start',
+      final response = await dio.get('${Endpoints.getVMDetail}/$vmUuid/start',
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
             "x-mobile-token": "=U-wQEy1xn0uBgcy"
@@ -283,8 +281,7 @@ class ApiServices {
   static Future<dynamic> restartVMState(
       String accessToken, String vmUuid) async {
     try {
-      final response = await dio.get(
-          '${Endpoints.getVMDetail}/$vmUuid/restart',
+      final response = await dio.get('${Endpoints.getVMDetail}/$vmUuid/restart',
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
             "x-mobile-token": "=U-wQEy1xn0uBgcy"
@@ -300,8 +297,7 @@ class ApiServices {
   static Future<dynamic> shutdownVMState(
       String accessToken, String vmUuid) async {
     try {
-      final response = await dio.get(
-          '${Endpoints.getVMDetail}/$vmUuid/restart',
+      final response = await dio.get('${Endpoints.getVMDetail}/$vmUuid/restart',
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
             "x-mobile-token": "=U-wQEy1xn0uBgcy"
@@ -351,18 +347,59 @@ class ApiServices {
 
   static Future<dynamic> sendMessage(
       String accessToken, String convToken, String message,
-      {List<String> attachments = const []}) async {
+      {List<XFile> attachments = const []}) async {
     try {
-      Map<String, dynamic> data = {"content": message};
+      FormData data = FormData.fromMap({"content": message});
 
       for (int i = 0; i < attachments.length; i++) {
-        data["attachments[$i]"] = attachments[i];
+        data.files.add(MapEntry("attachments[$i]", await MultipartFile.fromFile(attachments[i].path)));
+        // data["attachments[$i]"] = attachments[i];
       }
 
       print(data);
 
       final response = await dio.post(
           "${Endpoints.ticketConversation}/$convToken/reply",
+          data: data,
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> createNewTicket(
+      String accessToken, String message, String subject, String department,
+      {List<XFile> attachments = const [],
+      String? serviceType,
+      String? serviceId}) async {
+    try {
+      FormData data = FormData.fromMap({
+        "content": message,
+        "subject": subject,
+        "department": department,
+      });
+
+      if (serviceType != null) {
+        data.fields.add(MapEntry("service_type", serviceType));
+      }
+
+      if (serviceId != null) {
+        data.fields.add(MapEntry("service_id", serviceId));
+      }
+
+      for (int i = 0; i < attachments.length; i++) {
+        data.files.add(MapEntry("attachments[$i]", await MultipartFile.fromFile(attachments[i].path)));
+      }
+
+      print(data);
+
+      final response = await dio.post(Endpoints.createTicket,
           data: data,
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",

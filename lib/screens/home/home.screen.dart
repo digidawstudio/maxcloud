@@ -611,8 +611,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Expanded(child: Container()),
             CustomWidget.Chip(
-              width: 46,
               height: 16,
+              width: 60,
               text: percentage ?? "",
               color: const Color(0xffE7F6FF),
             )
