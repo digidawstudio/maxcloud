@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:maxcloud/bloc/auth/auth.bloc.dart';
 import 'package:maxcloud/bloc/product/product.bloc.dart';
-import 'package:maxcloud/screens/instance/instance.create.screen.dart';
 import 'package:maxcloud/screens/instance/instance.detail.screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 class InstanceScreen extends StatefulWidget {
   const InstanceScreen({super.key});
@@ -22,7 +18,7 @@ class InstanceScreen extends StatefulWidget {
 class _InstanceScreenState extends State<InstanceScreen> {
   ProductBloc? productBloc;
 
-  final storage = new FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   @override
   void initState() {
@@ -51,7 +47,7 @@ class _InstanceScreenState extends State<InstanceScreen> {
           children: <Widget>[
             Text("Instances",
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xff353333),
                         fontSize: 25,
                         fontWeight: FontWeight.w600))),
@@ -70,7 +66,7 @@ class _InstanceScreenState extends State<InstanceScreen> {
 
             return SafeArea(
                 child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 25),
               width: ScreenUtil().screenWidth,
               height: ScreenUtil().screenHeight,
               child: SingleChildScrollView(
@@ -181,10 +177,10 @@ class _InstanceScreenState extends State<InstanceScreen> {
           //   return CustomWidget.loader();
           // }
           else if (state is ErrorProductState) {
-            return Container(
+            return SizedBox(
               height: ScreenUtil().screenHeight,
               width: ScreenUtil().screenWidth,
-              child: Center(
+              child: const Center(
                 child: Text(
                   "Error occured, please contact administrator",
                   style: TextStyle(color: Colors.red),

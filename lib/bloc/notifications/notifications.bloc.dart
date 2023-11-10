@@ -1,9 +1,5 @@
-import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:maxcloud/repository/billing/month-summary.model.dart';
 import 'package:maxcloud/repository/notifications/notifications.model.dart';
 import 'package:maxcloud/services/api.services.dart';
 
@@ -47,7 +43,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         print(response.runtimeType);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code ${response}");
+          print("status code $response");
           if (response.statusCode == 200) {
             print(response.data);
             emit(LoadedNotificationState(

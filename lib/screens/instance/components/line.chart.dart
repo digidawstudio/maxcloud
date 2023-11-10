@@ -39,7 +39,7 @@ class CustomLineChart {
           interval: 2,
           majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
-          labelFormat: '{value}' + labelDenom(title),
+          labelFormat: '{value}${labelDenom(title)}',
           axisLine: const AxisLine(width: 1),
           majorTickLines: const MajorTickLines(width: 1),
           majorGridLines: const MajorGridLines(width: 0)),
@@ -51,8 +51,8 @@ class CustomLineChart {
   static List<ChartSeries<ChartData, DateTime>> _getDefaultLineSeries(
       List<ChartData>? chartData) {
     final List<Color> color = <Color>[];
-    color.add(Color(0x59d8f3ff));
-    color.add(Color(0xff45a7f5));
+    color.add(const Color(0x59d8f3ff));
+    color.add(const Color(0xff45a7f5));
 
     final List<double> stops = <double>[];
     stops.add(0.0);
@@ -66,7 +66,7 @@ class CustomLineChart {
 
     return <ChartSeries<ChartData, DateTime>>[
       AreaSeries<ChartData, DateTime>(
-          borderColor: Color(0xFF009EFF),
+          borderColor: const Color(0xFF009EFF),
           borderWidth: 1.2,
           gradient: gradientColors,
           animationDuration: 2500,

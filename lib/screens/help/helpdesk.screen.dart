@@ -1,8 +1,13 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maxcloud/bloc/helpdesk/helpdesk.bloc.dart';
+import 'package:maxcloud/repository/tickets.model.dart';
+import 'package:maxcloud/screens/auth/login-screen.dart';
 import 'package:maxcloud/screens/help/helpdesk-detail.screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
 import 'package:simple_shadow/simple_shadow.dart';
@@ -15,6 +20,20 @@ class HelpDeskScreen extends StatefulWidget {
 }
 
 class _HelpDeskScreenState extends State<HelpDeskScreen> {
+  HelpDeskBloc helpdeskBloc = HelpDeskBloc();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  TextEditingController deptController = TextEditingController();
+  TextEditingController serviceController = TextEditingController();
+
+  FlutterSecureStorage storage = const FlutterSecureStorage();
+
+  List<String> dept = ["Billing", "Support"];
+
+  List<String> services = ["Virtual Machines"];
+
+  int selectedDept = 0;
+  int selectedService = 0;
+
   List defaultState = [
     "test",
     "test",
@@ -33,6 +52,26 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
   bool isSavedPressed = false;
 
   @override
+  void initState() {
+    storage.read(key: "accessToken").then((token) {
+      helpdeskBloc = BlocProvider.of<HelpDeskBloc>(context);
+
+      if (token != null) {
+        helpdeskBloc.add(FetchHelpDeskItemsEvent(token, 1));
+      } else {
+        Navigator.popUntil(context, (route) => route.isFirst);
+      }
+    });
+
+    setState(() {
+      deptController.text = dept[selectedDept];
+      serviceController.text = services[selectedService];
+    });
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -45,7 +84,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
           children: <Widget>[
             Text(isSavedPressed ? "Saved" : "Help Desk",
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xff353333),
                         fontSize: 25,
                         fontWeight: FontWeight.w600))),
@@ -84,11 +123,190 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                           minWidth: 171.w,
                           height: 30.h,
                           elevation: 0,
-                          color: Color(0xff009EFF),
+                          color: const Color(0xff009EFF),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                enableDrag: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) {
+                                  return Container(
+                                    height: 500.h,
+                                    padding: EdgeInsets.all(25.w),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                        color: Colors.white),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text("Enter Subject"),
+                                        SizedBox(
+                                          height: 9.h,
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                              hintText: "Free Delivery",
+                                              border: OutlineInputBorder(
+                                                  borderSide: const BorderSide(
+                                                      color: Colors.black),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.r))),
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        Flexible(
+                                          child: SizedBox(
+                                            height: 90.h,
+                                            child: Row(
+                                              children: [
+                                                Flexible(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      const Text("Select Department"),
+                                                      SizedBox(
+                                                        height: 9.h,
+                                                      ),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          showModalBottomSheet(
+                                                              context: context,
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              builder:
+                                                                  (currentContext) {
+                                                                return selector(
+                                                                    currentContext,
+                                                                    true,
+                                                                    dept);
+                                                              });
+                                                        },
+                                                        child: TextFormField(
+                                                          controller:
+                                                              deptController,
+                                                          enabled: false,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            hintText: "Billing",
+                                                            border:
+                                                                OutlineInputBorder(
+                                                              borderSide: const BorderSide(
+                                                                  color: Colors
+                                                                      .black),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.r),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 20.w,
+                                                ),
+                                                Flexible(
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      showModalBottomSheet(
+                                                          context: context,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          builder:
+                                                              (currentContext) {
+                                                            return selector(
+                                                                currentContext,
+                                                                false,
+                                                                services);
+                                                          });
+                                                    },
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        const Text("Select Service"),
+                                                        SizedBox(
+                                                          height: 9.h,
+                                                        ),
+                                                        TextFormField(
+                                                          enabled: false,
+                                                          controller:
+                                                              serviceController,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            hintText: "Billing",
+                                                            border:
+                                                                OutlineInputBorder(
+                                                              borderSide: const BorderSide(
+                                                                  color: Colors
+                                                                      .black),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.r),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        const Text("Message"),
+                                        SizedBox(
+                                          height: 9.h,
+                                        ),
+                                        Flexible(
+                                          child: SizedBox(
+                                            height: 160.h,
+                                            child: TextFormField(
+                                              maxLines: 20,
+                                              decoration: InputDecoration(
+                                                  hintText: "Type Reply",
+                                                  border: OutlineInputBorder(
+                                                      borderSide: const BorderSide(
+                                                          color: Colors.black),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.r))),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Container(),
+                                            ),
+                                            ElevatedButton(
+                                                onPressed: () {},
+                                                child: const Text("Send"))
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                });
+                          },
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -108,7 +326,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                           ),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Flexible(
                         flex: 2,
                         child: MaterialButton(
@@ -117,7 +335,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
                             side:
-                                BorderSide(width: 1, color: Color(0xffBBBBBB)),
+                                const BorderSide(width: 1, color: Color(0xffBBBBBB)),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           onPressed: () {},
@@ -130,10 +348,10 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                 style: GoogleFonts.manrope(
                                     textStyle: TextStyle(
                                         fontSize: 14.sp,
-                                        color: Color(0xff353333),
+                                        color: const Color(0xff353333),
                                         fontWeight: FontWeight.w400)),
                               ),
-                              SizedBox(width: 30),
+                              const SizedBox(width: 30),
                               SvgPicture.asset('assets/svg/icons/filter.svg',
                                   height: 15.h, fit: BoxFit.scaleDown),
                             ],
@@ -143,24 +361,54 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                     ],
                   )),
               Flexible(
-                child: Container(
-                  height: ScreenUtil().screenHeight,
-                  child: ListView.builder(
-                    // shrinkWrap: true,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 25.w,
-                      vertical: 15.h,
-                    ),
-                    itemCount: isSavedPressed
-                        ? savedState.length
-                        : defaultState.length,
-                    itemBuilder: (context, i) => GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HelpDeskDetailScreen()));
-                      },
-                      child: helpdeskItems(),
-                    ),
-                  ),
+                child: BlocBuilder<HelpDeskBloc, FetchHelpDeskItemsState>(
+                  builder: (context, state) {
+                    if (state is ErrorFetchHelpDeskState) {
+                      print("kudaniil haml");
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()),
+                            (route) => false);
+                      });
+                    }
+
+                    if (state is LoadingFetchHelpDeskItemsState) {
+                      return CustomWidget.loader();
+                    }
+
+                    if (state is LoadedFetchHelpDeskItemsState) {
+                      return SizedBox(
+                        height: ScreenUtil().screenHeight,
+                        child: ListView.builder(
+                          // shrinkWrap: true,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 25.w,
+                            vertical: 15.h,
+                          ),
+                          itemCount: isSavedPressed
+                              ? savedState.length
+                              : state.data.data?.data.length,
+                          itemBuilder: (context, i) => GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          HelpDeskDetailScreen(
+                                              ticket:
+                                                  state.data.data?.data[i] ??
+                                                      TicketData())));
+                            },
+                            child: helpdeskItems(state.data.data?.data[i]),
+                          ),
+                        ),
+                      );
+                    }
+
+                    return Container();
+                  },
                 ),
               ),
             ],
@@ -170,11 +418,38 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
     );
   }
 
-  Widget helpdeskItems() {
+  Widget selector(
+      BuildContext currentContext, bool isDept, List<String> items) {
+    return Container(
+      height: 200.h,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          10.r,
+        ),
+        color: Colors.white,
+      ),
+      child: CupertinoPicker(
+        itemExtent: 32.0,
+        onSelectedItemChanged: (item) {
+          setState(() {
+            if(isDept) {
+              deptController.text = dept[item];
+            } else {
+              serviceController.text = services[item];
+            }
+          });
+        },
+        useMagnifier: true,
+        children: items.map((e) => Text(e)).toList(),
+      ),
+    );
+  }
+
+  Widget helpdeskItems(TicketData? ticket) {
     return SimpleShadow(
       opacity: 0.3, // Default: 0.5
       color: Colors.grey, // Default: Black
-      offset: Offset(0, 5), // Default: Offset(2, 2)
+      offset: const Offset(0, 5), // Default: Offset(2, 2)
       sigma: 7, // Default: 2
       child: Container(
         height: 184.h,
@@ -194,18 +469,18 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Free Delivery",
+                      ticket?.subject ?? "",
                       style: GoogleFonts.manrope(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                               color: Color(0xff232226),
                               fontSize: 16,
                               fontWeight: FontWeight.w600)),
                     ),
                     SizedBox(height: 2.h),
                     Text(
-                      "19 September 2023",
+                      ticket?.createdAt ?? "",
                       style: GoogleFonts.manrope(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                               color: Color(0xffBBBBBB),
                               fontSize: 10,
                               fontWeight: FontWeight.w500)),
@@ -213,7 +488,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                   ],
                 ),
                 Expanded(child: Container()),
-                Container(
+                SizedBox(
                   width: 30.w,
                   child: Stack(
                     children: [
@@ -244,9 +519,9 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
               height: 10.h,
             ),
             Text(
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.",
+              ticket?.content ?? "",
               style: GoogleFonts.manrope(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                       color: Color(0xffBBBBBB),
                       fontSize: 12,
                       fontWeight: FontWeight.w500)),
@@ -263,7 +538,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                 Text(
                   "4",
                   style: GoogleFonts.manrope(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                           color: Color(0xff232226),
                           fontSize: 12,
                           fontWeight: FontWeight.w500)),
@@ -271,32 +546,32 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                 Expanded(child: Container()),
                 Flexible(
                     child: CustomWidget.Chip(
-                        text: "Open",
+                        text: ticket?.status ?? "",
                         width: 48,
                         height: 14,
-                        color: Color(0xffE9FCE5),
+                        color: const Color(0xffE9FCE5),
                         radius: 5.r,
                         fontSize: 8,
                         fontWeight: FontWeight.w500,
-                        textColor: Color(0xff02D430))),
+                        textColor: const Color(0xff02D430))),
                 SizedBox(
                   width: 10.w,
                 ),
                 Flexible(
                     child: CustomWidget.Chip(
-                        text: "Support",
+                        text: ticket?.department ?? "",
                         width: 48,
                         height: 14,
-                        color: Color(0xffAABDFF),
+                        color: const Color(0xffAABDFF),
                         radius: 5.r,
                         fontSize: 8,
                         fontWeight: FontWeight.w500,
-                        textColor: Color(0xff18369E))),
+                        textColor: const Color(0xff18369E))),
                 SizedBox(
                   width: 10.w,
                 ),
                 CustomWidget.Chip(
-                  text: "Virtual Machine",
+                  text: ticket?.service ?? "N/A",
                   width: 70,
                   height: 14,
                   fontSize: 8,
@@ -304,7 +579,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                   radius: 5.r,
                   useBorder: true,
                   fontWeight: FontWeight.w500,
-                  textColor: Color(0xff232226),
+                  textColor: const Color(0xff232226),
                 ),
               ],
             ),

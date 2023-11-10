@@ -58,7 +58,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           children: <Widget>[
             Text("Payment History",
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xff353333),
                         fontSize: 25,
                         fontWeight: FontWeight.w600))),
@@ -122,7 +122,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 height: 30.h,
               ),
               Flexible(
-                child: Container(
+                child: SizedBox(
                   height: ScreenUtil().screenHeight,
                   child: SingleChildScrollView(
                     padding: EdgeInsets.only(left: 26.w, right: 26.w),
@@ -297,7 +297,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return SimpleShadow(
       opacity: 0.3, // Default: 0.5
       color: Colors.grey, // Default: Black
-      offset: Offset(0, 5), // Default: Offset(2, 2)
+      offset: const Offset(0, 5), // Default: Offset(2, 2)
       sigma: 7, // Default: 2
       child: Container(
         height: 65.h,
@@ -317,7 +317,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 Text(
                   depositData?.description ?? "",
                   style: GoogleFonts.manrope(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                           color: Color(0xff009EFF),
                           fontSize: 12,
                           fontWeight: FontWeight.w700)),
@@ -328,7 +328,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 Text(
                   depositData?.method ?? "",
                   style: GoogleFonts.manrope(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                           color: Color(0xffBBBBBB),
                           fontSize: 10,
                           fontWeight: FontWeight.w500)),
@@ -343,7 +343,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   decimalDigits: 0,
                 ).format(depositData?.amount ?? 0),
                 style: GoogleFonts.manrope(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Color(0xff232226),
                         fontSize: 12,
                         fontWeight: FontWeight.w700)))

@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +10,6 @@ import 'package:maxcloud/bloc/profile/profile.bloc.dart';
 import 'package:maxcloud/bloc/user/user.bloc.dart';
 import 'package:maxcloud/repository/profile/updateprofile.model.dart';
 import 'package:maxcloud/services/api.services.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -206,7 +204,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Text(
               "Profile",
               style: GoogleFonts.manrope(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                     color: Color(0xff353333),
                     fontSize: 25,
                     fontWeight: FontWeight.w600),
@@ -767,26 +765,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Text("Current Password",
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                     autocorrect: false,
                                     keyboardType: TextInputType.emailAddress,
                                     controller: currentPasswordController,
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400)),
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 10.5, horizontal: 15),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText: 'Masukkan password lama anda',
                                       hintStyle: GoogleFonts.manrope(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                               fontSize: 14,
                                               color: Color(0xffBBBBBB),
                                               fontWeight: FontWeight.w400)),
@@ -805,33 +804,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onEditingComplete: () {}),
                               ],
                             ),
-                            SizedBox(height: 15),
+                            const SizedBox(height: 15),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("New Password",
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                     autocorrect: false,
                                     keyboardType: TextInputType.emailAddress,
                                     controller: newPasswordController,
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400)),
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 10.5, horizontal: 15),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText: 'Masukkan password baru anda',
                                       hintStyle: GoogleFonts.manrope(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                               fontSize: 14,
                                               color: Color(0xffBBBBBB),
                                               fontWeight: FontWeight.w400)),
@@ -850,34 +850,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onEditingComplete: () {}),
                               ],
                             ),
-                            SizedBox(height: 15),
+                            const SizedBox(height: 15),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Password Confirmation",
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500))),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 TextField(
                                     autocorrect: false,
                                     keyboardType: TextInputType.emailAddress,
                                     controller: rePasswordController,
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400)),
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 10.5, horizontal: 15),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText:
                                           'Masukkan konfirmasi password baru anda',
                                       hintStyle: GoogleFonts.manrope(
-                                          textStyle: TextStyle(
+                                          textStyle: const TextStyle(
                                               fontSize: 14,
                                               color: Color(0xffBBBBBB),
                                               fontWeight: FontWeight.w400)),
@@ -896,7 +897,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onEditingComplete: () {}),
                               ],
                             ),
-                            SizedBox(height: 30),
+                            const SizedBox(height: 30),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
@@ -904,7 +905,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 minWidth: double.infinity,
                                 height: 45,
                                 elevation: 0,
-                                color: Color(0xff009EFF),
+                                color: const Color(0xff009EFF),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),

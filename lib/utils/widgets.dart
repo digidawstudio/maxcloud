@@ -5,12 +5,16 @@ import 'package:intl/intl.dart';
 import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
 
 class CustomWidget {
-  static Widget loader() {
+  static Widget loader(
+      {double? size, Color? backgroundColor, Color? loaderColor}) {
     return Container(
-      height: ScreenUtil().screenHeight,
-      width: ScreenUtil().screenWidth,
-      color: Colors.grey.withOpacity(0.5),
-      child: Center(child: CircularProgressIndicator()),
+      height: size != null ? size.h : ScreenUtil().screenHeight,
+      width: size != null ? size.w : ScreenUtil().screenWidth,
+      color: backgroundColor ?? Colors.grey.withOpacity(0.5),
+      child: Center(
+          child: CircularProgressIndicator(
+        color: loaderColor,
+      )),
     );
   }
 
@@ -32,14 +36,14 @@ class CustomWidget {
         borderRadius: BorderRadius.circular(radius.r),
         border: !useBorder
             ? null
-            : Border.all(color: Color(0xffBBBBBB), width: 0.5),
+            : Border.all(color: const Color(0xffBBBBBB), width: 0.5),
       ),
       child: Center(
         child: Text(
           text ?? "",
           style: TextStyle(
               fontSize: fontSize?.sp ?? 10.sp,
-              color: textColor ?? Color(0xff232226),
+              color: textColor ?? const Color(0xff232226),
               fontWeight: fontWeight ?? FontWeight.w600),
           maxLines: 1,
         ),
@@ -90,7 +94,7 @@ class CustomWidget {
                             data!.tier!,
                             style: GoogleFonts.manrope(
                                 textStyle: TextStyle(
-                                    color: Color(0xffBBBBBB),
+                                    color: const Color(0xffBBBBBB),
                                     fontSize: 8.sp,
                                     fontWeight: FontWeight.w600)),
                           ),
@@ -101,7 +105,7 @@ class CustomWidget {
                                     data.owner ?? "",
                                     style: GoogleFonts.manrope(
                                         textStyle: TextStyle(
-                                            color: Color(0xff009EFF),
+                                            color: const Color(0xff009EFF),
                                             fontSize: 12.sp,
                                             fontWeight: FontWeight.w600)),
                                   ),
@@ -111,7 +115,7 @@ class CustomWidget {
                                     data.hostname ?? "",
                                     style: GoogleFonts.manrope(
                                         textStyle: TextStyle(
-                                            color: Color(0xff009EFF),
+                                            color: const Color(0xff009EFF),
                                             fontSize: 12.sp,
                                             fontWeight: FontWeight.w600)),
                                   ),
@@ -121,7 +125,7 @@ class CustomWidget {
                     ),
                   ),
                   // Spacer(),
-                  VerticalDivider(
+                  const VerticalDivider(
                     thickness: 0.5,
                     color: Color(0xffbbbbbb),
                   ),
@@ -137,7 +141,7 @@ class CustomWidget {
                             "IP Address",
                             style: GoogleFonts.manrope(
                                 textStyle: TextStyle(
-                                    color: Color(0xffBBBBBB),
+                                    color: const Color(0xffBBBBBB),
                                     fontSize: 8.sp,
                                     fontWeight: FontWeight.w600)),
                           ),
@@ -149,7 +153,7 @@ class CustomWidget {
                               data.ipAddress!,
                               style: GoogleFonts.manrope(
                                   textStyle: TextStyle(
-                                      color: Color(0xff009EFF),
+                                      color: const Color(0xff009EFF),
                                       fontSize: 12.sp,
                                       fontWeight: FontWeight.w600)),
                             ),
@@ -161,7 +165,7 @@ class CustomWidget {
                 ],
               ),
             ),
-            Divider(
+            const Divider(
               color: Color(0xffbbbbbb),
               thickness: 0.5,
             ),
@@ -176,7 +180,7 @@ class CustomWidget {
                             Text("Status",
                                 style: GoogleFonts.manrope(
                                     textStyle: TextStyle(
-                                        color: Color(0xffBBBBBB),
+                                        color: const Color(0xffBBBBBB),
                                         fontSize: 10.sp,
                                         fontWeight: FontWeight.w600))),
                             Text(data.status ?? "",
@@ -189,23 +193,23 @@ class CustomWidget {
                                         fontWeight: FontWeight.w600))),
                           ],
                         )
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                   data.status != null
                       ? Expanded(child: Container())
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Location",
                           style: GoogleFonts.manrope(
                               textStyle: TextStyle(
-                                  color: Color(0xffBBBBBB),
+                                  color: const Color(0xffBBBBBB),
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600))),
                       Text(data.location!,
                           style: GoogleFonts.manrope(
                               textStyle: TextStyle(
-                                  color: Color(0xff232226),
+                                  color: const Color(0xff232226),
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w600))),
                     ],
@@ -217,7 +221,7 @@ class CustomWidget {
                       Text("OS",
                           style: GoogleFonts.manrope(
                               textStyle: TextStyle(
-                                  color: Color(0xffBBBBBB),
+                                  color: const Color(0xffBBBBBB),
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600))),
                       SizedBox(
@@ -237,7 +241,7 @@ class CustomWidget {
                   ),
                   data.status == null
                       ? Expanded(child: Container())
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                 ],
               ),
             ),
@@ -252,57 +256,53 @@ class CustomWidget {
                             Text("Price Per Hour",
                                 style: GoogleFonts.manrope(
                                     textStyle: TextStyle(
-                                        color: Color(0xffBBBBBB),
+                                        color: const Color(0xffBBBBBB),
                                         fontSize: 10.sp,
                                         fontWeight: FontWeight.w600))),
                             Text(
-                                "Rp " +
-                                    NumberFormat.currency(
-                                      locale: 'id',
-                                      symbol: "",
-                                      decimalDigits: 0,
-                                    ).format(data.pricePerHour ?? 0) +
-                                    ",00",
+                                "Rp ${NumberFormat.currency(
+                                  locale: 'id',
+                                  symbol: "",
+                                  decimalDigits: 0,
+                                ).format(data.pricePerHour ?? 0)},00",
                                 // "Rp ${(data.pricePerHour ?? 0).floor()}",
                                 style: GoogleFonts.manrope(
                                     textStyle: TextStyle(
-                                        color: Color(0xff232226),
+                                        color: const Color(0xff232226),
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w600))),
                           ],
                         )
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                   data.pricePerHour != null
                       ? Expanded(child: Container())
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Current Cost",
                           style: GoogleFonts.manrope(
                               textStyle: TextStyle(
-                                  color: Color(0xffBBBBBB),
+                                  color: const Color(0xffBBBBBB),
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w600))),
                       Text(
-                          "Rp " +
-                              NumberFormat.currency(
-                                locale: 'id',
-                                symbol: "",
-                                decimalDigits: 0,
-                              ).format(data.estimatedMonthlyCost ?? 0) +
-                              ",00",
+                          "Rp ${NumberFormat.currency(
+                            locale: 'id',
+                            symbol: "",
+                            decimalDigits: 0,
+                          ).format(data.estimatedMonthlyCost ?? 0)},00",
                           // "Rp ${(data.estimatedMonthlyCost ?? 0).floor()}",
                           style: GoogleFonts.manrope(
                               textStyle: TextStyle(
-                                  color: Color(0xff232226),
+                                  color: const Color(0xff232226),
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w600))),
                     ],
                   ),
                   (data.createdAt != null && data.status == null)
                       ? Expanded(child: Container())
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                   (data.createdAt != null && data.status == null)
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -310,18 +310,18 @@ class CustomWidget {
                             Text("Created At",
                                 style: GoogleFonts.manrope(
                                     textStyle: TextStyle(
-                                        color: Color(0xffBBBBBB),
+                                        color: const Color(0xffBBBBBB),
                                         fontSize: 10.sp,
                                         fontWeight: FontWeight.w600))),
                             Text(data.createdAt ?? "",
                                 style: GoogleFonts.manrope(
                                     textStyle: TextStyle(
-                                        color: Color(0xff232226),
+                                        color: const Color(0xff232226),
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w600))),
                           ],
                         )
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                   Expanded(child: Container()),
                   SizedBox(
                     width: 19.w,

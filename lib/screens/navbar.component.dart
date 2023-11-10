@@ -19,11 +19,11 @@ class NavbarComponent extends StatefulWidget {
 class _NavbarComponentState extends State<NavbarComponent> {
   int currentIndex = 0;
   List<Widget> body = [
-    HomeScreen(),
-    InstanceScreen(),
-    BillingScreen(),
-    HelpDeskScreen(),
-    ProfileScreen(),
+    const HomeScreen(),
+    const InstanceScreen(),
+    const BillingScreen(),
+    const HelpDeskScreen(),
+    const ProfileScreen(),
   ];
 
   @override
@@ -33,7 +33,7 @@ class _NavbarComponentState extends State<NavbarComponent> {
       child: Scaffold(
         bottomNavigationBar: CupertinoTabBar(
           height: 70.h,
-          backgroundColor: Color(0xff009EFF),
+          backgroundColor: const Color(0xff009EFF),
           items: [
             BottomNavigationBarItem(
                 icon: SvgPicture.asset(

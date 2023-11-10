@@ -66,6 +66,13 @@ dependencies:
   flutter_secure_storage: ^8.1.0
   skeletons:
   qr_flutter:
+  web_socket_channel:
+  # pusher_channels_flutter: ^2.2.0
+  codebase_echo: ^1.0.1
+  # flutter_pusher_client:
+  # pusher_client: ^2.0.0
+  laravel_flutter_pusher:
+  socket_io_client:
 
 dev_dependencies:
   flutter_test:

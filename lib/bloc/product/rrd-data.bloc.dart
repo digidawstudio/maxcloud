@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:maxcloud/services/api.services.dart';
@@ -46,7 +45,7 @@ class RRDDataBloc extends Bloc<RRDDataEvent, RRDDataState> {
         print(response.runtimeType);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code ${response}");
+          print("status code $response");
           if (response.statusCode == 200) {
             print(response);
             emit(LoadedRRDDataState(RRDModel.fromJson(response.data)));

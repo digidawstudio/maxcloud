@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:maxcloud/repository/auth/login.model.dart';
 import 'package:maxcloud/screens/auth/login-screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
 
 import '../../bloc/auth/auth.bloc.dart';
-import 'otp-scren.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -44,7 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: <Widget>[
               Text("Daftar",
                   style: GoogleFonts.manrope(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                           color: Color(0xff353333),
                           fontSize: 30,
                           fontWeight: FontWeight.w600))),
@@ -63,7 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             if (state is RegisterSuccessState) {
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                    MaterialPageRoute(builder: (context) => const LoginScreen()));
               });
             }
 
@@ -72,12 +70,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: [
                 SingleChildScrollView(
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                     child: Column(
                       children: [
-                        SizedBox(height: 47),
+                        const SizedBox(height: 47),
                         // Column(
                         //   mainAxisAlignment: MainAxisAlignment.start,
                         //   crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,25 +125,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           children: [
                             Text("Email",
                                 style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         color: Color(0xff232226),
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500))),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             TextField(
                                 autocorrect: false,
                                 controller: credentialController,
                                 style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400)),
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                       vertical: 10.5, horizontal: 15),
                                   isDense: true,
                                   hintText: 'Masukkan email anda',
                                   hintStyle: GoogleFonts.manrope(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                           fontSize: 14,
                                           color: Color(0xffBBBBBB),
                                           fontWeight: FontWeight.w400)),
@@ -207,27 +205,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         //         onEditingComplete: () {}),
                         //   ],
                         // ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Masukkan Password",
                                 style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         color: Color(0xff232226),
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500))),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             TextField(
                                 autocorrect: false,
                                 controller: passwordController,
                                 style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500)),
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                       vertical: 10.5, horizontal: 15),
                                   isDense: true,
                                   suffixIcon: SvgPicture.asset(
@@ -236,7 +234,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       fit: BoxFit.scaleDown),
                                   hintText: 'Masukkan password anda',
                                   hintStyle: GoogleFonts.manrope(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                           fontSize: 14,
                                           color: Color(0xffBBBBBB),
                                           fontWeight: FontWeight.w400)),
@@ -255,27 +253,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 onEditingComplete: () {}),
                           ],
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Konfirmasi ulang Password",
                                 style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         color: Color(0xff232226),
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500))),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             TextField(
                                 autocorrect: false,
                                 controller: rePasswordController,
                                 style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500)),
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                       vertical: 10.5, horizontal: 15),
                                   isDense: true,
                                   suffixIcon: SvgPicture.asset(
@@ -284,7 +282,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       fit: BoxFit.scaleDown),
                                   hintText: 'Masukkan ulang password anda',
                                   hintStyle: GoogleFonts.manrope(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                           fontSize: 14,
                                           color: Color(0xffBBBBBB),
                                           fontWeight: FontWeight.w400)),
@@ -303,7 +301,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 onEditingComplete: () {}),
                           ],
                         ),
-                        SizedBox(height: 40),
+                        const SizedBox(height: 40),
                         Center(
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -311,24 +309,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             children: [
                               SvgPicture.asset('assets/svg/icons/checkbox.svg',
                                   height: 18, fit: BoxFit.scaleDown),
-                              SizedBox(width: 10),
+                              const SizedBox(width: 10),
                               Text("Saya setuju dengan peraturan yang ada.",
                                   style: GoogleFonts.manrope(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                           fontSize: 12,
                                           color: Color(0xffBBBBBB),
                                           fontWeight: FontWeight.w500))),
                             ],
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: MaterialButton(
                             minWidth: double.infinity,
                             height: 45,
                             elevation: 0,
-                            color: Color(0xff009EFF),
+                            color: const Color(0xff009EFF),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
@@ -341,7 +339,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             child: Text(
                               "Daftar",
                               style: GoogleFonts.manrope(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w600)),
