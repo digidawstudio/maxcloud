@@ -471,7 +471,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                     state.data.data?.qrString != null) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 25),
-                    child: QrImage(
+                    child: QrImageView(
                       data: state.data.data?.qrString ?? "",
                       version: QrVersions.auto,
                       size: 200.0,
