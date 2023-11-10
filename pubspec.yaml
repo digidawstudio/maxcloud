@@ -65,6 +65,7 @@ dependencies:
   another_flushbar:
   flutter_secure_storage: ^8.1.0
   skeletons:
+  qr_flutter:
 
 dev_dependencies:
   flutter_test:

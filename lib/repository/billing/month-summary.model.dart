@@ -32,10 +32,11 @@ class Data {
       this.estimatedMonthlyTotal});
 
   Data.fromJson(Map<String, dynamic> json) {
-    currentBalance = json['current_balance'];
-    currentCost = json['current_cost'];
-    actualBalance = json['actual_balance'];
-    estimatedMonthlyTotal = json['estimated_monthly_total'];
+    currentBalance = double.parse(json['current_balance'].toString());
+    currentCost = double.parse(json['current_cost'].toString());
+    actualBalance = double.parse(json['actual_balance'].toString());
+    estimatedMonthlyTotal =
+        double.parse(json['estimated_monthly_total'].toString());
   }
 
   Map<String, dynamic> toJson() {

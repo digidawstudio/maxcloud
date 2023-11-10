@@ -1,14 +1,11 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:maxcloud/repository/profile/updateprofile.model.dart';
 import 'package:maxcloud/utils/constants.dart';
 import 'package:maxcloud/utils/endpoints.dart';
 
-enum PlaceType {
-  country,
-  province,
-  city,
-  district
-}
+enum PlaceType { country, province, city, district }
 
 class ApiServices {
   static Dio dio = Dio(BaseOptions(
@@ -187,10 +184,10 @@ class ApiServices {
       return e;
     }
   }
-  
-  static Future<dynamic> placesLookup(PlaceType type, {String param = ""}) async {
-    try {
 
+  static Future<dynamic> placesLookup(PlaceType type,
+      {String param = ""}) async {
+    try {
       String endpoints = "";
 
       switch (type) {
@@ -209,9 +206,7 @@ class ApiServices {
       }
 
       final response = await dio.get(endpoints,
-          options: Options(headers: {
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
-          }));
+          options: Options(headers: {"x-mobile-token": "=U-wQEy1xn0uBgcy"}));
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -273,7 +268,7 @@ class ApiServices {
 
   static Future<dynamic> startVMState(String accessToken, String vmUuid) async {
     try {
-      final response = await dio.get(
+      final response = await dio.patch(
           Endpoints.getVMDetail + '/$vmUuid' + '/start',
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
@@ -290,7 +285,7 @@ class ApiServices {
   static Future<dynamic> restartVMState(
       String accessToken, String vmUuid) async {
     try {
-      final response = await dio.get(
+      final response = await dio.patch(
           Endpoints.getVMDetail + '/$vmUuid' + '/restart',
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
@@ -307,8 +302,58 @@ class ApiServices {
   static Future<dynamic> shutdownVMState(
       String accessToken, String vmUuid) async {
     try {
-      final response = await dio.get(
-          Endpoints.getVMDetail + '/$vmUuid' + '/restart',
+      final response = await dio.patch(
+          Endpoints.getVMDetail + '/$vmUuid' + '/stop',
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> createInvoice(String accessToken, dynamic body) async {
+    try {
+      final response = await dio.post(Endpoints.createInvoice,
+          data: body,
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> getDepositHistory(
+      String accessToken, int page, int limit) async {
+    try {
+      final response = await dio.get(Endpoints.getDepositHistory,
+          queryParameters: {"page": page, "limit": limit},
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> changePassword(
+      String accessToken, dynamic body) async {
+    try {
+      final response = await dio.patch(Endpoints.changePassword,
+          data: body,
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
             "x-mobile-token": "=U-wQEy1xn0uBgcy"

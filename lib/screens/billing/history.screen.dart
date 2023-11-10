@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:maxcloud/bloc/billing/deposit-history.bloc.dart';
 import 'package:simple_shadow/simple_shadow.dart';
+
+import '../../bloc/billing/month-summary.bloc.dart';
+import '../../repository/billing/deposit-history.model.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -12,6 +19,32 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
+  MonthSummaryBloc? monthSummaryBloc;
+  DepositHistoryBloc? depositHistoryBloc;
+  final storage = new FlutterSecureStorage();
+
+  String token = "";
+  int page = 1;
+  int limit = 10;
+
+  @override
+  void initState() {
+    depositHistoryBloc = BlocProvider.of<DepositHistoryBloc>(context);
+    monthSummaryBloc = BlocProvider.of<MonthSummaryBloc>(context);
+    getAccessToken();
+    super.initState();
+  }
+
+  void getAccessToken() async {
+    String? accessToken = await storage.read(key: 'accessToken');
+    depositHistoryBloc
+        ?.add(FetchDepositHistoryEvent(accessToken ?? "", page, limit));
+
+    setState(() {
+      token = accessToken!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,45 +81,45 @@ class _HistoryScreenState extends State<HistoryScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Padding(
-                  padding: EdgeInsets.only(left: 26.w, right: 26.w, top: 26.h),
-                  child: Row(
-                    children: [
-                      Flexible(
-                        flex: 3,
-                        child: MaterialButton(
-                          minWidth: 219.w,
-                          height: 30.h,
-                          elevation: 0,
-                          color: Color(0xff009EFF),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          onPressed: () {},
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // SvgPicture.asset('assets/svg/icons/plus-icon.svg',
-                              //     height: 11.h, fit: BoxFit.scaleDown),
-                              SizedBox(width: 12.w),
-                              Text(
-                                "08/16/2023 -08/16/2023",
-                                style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
-                                        fontSize: 14.sp,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w400)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(child: Container())
-                    ],
-                  )),
+              // Padding(
+              //     padding: EdgeInsets.only(left: 26.w, right: 26.w, top: 26.h),
+              //     child: Row(
+              //       children: [
+              //         Flexible(
+              //           flex: 3,
+              //           child: MaterialButton(
+              //             minWidth: 219.w,
+              //             height: 30.h,
+              //             elevation: 0,
+              //             color: Color(0xff009EFF),
+              //             shape: RoundedRectangleBorder(
+              //               borderRadius: BorderRadius.circular(10.0),
+              //             ),
+              //             onPressed: () {},
+              //             child: Row(
+              //               crossAxisAlignment: CrossAxisAlignment.center,
+              //               mainAxisAlignment: MainAxisAlignment.center,
+              //               children: [
+              //                 // SvgPicture.asset('assets/svg/icons/plus-icon.svg',
+              //                 //     height: 11.h, fit: BoxFit.scaleDown),
+              //                 SizedBox(width: 12.w),
+              //                 Text(
+              //                   "08/16/2023 -08/16/2023",
+              //                   style: GoogleFonts.manrope(
+              //                       textStyle: TextStyle(
+              //                           fontSize: 14.sp,
+              //                           color: Colors.white,
+              //                           fontWeight: FontWeight.w400)),
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //         ),
+              //         Expanded(child: Container())
+              //       ],
+              //     )),
               SizedBox(
-                height: 19.h,
+                height: 30.h,
               ),
               Flexible(
                 child: Container(
@@ -97,121 +130,157 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
-                          height: 212.h,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 15.w, vertical: 28.h),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Color(0xffbbbbbb), width: 1),
-                              borderRadius: BorderRadius.circular(15.r)),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Account Balance",
-                                style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
-                                        color: Color(0xffBBBBBB),
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w500)),
-                              ),
-                              SizedBox(
-                                height: 2.h,
-                              ),
-                              RichText(
-                                text: TextSpan(
+                        BlocBuilder<MonthSummaryBloc, MonthSummaryState>(
+                            builder: (context, state) {
+                          if (state is LoadedMonthSummaryState) {
+                            return Container(
+                              height: 212.h,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15.w, vertical: 28.h),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Color(0xffbbbbbb), width: 1),
+                                  borderRadius: BorderRadius.circular(15.r)),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Account Balance",
                                     style: GoogleFonts.manrope(
                                         textStyle: TextStyle(
-                                            color: Color(0xff232226),
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400)),
-                                    children: [
-                                      TextSpan(text: "Rp "),
-                                      TextSpan(
-                                          text: "0 ,00",
-                                          style: GoogleFonts.manrope(
-                                              textStyle: TextStyle(
-                                                  color: Color(0xff009EFF),
-                                                  fontSize: 20,
-                                                  fontWeight:
-                                                      FontWeight.w700))),
-                                    ]),
-                              ),
-                              Expanded(child: Container()),
-                              Text(
-                                "Charge This Month",
-                                style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
-                                        color: Color(0xffBBBBBB),
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w500)),
-                              ),
-                              SizedBox(
-                                height: 2.h,
-                              ),
-                              RichText(
-                                text: TextSpan(
+                                            color: Color(0xffBBBBBB),
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w500)),
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                        style: GoogleFonts.manrope(
+                                            textStyle: TextStyle(
+                                                color: Color(0xff232226),
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w400)),
+                                        children: [
+                                          TextSpan(text: "Rp "),
+                                          TextSpan(
+                                              text: NumberFormat.currency(
+                                                    locale: 'id',
+                                                    symbol: "",
+                                                    decimalDigits: 0,
+                                                  ).format(state.data.data
+                                                          ?.currentBalance ??
+                                                      0) +
+                                                  ",00",
+                                              style: GoogleFonts.manrope(
+                                                  textStyle: TextStyle(
+                                                      color: Color(0xff009EFF),
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w700))),
+                                        ]),
+                                  ),
+                                  Expanded(child: Container()),
+                                  Text(
+                                    "Charge This Month",
                                     style: GoogleFonts.manrope(
                                         textStyle: TextStyle(
-                                            color: Color(0xff232226),
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400)),
-                                    children: [
-                                      TextSpan(text: "Rp "),
-                                      TextSpan(
-                                          text: "100.000.000,00",
-                                          style: GoogleFonts.manrope(
-                                              textStyle: TextStyle(
-                                                  color: Color(0xff009EFF),
-                                                  fontSize: 20,
-                                                  fontWeight:
-                                                      FontWeight.w700))),
-                                    ]),
-                              ),
-                              Expanded(child: Container()),
-                              Text(
-                                "Estimated Balance",
-                                style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
-                                        color: Color(0xffBBBBBB),
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w500)),
-                              ),
-                              SizedBox(
-                                height: 2.h,
-                              ),
-                              RichText(
-                                text: TextSpan(
+                                            color: Color(0xffBBBBBB),
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w500)),
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                        style: GoogleFonts.manrope(
+                                            textStyle: TextStyle(
+                                                color: Color(0xff232226),
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w400)),
+                                        children: [
+                                          TextSpan(text: "Rp "),
+                                          TextSpan(
+                                              text: NumberFormat.currency(
+                                                    locale: 'id',
+                                                    symbol: "",
+                                                    decimalDigits: 0,
+                                                  ).format(state.data.data
+                                                          ?.currentCost ??
+                                                      0) +
+                                                  ",00",
+                                              style: GoogleFonts.manrope(
+                                                  textStyle: TextStyle(
+                                                      color: Color(0xff009EFF),
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w700))),
+                                        ]),
+                                  ),
+                                  Expanded(child: Container()),
+                                  Text(
+                                    "Estimated Balance",
                                     style: GoogleFonts.manrope(
                                         textStyle: TextStyle(
-                                            color: Color(0xff232226),
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400)),
-                                    children: [
-                                      TextSpan(text: "Rp "),
-                                      TextSpan(
-                                          text: "100.000.000,00",
-                                          style: GoogleFonts.manrope(
-                                              textStyle: TextStyle(
-                                                  color: Color(0xff009EFF),
-                                                  fontSize: 20,
-                                                  fontWeight:
-                                                      FontWeight.w700))),
-                                    ]),
+                                            color: Color(0xffBBBBBB),
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w500)),
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                        style: GoogleFonts.manrope(
+                                            textStyle: TextStyle(
+                                                color: Color(0xff232226),
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w400)),
+                                        children: [
+                                          TextSpan(text: "Rp "),
+                                          TextSpan(
+                                              text: NumberFormat.currency(
+                                                    locale: 'id',
+                                                    symbol: "",
+                                                    decimalDigits: 0,
+                                                  ).format(state.data.data
+                                                          ?.estimatedMonthlyTotal ??
+                                                      0) +
+                                                  ",00",
+                                              style: GoogleFonts.manrope(
+                                                  textStyle: TextStyle(
+                                                      color: Color(0xff009EFF),
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w700))),
+                                        ]),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        }),
                         SizedBox(
                           height: 45.h,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: List.generate(100, (_) => [])
-                              .map((e) => items())
-                              .toList(),
-                        )
+                        BlocBuilder<DepositHistoryBloc, DepositHistoryState>(
+                            builder: (context, state) {
+                          if (state is LoadedDepositHistoryState) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: state.data.data?.depositData
+                                      ?.map((e) => items(e))
+                                      .toList() ??
+                                  [Container()],
+                            );
+                          } else {
+                            return Container();
+                          }
+                        })
                       ],
                     ),
                   ),
@@ -224,7 +293,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 
-  Widget items() {
+  Widget items(DepositData? depositData) {
     return SimpleShadow(
       opacity: 0.3, // Default: 0.5
       color: Colors.grey, // Default: Black
@@ -246,7 +315,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Top Up",
+                  depositData?.description ?? "",
                   style: GoogleFonts.manrope(
                       textStyle: TextStyle(
                           color: Color(0xff009EFF),
@@ -257,7 +326,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   height: 5.h,
                 ),
                 Text(
-                  "BCA 123456992",
+                  depositData?.method ?? "",
                   style: GoogleFonts.manrope(
                       textStyle: TextStyle(
                           color: Color(0xffBBBBBB),
@@ -267,7 +336,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
               ],
             ),
             Expanded(child: Container()),
-            Text("-Rp 50.000",
+            Text(
+                NumberFormat.currency(
+                  locale: 'id',
+                  symbol: "",
+                  decimalDigits: 0,
+                ).format(depositData?.amount ?? 0),
                 style: GoogleFonts.manrope(
                     textStyle: TextStyle(
                         color: Color(0xff232226),

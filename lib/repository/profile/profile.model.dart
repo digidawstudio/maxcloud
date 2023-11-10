@@ -71,8 +71,8 @@ class Data {
     firstName = json['first_name'];
     lastName = json['last_name'];
     email = json['email'];
-    currentBalance = json['current_balance'];
-    actualBalance = json['actual_balance'];
+    currentBalance = double.parse(json['current_balance'].toString());
+    actualBalance = double.parse(json['actual_balance'].toString());
     country =
         json['country'] != null ? new Country.fromJson(json['country']) : null;
     province = json['province'] != null

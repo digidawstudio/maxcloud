@@ -15,6 +15,8 @@ import 'package:maxcloud/screens/instance/instance.detail.screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../../bloc/profile/profile.bloc.dart';
+
 class BillingScreen extends StatefulWidget {
   const BillingScreen({super.key});
 
@@ -28,9 +30,7 @@ class _BillingScreenState extends State<BillingScreen> {
 
   String token = "";
   int selectedNominal = 100000;
-  String selectedMethod = "";
-  Map<String, dynamic> paymentMethodData = {};
-  List<String> paymentMethodName = [];
+  String selectedMethod = "Select Payment Method";
 
   @override
   void initState() {
@@ -44,19 +44,6 @@ class _BillingScreenState extends State<BillingScreen> {
     String? accessToken = await storage.read(key: 'accessToken');
     paymentMethodBloc
         ?.add(FetchPaymentMethodEvent(accessToken ?? "", selectedNominal));
-
-    if (paymentMethodBloc?.state is LoadedPaymentMethodState) {
-      paymentMethodData =
-          (paymentMethodBloc?.state as LoadedPaymentMethodState).data;
-
-      paymentMethodData.forEach((key, value) {
-        paymentMethodName.add(key);
-      });
-
-      selectedMethod = paymentMethodData[0];
-
-      setState(() {});
-    }
 
     setState(() {
       token = accessToken!;
@@ -158,7 +145,7 @@ class _BillingScreenState extends State<BillingScreen> {
                 onPressed: () {
                   paymentMethodBloc
                       ?.add(FetchPaymentMethodEvent(token, selectedNominal));
-                  choosePaymentMethodModal(context);
+                  choosePaymentMethodModal(context, selectedMethod);
                 },
                 child: Text(
                   "Confirm",
@@ -278,7 +265,7 @@ class _BillingScreenState extends State<BillingScreen> {
     );
   }
 
-  choosePaymentMethodModal(BuildContext context) {
+  choosePaymentMethodModal(BuildContext context, String selectedMethod) {
     return showModalBottomSheet<void>(
         context: context,
         shape: RoundedRectangleBorder(
@@ -324,10 +311,23 @@ class _BillingScreenState extends State<BillingScreen> {
                       child: BlocBuilder<PaymentMethodBloc, PaymentMethodState>(
                           builder: (context, state) {
                         if (state is LoadedPaymentMethodState) {
+                          final List<DropdownMenuItem> list = [
+                            const DropdownMenuItem(
+                                value: "Select Payment Method",
+                                child: Text("Select Payment Method")),
+                          ];
+
+                          state.data.forEach((key, value) {
+                            list.add(DropdownMenuItem(
+                                value: key,
+                                child: Text(
+                                    toBeginningOfSentenceCase(key) ?? "")));
+                          });
+
                           return DropdownButtonHideUnderline(
                               child: ButtonTheme(
                                   alignedDropdown: true,
-                                  child: DropdownButton<String>(
+                                  child: DropdownButton(
                                     value: selectedMethod,
                                     icon: SvgPicture.asset(
                                         'assets/svg/icons/dropdown.svg',
@@ -338,23 +338,16 @@ class _BillingScreenState extends State<BillingScreen> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10.r)),
                                     style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                             color: Color(0xff232226),
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500)),
-                                    onChanged: (String? newValue) {
+                                    onChanged: (newValue) {
                                       subsetState(() {
                                         selectedMethod = newValue!;
                                       });
                                     },
-                                    items: paymentMethodName
-                                        .map<DropdownMenuItem<String>>(
-                                            (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
+                                    items: list,
                                   )));
                         } else {
                           return Container();
@@ -377,8 +370,10 @@ class _BillingScreenState extends State<BillingScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      BillingPaymentScreen()));
+                                  builder: (context) => BillingPaymentScreen(
+                                        paymentMethod: selectedMethod,
+                                        nominal: selectedNominal,
+                                      )));
                         },
                         child: Text(
                           "Confirm",

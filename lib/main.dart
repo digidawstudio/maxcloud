@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxcloud/bloc/auth/auth.bloc.dart';
+import 'package:maxcloud/bloc/billing/create-invoice.bloc.dart';
+import 'package:maxcloud/bloc/billing/deposit-history.bloc.dart';
 import 'package:maxcloud/bloc/billing/month-summary.bloc.dart';
 import 'package:maxcloud/bloc/billing/payment-method.bloc.dart';
 import 'package:maxcloud/bloc/notifications/notifications.bloc.dart';
@@ -12,6 +14,8 @@ import 'package:maxcloud/bloc/product/product.bloc.dart';
 import 'package:maxcloud/bloc/product/rrd-data.bloc.dart';
 import 'package:maxcloud/bloc/product/total-resource.bloc.dart';
 import 'package:maxcloud/bloc/product/vm-detail.bloc.dart';
+import 'package:maxcloud/bloc/product/vm-state.bloc.dart';
+import 'package:maxcloud/bloc/profile/change-password.bloc.dart';
 import 'package:maxcloud/bloc/profile/profile.bloc.dart';
 import 'package:maxcloud/bloc/user/user.bloc.dart';
 import 'package:maxcloud/screens/auth/login-screen.dart';
@@ -30,6 +34,9 @@ void main() async {
       BlocProvider(create: (context) => RRDDataBloc()),
       BlocProvider(create: (context) => NotificationBloc()),
       BlocProvider(create: (context) => PaymentMethodBloc()),
+      BlocProvider(create: (context) => DepositHistoryBloc()),
+      BlocProvider(create: (context) => ChangePasswordBloc()),
+      BlocProvider(create: (context) => CreateInvoiceBloc()),
       BlocProvider(create: (context) => VMDetailBloc()),
       BlocProvider(create: (context) => LatestVMBloc()),
       BlocProvider(create: (context) => TotalResourceBloc()),
@@ -37,7 +44,8 @@ void main() async {
       BlocProvider(create: (context) => ProfileBloc()),
       BlocProvider(create: (context) => UserBloc()),
       BlocProvider(create: (context) => ProductBloc()),
-      BlocProvider(create: (context) => UpdateUserBloc())
+      BlocProvider(create: (context) => UpdateUserBloc()),
+      BlocProvider(create: (context) => VMStateBloc()),
     ],
     child: MyApp(),
   ));

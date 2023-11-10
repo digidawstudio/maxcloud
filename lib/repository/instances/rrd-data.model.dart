@@ -107,10 +107,10 @@ class Memory {
 
   Memory.fromJson(Map<String, dynamic> json) {
     time = json['time'];
-    rawMaxMemory = json['raw_max_memory'];
-    maxMemory = json['max_memory'];
-    rawUsageMemory = json['raw_usage_memory'];
-    usageMemory = json['usage_memory'];
+    rawMaxMemory = double.parse(json['raw_max_memory'].toString());
+    maxMemory = json['max_memory'].toString();
+    rawUsageMemory = double.parse(json['raw_usage_memory'].toString());
+    usageMemory = json['usage_memory'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -126,18 +126,18 @@ class Memory {
 
 class Network {
   String? time;
-  int? rawNetin;
+  double? rawNetin;
   String? netin;
-  int? rawNetout;
+  double? rawNetout;
   String? netout;
 
   Network({this.time, this.rawNetin, this.netin, this.rawNetout, this.netout});
 
   Network.fromJson(Map<String, dynamic> json) {
     time = json['time'];
-    rawNetin = json['raw_netin'];
+    rawNetin = double.parse(json['raw_netin'].toString());
     netin = json['netin'];
-    rawNetout = json['raw_netout'];
+    rawNetout = double.parse(json['raw_netout'].toString());
     netout = json['netout'];
   }
 
@@ -156,7 +156,7 @@ class Disk {
   String? time;
   double? rawDiskwrite;
   String? diskwrite;
-  int? rawDiskread;
+  double? rawDiskread;
   String? diskread;
 
   Disk(
@@ -170,7 +170,7 @@ class Disk {
     time = json['time'];
     rawDiskwrite = double.parse(json['raw_diskwrite'].toString());
     diskwrite = json['diskwrite'];
-    rawDiskread = json['raw_diskread'];
+    rawDiskread = double.parse(json['raw_diskread'].toString());
     diskread = json['diskread'];
   }
 

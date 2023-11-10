@@ -8,10 +8,13 @@ class Endpoints {
   // Billing Endpoints
   static String getCurrentMonthSummary = '/mobile/billing/summary';
   static String getPaymentMethods = '/mobile/billing/v2/payment-methods';
+  static String createInvoice = '/mobile/billing/v2/topup';
+  static String getDepositHistory = '/mobile/billing/deposit/history';
 
   // Profile Endpoints
   static String getProfile = '/mobile/profile';
   static String updateProfile = '/mobile/profile';
+  static String changePassword = '/mobile/profile/change-password';
 
   // Virtual Machine Endpoints
   static String myInstance = '/mobile/instance/instances';

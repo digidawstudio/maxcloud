@@ -73,105 +73,107 @@ class _InstanceScreenState extends State<InstanceScreen> {
               padding: EdgeInsets.symmetric(horizontal: 25),
               width: ScreenUtil().screenWidth,
               height: ScreenUtil().screenHeight,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      // Flexible(
-                      //   flex: 3,
-                      //   child: MaterialButton(
-                      //     minWidth: 171.w,
-                      //     height: 30.h,
-                      //     elevation: 0,
-                      //     color: Color(0xff009EFF),
-                      //     shape: RoundedRectangleBorder(
-                      //       borderRadius: BorderRadius.circular(10.0),
-                      //     ),
-                      //     onPressed: () {
-                      //       Navigator.push(
-                      //           context,
-                      //           MaterialPageRoute(
-                      //               builder: (context) =>
-                      //                   InstanceCreateScreen()));
-                      //     },
-                      //     child: Row(
-                      //       crossAxisAlignment: CrossAxisAlignment.center,
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       children: [
-                      //         SvgPicture.asset('assets/svg/icons/plus-icon.svg',
-                      //             height: 11.h, fit: BoxFit.scaleDown),
-                      //         SizedBox(width: 12.w),
-                      //         Text(
-                      //           "Create Instance",
-                      //           style: GoogleFonts.manrope(
-                      //               textStyle: TextStyle(
-                      //                   fontSize: 14.sp,
-                      //                   color: Colors.white,
-                      //                   fontWeight: FontWeight.w400)),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-                      Flexible(flex: 3, child: Container()),
-                      Spacer(),
-                      Flexible(
-                        flex: 2,
-                        child: MaterialButton(
-                          height: 30.h,
-                          elevation: 0,
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            side:
-                                BorderSide(width: 1, color: Color(0xffBBBBBB)),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          onPressed: () {},
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Filter",
-                                style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
-                                        fontSize: 14.sp,
-                                        color: Color(0xff353333),
-                                        fontWeight: FontWeight.w400)),
-                              ),
-                              SizedBox(width: 30),
-                              SvgPicture.asset('assets/svg/icons/filter.svg',
-                                  height: 15.h, fit: BoxFit.scaleDown),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  instances.products.data!.data!.isNotEmpty
-                      ? SingleChildScrollView(
-                          child: Column(
-                            children: instances.products.data!.data!.map((e) {
-                              return CustomWidget.InstanceSpecs(() {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            InstanceDetailScreen(data: e)));
-                              }, data: e);
-                            }).toList(),
-                          ),
-                        )
-                      : Flexible(
-                          child: Container(
-                            height: ScreenUtil().screenHeight,
-                            width: ScreenUtil().screenWidth,
-                            child: Center(
-                              child: Text("There is no instances"),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        // Flexible(
+                        //   flex: 3,
+                        //   child: MaterialButton(
+                        //     minWidth: 171.w,
+                        //     height: 30.h,
+                        //     elevation: 0,
+                        //     color: Color(0xff009EFF),
+                        //     shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(10.0),
+                        //     ),
+                        //     onPressed: () {
+                        //       Navigator.push(
+                        //           context,
+                        //           MaterialPageRoute(
+                        //               builder: (context) =>
+                        //                   InstanceCreateScreen()));
+                        //     },
+                        //     child: Row(
+                        //       crossAxisAlignment: CrossAxisAlignment.center,
+                        //       mainAxisAlignment: MainAxisAlignment.center,
+                        //       children: [
+                        //         SvgPicture.asset('assets/svg/icons/plus-icon.svg',
+                        //             height: 11.h, fit: BoxFit.scaleDown),
+                        //         SizedBox(width: 12.w),
+                        //         Text(
+                        //           "Create Instance",
+                        //           style: GoogleFonts.manrope(
+                        //               textStyle: TextStyle(
+                        //                   fontSize: 14.sp,
+                        //                   color: Colors.white,
+                        //                   fontWeight: FontWeight.w400)),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
+                        Flexible(flex: 3, child: Container()),
+                        Spacer(),
+                        Flexible(
+                          flex: 2,
+                          child: MaterialButton(
+                            height: 30.h,
+                            elevation: 0,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  width: 1, color: Color(0xffBBBBBB)),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            onPressed: () {},
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Filter",
+                                  style: GoogleFonts.manrope(
+                                      textStyle: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: Color(0xff353333),
+                                          fontWeight: FontWeight.w400)),
+                                ),
+                                SizedBox(width: 30),
+                                SvgPicture.asset('assets/svg/icons/filter.svg',
+                                    height: 15.h, fit: BoxFit.scaleDown),
+                              ],
                             ),
                           ),
                         ),
-                ],
+                      ],
+                    ),
+                    instances.products.data!.data!.isNotEmpty
+                        ? SingleChildScrollView(
+                            child: Column(
+                              children: instances.products.data!.data!.map((e) {
+                                return CustomWidget.InstanceSpecs(() {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              InstanceDetailScreen(data: e)));
+                                }, data: e);
+                              }).toList(),
+                            ),
+                          )
+                        : Flexible(
+                            child: Container(
+                              height: ScreenUtil().screenHeight,
+                              width: ScreenUtil().screenWidth,
+                              child: Center(
+                                child: Text("There is no instances"),
+                              ),
+                            ),
+                          ),
+                  ],
+                ),
               ),
             ));
           }
