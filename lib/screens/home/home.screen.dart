@@ -9,10 +9,12 @@ import 'package:maxcloud/bloc/billing/month-summary.bloc.dart';
 import 'package:maxcloud/bloc/product/total-resource.bloc.dart';
 import 'package:maxcloud/screens/home/notification/notification.screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
+import 'package:skeletons/skeletons.dart';
 
 import '../../bloc/product/latest-vm.bloc.dart';
 import '../../bloc/profile/profile.bloc.dart';
 import '../instance/instance.detail.screen.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -48,6 +50,256 @@ class _HomeScreenState extends State<HomeScreen> {
     latestVMBloc?.add(FetchLatestVMEvent(accessToken ?? ""));
   }
 
+  Widget currentCostInitState({bool loading = false}) {
+    return Container(
+      transform: Matrix4.translationValues(0, 200.h, 0),
+      height: 188.h,
+      width: ScreenUtil().screenWidth,
+      padding:
+          EdgeInsets.only(left: 31.w, right: 31.w, top: 50.h, bottom: 23.h),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.r),
+        color: const Color.fromARGB(255, 235, 235, 235),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 5.h,
+          ),
+          Text("Current Cost",
+              style: GoogleFonts.manrope(
+                  textStyle: TextStyle(
+                      fontSize: 10.sp,
+                      color: const Color(0xff232226),
+                      fontWeight: FontWeight.w500))),
+          loading
+              ? LoadingAnimationWidget.waveDots(
+                  color: Color.fromARGB(255, 168, 168, 168),
+                  size: 40,
+                )
+              : RichText(
+                  text: TextSpan(
+                      text: "Rp ",
+                      style: GoogleFonts.manrope(
+                          textStyle: TextStyle(
+                              fontSize: 20.sp,
+                              color: const Color(0xff232226),
+                              fontWeight: FontWeight.w400)),
+                      children: [
+                      TextSpan(
+                          text: "0,00",
+                          style: TextStyle(
+                              fontSize: 20.sp,
+                              color: const Color(0xff232226),
+                              fontWeight: FontWeight.w700))
+                    ])),
+          Expanded(child: Container()),
+          Text("Estimated Monthly Cost",
+              style: GoogleFonts.manrope(
+                  textStyle: TextStyle(
+                      fontSize: 10.sp,
+                      color: const Color(0xff232226),
+                      fontWeight: FontWeight.w500))),
+          loading
+              ? LoadingAnimationWidget.waveDots(
+                  color: Color.fromARGB(255, 168, 168, 168),
+                  size: 40,
+                )
+              : RichText(
+                  text: TextSpan(
+                      text: "Rp ",
+                      style: GoogleFonts.manrope(
+                          textStyle: TextStyle(
+                              fontSize: 20.sp,
+                              color: const Color(0xff232226),
+                              fontWeight: FontWeight.w400)),
+                      children: [
+                      TextSpan(
+                          text: "0,00",
+                          style: TextStyle(
+                              fontSize: 20.sp,
+                              color: const Color(0xff232226),
+                              fontWeight: FontWeight.w700))
+                    ])),
+        ],
+      ),
+    );
+  }
+
+  Widget profileInitState({bool loading = false}) {
+    return Container(
+      height: 242.h,
+      width: ScreenUtil().screenWidth,
+      padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 25.h),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(15.r),
+              bottomRight: Radius.circular(15.r)),
+          color: const Color(0xff009EFF),
+          boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 20)]),
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Image(
+                    height: 26,
+                    image: AssetImage("assets/images/maxcloud.png")),
+                Expanded(child: Container()),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const NotificationScreen()));
+                  },
+                  child: Icon(Icons.notifications_active_rounded,
+                      color: Colors.white, size: 20.w),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 18.h,
+            ),
+            Flexible(
+                child: RichText(
+                    text: TextSpan(
+                        text: "Selamat Datang ",
+                        style: GoogleFonts.manrope(
+                            textStyle: TextStyle(
+                                fontSize: 10.sp,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400)),
+                        children: [
+                  TextSpan(
+                      text: "",
+                      style: TextStyle(
+                          fontSize: 10.sp,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700))
+                ]))),
+            loading
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: Center(
+                      child: LoadingAnimationWidget.waveDots(
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                    ),
+                  )
+                : Column(children: [
+                    Flexible(
+                        child: SizedBox(
+                      height: 12.h,
+                    )),
+                    Container(
+                      height: 80.h,
+                      padding: EdgeInsets.symmetric(horizontal: 15.w),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15.r)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                    child: Text("Saldo Anda",
+                                        style: GoogleFonts.manrope(
+                                            textStyle: TextStyle(
+                                                fontSize: 12.sp,
+                                                color: const Color(0xffBBBBBB),
+                                                fontWeight: FontWeight.w500)))),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
+                                Flexible(
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "Rp",
+                                        style: GoogleFonts.manrope(
+                                            textStyle: TextStyle(
+                                                fontSize: 20.sp,
+                                                color: const Color(0xff232226),
+                                                fontWeight: FontWeight.w500)),
+                                      ),
+                                      SizedBox(
+                                        width: 7.w,
+                                      ),
+                                      Text("0,00",
+                                          style: GoogleFonts.manrope(
+                                              textStyle: TextStyle(
+                                                  fontSize: 22.sp,
+                                                  color:
+                                                      const Color(0xff009EFF),
+                                                  fontWeight:
+                                                      FontWeight.w700))),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              //TODO: add function
+                            },
+                            child: const Image(
+                              image: AssetImage("assets/images/add-button.png"),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ])
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget totalResourceInitState({bool loading = false}) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 30),
+          child: Center(
+            child: LoadingAnimationWidget.waveDots(
+              color: Color.fromARGB(255, 198, 198, 198),
+              size: 40,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 30),
+          child: Center(
+            child: LoadingAnimationWidget.waveDots(
+              color: Color.fromARGB(255, 198, 198, 198),
+              size: 40,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 30),
+          child: Center(
+            child: LoadingAnimationWidget.waveDots(
+              color: Color.fromARGB(255, 198, 198, 198),
+              size: 40,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -56,14 +308,14 @@ class _HomeScreenState extends State<HomeScreen> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            BlocBuilder<MonthSummaryBloc, MonthSummaryState>(
-                builder: (context, state) {
-              if (state is LoadedMonthSummaryState) {
-                return SizedBox(
-                  height: 400.h,
-                  child: Stack(
-                    children: [
-                      Container(
+            SizedBox(
+              height: 400.h,
+              child: Stack(
+                children: [
+                  BlocBuilder<MonthSummaryBloc, MonthSummaryState>(
+                      builder: (context, state) {
+                    if (state is LoadedMonthSummaryState) {
+                      return Container(
                         transform: Matrix4.translationValues(0, 200.h, 0),
                         height: 188.h,
                         width: ScreenUtil().screenWidth,
@@ -96,12 +348,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                   TextSpan(
                                       text: "${NumberFormat.currency(
-                                            locale: 'id',
-                                            symbol: "",
-                                            decimalDigits: 0,
-                                          ).format(
-                                              state.data.data?.currentCost ??
-                                                  0)},00",
+                                        locale: 'id',
+                                        symbol: "",
+                                        decimalDigits: 0,
+                                      ).format(state.data.data?.currentCost ?? 0)},00",
                                       style: TextStyle(
                                           fontSize: 20.sp,
                                           color: const Color(0xff232226),
@@ -125,12 +375,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                   TextSpan(
                                       text: "${NumberFormat.currency(
-                                            locale: 'id',
-                                            symbol: "",
-                                            decimalDigits: 0,
-                                          ).format(state.data.data
-                                                  ?.estimatedMonthlyTotal ??
-                                              0)},00",
+                                        locale: 'id',
+                                        symbol: "",
+                                        decimalDigits: 0,
+                                      ).format(state.data.data?.estimatedMonthlyTotal ?? 0)},00",
                                       style: TextStyle(
                                           fontSize: 20.sp,
                                           color: const Color(0xff232226),
@@ -138,178 +386,166 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ])),
                           ],
                         ),
-                      ),
-                      BlocBuilder<ProfileBloc, ProfileState>(
-                          builder: (context, state) {
-                        if (state is LoadedProfileState) {
-                          return Container(
-                            height: 242.h,
-                            width: ScreenUtil().screenWidth,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 30.w, vertical: 25.h),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(15.r),
-                                    bottomRight: Radius.circular(15.r)),
-                                color: const Color(0xff009EFF),
-                                boxShadow: const [
-                                  BoxShadow(
-                                      color: Colors.black26, blurRadius: 20)
-                                ]),
-                            child: SafeArea(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                      );
+                    } else {
+                      return currentCostInitState(loading: true);
+                    }
+                  }),
+                  BlocBuilder<ProfileBloc, ProfileState>(
+                      builder: (context, state) {
+                    if (state is LoadedProfileState) {
+                      return Container(
+                        height: 242.h,
+                        width: ScreenUtil().screenWidth,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 30.w, vertical: 25.h),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(15.r),
+                                bottomRight: Radius.circular(15.r)),
+                            color: const Color(0xff009EFF),
+                            boxShadow: const [
+                              BoxShadow(color: Colors.black26, blurRadius: 20)
+                            ]),
+                        child: SafeArea(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      const Image(
-                                          height: 26,
-                                          image: AssetImage(
-                                              "assets/images/maxcloud.png")),
-                                      Expanded(child: Container()),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const NotificationScreen()));
-                                        },
-                                        child: Icon(
-                                            Icons.notifications_active_rounded,
-                                            color: Colors.white,
-                                            size: 20.w),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 18.h,
-                                  ),
-                                  Flexible(
-                                      child: RichText(
-                                          text: TextSpan(
-                                              text: "Selamat Datang ",
-                                              style: GoogleFonts.manrope(
-                                                  textStyle: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.w400)),
-                                              children: [
-                                        TextSpan(
-                                            text:
-                                                "${state.data.data?.fullName}!",
-                                            style: TextStyle(
-                                                fontSize: 10.sp,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w700))
-                                      ]))),
-                                  Flexible(
-                                      child: SizedBox(
-                                    height: 12.h,
-                                  )),
-                                  Container(
-                                    height: 80.h,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 15.w),
-                                    decoration: BoxDecoration(
+                                  const Image(
+                                      height: 26,
+                                      image: AssetImage(
+                                          "assets/images/maxcloud.png")),
+                                  Expanded(child: Container()),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const NotificationScreen()));
+                                    },
+                                    child: Icon(
+                                        Icons.notifications_active_rounded,
                                         color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(15.r)),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Flexible(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Flexible(
-                                                  child: Text("Saldo Anda",
-                                                      style: GoogleFonts.manrope(
-                                                          textStyle: TextStyle(
-                                                              fontSize: 12.sp,
-                                                              color: const Color(
-                                                                  0xffBBBBBB),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500)))),
-                                              SizedBox(
-                                                height: 2.h,
-                                              ),
-                                              Flexible(
-                                                child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
-                                                  children: [
-                                                    Text(
-                                                      "Rp",
-                                                      style: GoogleFonts.manrope(
-                                                          textStyle: TextStyle(
-                                                              fontSize: 20.sp,
-                                                              color: const Color(
-                                                                  0xff232226),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500)),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 7.w,
-                                                    ),
-                                                    Text(
-                                                        "${NumberFormat.currency(
-                                                              locale: 'id',
-                                                              symbol: "",
-                                                              decimalDigits: 0,
-                                                            ).format(state
-                                                                    .data
-                                                                    .data
-                                                                    ?.currentBalance ??
-                                                                0)},00",
-                                                        style: GoogleFonts.manrope(
-                                                            textStyle: TextStyle(
-                                                                fontSize: 22.sp,
-                                                                color: const Color(
-                                                                    0xff009EFF),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700))),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            //TODO: add function
-                                          },
-                                          child: const Image(
-                                            image: AssetImage(
-                                                "assets/images/add-button.png"),
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                        size: 20.w),
                                   ),
                                 ],
                               ),
-                            ),
-                          );
-                        } else {
-                          return Container();
-                        }
-                      }),
-                    ],
-                  ),
-                );
-              } else {
-                return Container();
-              }
-            }),
+                              SizedBox(
+                                height: 18.h,
+                              ),
+                              Flexible(
+                                  child: RichText(
+                                      text: TextSpan(
+                                          text: "Selamat Datang ",
+                                          style: GoogleFonts.manrope(
+                                              textStyle: TextStyle(
+                                                  fontSize: 10.sp,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w400)),
+                                          children: [
+                                    TextSpan(
+                                        text: "${state.data.data?.fullName}!",
+                                        style: TextStyle(
+                                            fontSize: 10.sp,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700))
+                                  ]))),
+                              Flexible(
+                                  child: SizedBox(
+                                height: 12.h,
+                              )),
+                              Container(
+                                height: 80.h,
+                                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15.r)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Flexible(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Flexible(
+                                              child: Text("Saldo Anda",
+                                                  style: GoogleFonts.manrope(
+                                                      textStyle: TextStyle(
+                                                          fontSize: 12.sp,
+                                                          color: const Color(
+                                                              0xffBBBBBB),
+                                                          fontWeight: FontWeight
+                                                              .w500)))),
+                                          SizedBox(
+                                            height: 2.h,
+                                          ),
+                                          Flexible(
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Text(
+                                                  "Rp",
+                                                  style: GoogleFonts.manrope(
+                                                      textStyle: TextStyle(
+                                                          fontSize: 20.sp,
+                                                          color: const Color(
+                                                              0xff232226),
+                                                          fontWeight:
+                                                              FontWeight.w500)),
+                                                ),
+                                                SizedBox(
+                                                  width: 7.w,
+                                                ),
+                                                Text(
+                                                    "${NumberFormat.currency(
+                                                      locale: 'id',
+                                                      symbol: "",
+                                                      decimalDigits: 0,
+                                                    ).format(state.data.data?.currentBalance ?? 0)},00",
+                                                    style: GoogleFonts.manrope(
+                                                        textStyle: TextStyle(
+                                                            fontSize: 22.sp,
+                                                            color: const Color(
+                                                                0xff009EFF),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700))),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        //TODO: add function
+                                      },
+                                      child: const Image(
+                                        image: AssetImage(
+                                            "assets/images/add-button.png"),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    } else {
+                      return profileInitState(loading: true);
+                    }
+                  }),
+                ],
+              ),
+            ),
             BlocBuilder<TotalResourceBloc, TotalResourceState>(
                 builder: (context, state) {
               if (state is LoadedTotalResourceState) {
@@ -344,7 +580,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 );
               } else {
-                return Container();
+                return totalResourceInitState(loading: true);
               }
             }),
             BlocBuilder<LatestVMBloc, LatestVMState>(builder: (context, state) {
@@ -410,16 +646,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Text(
                       "20GB Regular Cloud Compute",
-                      style:
-                          TextStyle(fontSize: 8.sp, color: const Color(0xffbbbbbb)),
+                      style: TextStyle(
+                          fontSize: 8.sp, color: const Color(0xffbbbbbb)),
                     ),
                     SizedBox(
                       height: 5.h,
                     ),
                     Text(
                       "Mark Zuckerberg",
-                      style:
-                          TextStyle(fontSize: 12.sp, color: const Color(0xff009EFF)),
+                      style: TextStyle(
+                          fontSize: 12.sp, color: const Color(0xff009EFF)),
                     ),
                   ],
                 ),
@@ -435,16 +671,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Text(
                       "IP Address",
-                      style:
-                          TextStyle(fontSize: 8.sp, color: const Color(0xffbbbbbb)),
+                      style: TextStyle(
+                          fontSize: 8.sp, color: const Color(0xffbbbbbb)),
                     ),
                     SizedBox(
                       height: 5.h,
                     ),
                     Text(
                       "127.0.0.1",
-                      style:
-                          TextStyle(fontSize: 12.sp, color: const Color(0xff009EFF)),
+                      style: TextStyle(
+                          fontSize: 12.sp, color: const Color(0xff009EFF)),
                     ),
                   ],
                 ),

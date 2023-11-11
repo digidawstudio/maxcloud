@@ -2,9 +2,9 @@ class UpdateProfile {
   String? firstName;
   String? lastName;
   int? countryId;
-  String? provinceId;
-  String? cityId;
-  String? districtId;
+  int? provinceId;
+  int? cityId;
+  int? districtId;
   String? address;
   String? phone;
 
@@ -104,4 +104,3 @@ class UpdateProfileErrorModel {
     return data;
   }
 }
-

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:maxcloud/bloc/product/product.bloc.dart';
 import 'package:maxcloud/screens/instance/instance.detail.screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
@@ -188,7 +189,11 @@ class _InstanceScreenState extends State<InstanceScreen> {
               ),
             );
           } else {
-            return Container();
+            return Center(
+                child: LoadingAnimationWidget.waveDots(
+              color: Color.fromARGB(255, 198, 198, 198),
+              size: 40,
+            ));
           }
         },
       ),

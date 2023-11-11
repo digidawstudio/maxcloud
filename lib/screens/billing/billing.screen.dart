@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:maxcloud/bloc/billing/payment-method.bloc.dart';
 import 'package:maxcloud/screens/billing/billing.payment.screen.dart';
 import 'package:maxcloud/screens/billing/history.screen.dart';
@@ -346,7 +347,12 @@ class _BillingScreenState extends State<BillingScreen> {
                                     items: list,
                                   )));
                         } else {
-                          return Container();
+                          return Center(
+                            child: LoadingAnimationWidget.waveDots(
+                              color: Color.fromARGB(255, 168, 168, 168),
+                              size: 30,
+                            ),
+                          );
                         }
                       }),
                     ),

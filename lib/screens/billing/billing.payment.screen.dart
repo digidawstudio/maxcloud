@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:maxcloud/bloc/billing/create-invoice.bloc.dart';
 import 'package:maxcloud/bloc/billing/payment-method.bloc.dart';
 import 'package:maxcloud/bloc/profile/profile.bloc.dart';
@@ -176,7 +177,13 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                               items: list,
                             )));
                   } else {
-                    return Container();
+                    return Center(
+                      child: LoadingAnimationWidget.waveDots(
+                        color: Color.fromARGB(255, 168, 168, 168),
+                        size: 30,
+                      ),
+                    );
+                    ;
                   }
                 }),
               ),
@@ -256,7 +263,12 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                               items: list,
                             )));
                   } else {
-                    return Container();
+                    return Center(
+                      child: LoadingAnimationWidget.waveDots(
+                        color: Color.fromARGB(255, 168, 168, 168),
+                        size: 30,
+                      ),
+                    );
                   }
                 }),
               ),
@@ -303,7 +315,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     onPressed: state is LoadingCreateInvoiceState
-                        ? null
+                        ? () {}
                         : () async {
                             BlocProvider.of<CreateInvoiceBloc>(context)
                                 .add(PostCreateInvoiceEvent(token, {
@@ -312,14 +324,21 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                               "payment_method": selectedSubMethodCode
                             }));
                           },
-                    child: Text(
-                      "Confirm Payment",
-                      style: GoogleFonts.manrope(
-                          textStyle: TextStyle(
-                              fontSize: 14,
+                    child: state is LoadingCreateInvoiceState
+                        ? Center(
+                            child: LoadingAnimationWidget.waveDots(
                               color: Colors.white,
-                              fontWeight: FontWeight.w600)),
-                    ),
+                              size: 30,
+                            ),
+                          )
+                        : Text(
+                            "Confirm Payment",
+                            style: GoogleFonts.manrope(
+                                textStyle: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600)),
+                          ),
                   );
                 }),
               ),
@@ -478,22 +497,29 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                   return Container();
                 }
               }),
-              Container(
-                width: 200.w,
-                height: 32.h,
-                decoration: BoxDecoration(
-                  color: const Color(0xff02D430),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: Text("Transaction Success!",
-                      style: GoogleFonts.manrope(
-                          textStyle: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600))),
-                ),
-              )
+              BlocBuilder<CreateInvoiceBloc, CreateInvoiceState>(
+                  builder: (context, state) {
+                if (state is LoadedCreateInvoiceState) {
+                  return Container(
+                    width: 200.w,
+                    height: 32.h,
+                    decoration: BoxDecoration(
+                      color: const Color(0xff02D430),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Text("Transaction Success!",
+                          style: GoogleFonts.manrope(
+                              textStyle: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600))),
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              })
             ],
           ),
         ),

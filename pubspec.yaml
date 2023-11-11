@@ -73,6 +73,7 @@ dependencies:
   # pusher_client: ^2.0.0
   laravel_flutter_pusher:
   socket_io_client:
+  loading_animation_widget:
 
 dev_dependencies:
   flutter_test:

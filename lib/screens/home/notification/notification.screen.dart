@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:maxcloud/bloc/notifications/notifications.bloc.dart';
 import 'package:maxcloud/repository/notifications/notifications.model.dart';
 
@@ -154,7 +155,11 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
                           : state.data.data?.notifData![i]),
                 );
               } else {
-                return Container();
+                return Center(
+                    child: LoadingAnimationWidget.waveDots(
+                  color: Color.fromARGB(255, 198, 198, 198),
+                  size: 40,
+                ));
               }
             }),
           )
@@ -167,8 +172,9 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
     return Container(
       height: 103.h,
       padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 15.h),
-      color:
-          notifData?.readAt != null ? const Color(0xfff1f1f1f1) : const Color(0xffE3F3FD),
+      color: notifData?.readAt != null
+          ? const Color(0xfff1f1f1f1)
+          : const Color(0xffE3F3FD),
       child: Column(
         children: [
           Row(

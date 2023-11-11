@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:maxcloud/bloc/profile/change-password.bloc.dart';
 import 'package:maxcloud/bloc/profile/profile.bloc.dart';
 import 'package:maxcloud/bloc/user/user.bloc.dart';
@@ -75,7 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     addressController.text = profileState.data.data?.address ?? "";
 
     getCountry();
-    getProvince();
+    getProvince(initial: true);
 
     super.initState();
   }
@@ -102,8 +103,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  void getProvince() async {
+  void getProvince({bool initial = false}) async {
     final Response snap = await ApiServices.placesLookup(PlaceType.province);
+    final LoadedProfileState profileState =
+        BlocProvider.of<ProfileBloc>(context).state as LoadedProfileState;
 
     print(snap.data["data"]);
 
@@ -116,22 +119,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Text(toBeginningOfSentenceCase(value['name']) ?? "")));
       });
 
+      if (initial && profileState.data.data?.province != null) {
+        setState(() {
+          selectedProvince = profileState.data.data?.province?.name ?? "";
+          selectedProvinceId =
+              profileState.data.data?.province?.id.toString() ?? "";
+        });
+      } else {
+        setState(() {
+          selectedProvince = snap.data["data"]["data"][0]["name"];
+          selectedProvinceId = snap.data["data"]["data"][0]["id"].toString();
+        });
+      }
+
       setState(() {
         provinceData = _provinceData;
         dProvinceData = snap.data["data"]["data"];
-        selectedProvince = snap.data["data"]["data"][0]["name"];
-        selectedProvinceId = snap.data["data"]["data"][0]["id"].toString();
       });
 
-      getCity(snap.data["data"]["data"][0]["id"].toString());
+      getCity(
+          profileState.data.data?.province != null
+              ? profileState.data.data?.province?.id.toString() ?? ""
+              : snap.data["data"]["data"][0]["id"].toString(),
+          initial: initial ? true : false);
     } else {
       print("error");
     }
   }
 
-  void getCity(String provinceId) async {
+  void getCity(String provinceId, {bool initial = false}) async {
     final Response snap = await ApiServices.placesLookup(PlaceType.city,
         param: "?province_id=$provinceId");
+
+    final LoadedProfileState profileState =
+        BlocProvider.of<ProfileBloc>(context).state as LoadedProfileState;
 
     print(snap.data);
 
@@ -144,22 +165,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Text(toBeginningOfSentenceCase(value['name']) ?? "")));
       });
 
+      if (initial && profileState.data.data?.city != null) {
+        setState(() {
+          selectedCity = profileState.data.data?.city?.name ?? "";
+          selectedCityId = profileState.data.data?.city?.id.toString() ?? "";
+        });
+      } else {
+        setState(() {
+          selectedCity = snap.data["data"]["data"][0]["name"];
+          selectedCityId = snap.data["data"]["data"][0]["id"].toString();
+        });
+      }
+
       setState(() {
         cityData = _cityData;
         dCityData = snap.data["data"]["data"];
-        selectedCity = snap.data["data"]["data"][0]["name"];
-        selectedCityId = snap.data["data"]["data"][0]["id"].toString();
       });
 
-      getDistrict(snap.data["data"]["data"][0]["id"].toString());
+      getDistrict(
+          profileState.data.data?.city != null
+              ? profileState.data.data?.city?.id.toString() ?? ""
+              : snap.data["data"]["data"][0]["id"].toString(),
+          initial: initial ? true : false);
     } else {
       print("error");
     }
   }
 
-  void getDistrict(String cityId) async {
+  void getDistrict(String cityId, {bool initial = false}) async {
+    print("PENTIL KUDA: $cityId");
     final Response snap = await ApiServices.placesLookup(PlaceType.district,
         param: "?city_id=$cityId");
+
+    final LoadedProfileState profileState =
+        BlocProvider.of<ProfileBloc>(context).state as LoadedProfileState;
 
     print(snap.data);
 
@@ -172,11 +211,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Text(toBeginningOfSentenceCase(value['name']) ?? "")));
       });
 
+      if (initial && profileState.data.data?.district != null) {
+        setState(() {
+          selectedDistrict = profileState.data.data?.district?.name ?? "";
+          selectedDistrictId =
+              profileState.data.data?.district?.id.toString() ?? "";
+        });
+      } else {
+        setState(() {
+          selectedDistrict = snap.data["data"]["data"][0]["name"];
+          selectedDistrictId = snap.data["data"]["data"][0]["id"].toString();
+        });
+      }
+
       setState(() {
         districtData = _districtData;
         dDistrictData = snap.data["data"]["data"];
-        selectedDistrict = snap.data["data"]["data"][0]["name"];
-        selectedDistrictId = snap.data["data"]["data"][0]["id"].toString();
       });
     } else {
       print("error");
@@ -552,16 +602,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400)),
                                           onChanged: (newValue) {
+                                            var selected = dProvinceData
+                                                .where((i) =>
+                                                    i['name'] == newValue)
+                                                .toList();
+
+                                            getCity(
+                                                selected[0]['id'].toString());
+
                                             setState(() {
-                                              var selected = dProvinceData
-                                                  .where((i) =>
-                                                      i['name'] == newValue)
-                                                  .toList();
-
-                                              getCity(
-                                                  selected[0]['id'].toString());
-
                                               selectedProvince = newValue!;
+                                              selectedProvinceId =
+                                                  selected[0]['id'].toString();
                                             });
                                           },
                                           items: provinceData,
@@ -612,16 +664,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400)),
                                           onChanged: (newValue) {
+                                            var selected = dCityData
+                                                .where((i) =>
+                                                    i['name'] == newValue)
+                                                .toList();
+
+                                            getDistrict(
+                                                selected[0]['id'].toString());
+
                                             setState(() {
-                                              var selected = dCityData
-                                                  .where((i) =>
-                                                      i['name'] == newValue)
-                                                  .toList();
-
-                                              getDistrict(
-                                                  selected[0]['id'].toString());
-
                                               selectedCity = newValue!;
+                                              selectedCityId =
+                                                  selected[0]['id'].toString();
                                             });
                                           },
                                           items: cityData,
@@ -672,8 +726,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400)),
                                           onChanged: (newValue) {
+                                            var selected = dDistrictData
+                                                .where((i) =>
+                                                    i['name'] == newValue)
+                                                .toList();
+
                                             setState(() {
                                               selectedDistrict = newValue!;
+                                              selectedDistrictId =
+                                                  selected[0]['id'].toString();
                                             });
                                           },
                                           items: districtData,
@@ -695,7 +756,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
                                 onPressed: state is LoadingUpdateState
-                                    ? null
+                                    ? () {}
                                     : () async {
                                         BlocProvider.of<UpdateUserBloc>(context)
                                             .add(UpdateUserEvent(
@@ -708,13 +769,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     lastName:
                                                         lastNameController.text,
                                                     phone: phoneController.text,
-                                                    cityId: "1102",
-                                                    countryId: 79,
-                                                    districtId: "1101010",
-                                                    provinceId: "11")));
+                                                    countryId: int.parse(
+                                                        selectedCountryId),
+                                                    provinceId: int.parse(
+                                                        selectedProvinceId),
+                                                    cityId: int.parse(
+                                                        selectedCityId),
+                                                    districtId: int.parse(
+                                                        selectedDistrictId))));
                                       },
                                 child: state is LoadingUpdateState
-                                    ? CircularProgressIndicator()
+                                    ? Center(
+                                        child: LoadingAnimationWidget.waveDots(
+                                          color: Colors.white,
+                                          size: 30,
+                                        ),
+                                      )
                                     : Text(
                                         "Update",
                                         style: GoogleFonts.manrope(
@@ -909,19 +979,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                onPressed: () async {
-                                  changePasswordBloc?.add(
-                                      PostChangePasswordEvent(
-                                          await getAccessToken(), {
-                                    "current_password":
-                                        currentPasswordController.text,
-                                    "password": newPasswordController.text,
-                                    "password_confirmation":
-                                        rePasswordController.text
-                                  }));
-                                },
+                                onPressed: state is LoadingChangePasswordState
+                                    ? () {}
+                                    : () async {
+                                        changePasswordBloc?.add(
+                                            PostChangePasswordEvent(
+                                                await getAccessToken(), {
+                                          "current_password":
+                                              currentPasswordController.text,
+                                          "password":
+                                              newPasswordController.text,
+                                          "password_confirmation":
+                                              rePasswordController.text
+                                        }));
+                                      },
                                 child: state is LoadingChangePasswordState
-                                    ? CircularProgressIndicator()
+                                    ? Center(
+                                        child: LoadingAnimationWidget.waveDots(
+                                          color: Colors.white,
+                                          size: 30,
+                                        ),
+                                      )
                                     : Text(
                                         "Update",
                                         style: GoogleFonts.manrope(
