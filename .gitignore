@@ -47,3 +47,4 @@ pubspec.lock
 
 # Env 
 *.env
+pubspec.lock
