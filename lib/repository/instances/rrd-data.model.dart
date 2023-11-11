@@ -136,9 +136,9 @@ class Network {
   Network.fromJson(Map<String, dynamic> json) {
     time = json['time'];
     rawNetin = double.parse(json['raw_netin'].toString());
-    netin = json['netin'];
+    netin = json['netin'].toString();
     rawNetout = double.parse(json['raw_netout'].toString());
-    netout = json['netout'];
+    netout = json['netout'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -169,9 +169,9 @@ class Disk {
   Disk.fromJson(Map<String, dynamic> json) {
     time = json['time'];
     rawDiskwrite = double.parse(json['raw_diskwrite'].toString());
-    diskwrite = json['diskwrite'];
+    diskwrite = json['diskwrite'].toString();
     rawDiskread = double.parse(json['raw_diskread'].toString());
-    diskread = json['diskread'];
+    diskread = json['diskread'].toString();
   }
 
   Map<String, dynamic> toJson() {

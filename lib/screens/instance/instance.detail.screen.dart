@@ -46,6 +46,8 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
   RRDDataBloc? rrdDataBloc;
   VMStateBloc? vmStateBloc;
 
+  String vmStateStatus = "";
+
   @override
   void initState() {
     vmDetailBloc = BlocProvider.of<VMDetailBloc>(context);
@@ -53,7 +55,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
     vmStateBloc = BlocProvider.of<VMStateBloc>(context);
 
     getAccessToken();
-    manipulateRRD();
+    // manipulateRRD();
     super.initState();
   }
 
@@ -84,57 +86,132 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
     });
   }
 
-  manipulateRRD() async {
-    RRDDataState rrdDataState = BlocProvider.of<RRDDataBloc>(context).state;
-
-    if (rrdDataState is LoadedRRDDataState) {
-      LoadedRRDDataState data =
-          BlocProvider.of<RRDDataBloc>(context).state as LoadedRRDDataState;
-
-      // Ambil data CPU
-      if (data.rrdData.data?.cpu != null) {
-        final Cpu? latestCpuData = data.rrdData.data?.cpu?[0];
-        final double? percentage = latestCpuData?.cpu;
-        cpuData = (data.rrdData.data?.cpu as List).map((item) {
-          return ChartData(
-              convertTimeStringToDateTime(item.time), item.cpu.toDouble());
-        }).toList();
-        cpuPercentage = percentage!.toInt();
-      }
-
-      // Ambil data Memory
-      if (data.rrdData.data?.memory != null) {
-        final Memory? latestMemoryData = data.rrdData.data?.memory?[0];
-        final double? maxMemory = latestMemoryData?.rawMaxMemory;
-        final double? usageMemory = latestMemoryData?.rawUsageMemory;
-        final double percentage = (usageMemory! / maxMemory!) * 100.0;
-
-        memoryData = (data.rrdData.data?.memory as List).map((item) {
-          return ChartData(convertTimeStringToDateTime(item.time),
-              item.rawUsageMemory.toDouble());
-        }).toList();
-        memoryPercentage = percentage.toInt();
-      }
-
-      // Ambil data Network
-      if (data.rrdData.data?.network != null) {
-        networkData = (data.rrdData.data?.network as List).map((item) {
-          return ChartData(convertTimeStringToDateTime(item.time),
-              item.rawNetout.toDouble());
-        }).toList();
-      }
-
-      // Ambil data Disk
-      if (data.rrdData.data?.disk != null) {
-        diskData = (data.rrdData.data?.disk as List).map((item) {
-          return ChartData(convertTimeStringToDateTime(item.time),
-              item.rawDiskRead.toDouble());
-        }).toList();
-      }
-
-      setState(() {});
+  calculateCPUPercentage(LoadedRRDDataState data) {
+    int _cpuPercent = 0;
+    if (data.rrdData.data?.cpu != null) {
+      final Cpu? latestCpuData = data.rrdData.data?.cpu?[0];
+      final double? percentage = latestCpuData?.cpu;
+      _cpuPercent = percentage!.isNaN ? 0 : percentage.toInt();
     }
+
+    return _cpuPercent.toDouble();
   }
+
+  calculateMemoryPercentage(LoadedRRDDataState data) {
+    int _memoryPercent = 0;
+    if (data.rrdData.data?.memory != null) {
+      final Memory? latestMemoryData = data.rrdData.data?.memory?[0];
+      final double? maxMemory = latestMemoryData?.rawMaxMemory;
+      final double? usageMemory = latestMemoryData?.rawUsageMemory;
+      final double percentage = (usageMemory! / maxMemory!) * 100.0;
+
+      print('memory percent : $percentage');
+
+      _memoryPercent = percentage.isNaN ? 0 : percentage.toInt();
+    }
+
+    return _memoryPercent.toDouble();
+  }
+
+  generateChartCPUData(LoadedRRDDataState data) {
+    List<ChartData> _cpuData = [];
+    if (data.rrdData.data?.cpu != null) {
+      _cpuData = (data.rrdData.data?.cpu as List).map((item) {
+        return ChartData(
+            convertTimeStringToDateTime(item.time), item.cpu.toDouble());
+      }).toList();
+    }
+
+    return _cpuData;
+  }
+
+  generateChartMemoryData(LoadedRRDDataState data) {
+    List<ChartData> _memoryData = [];
+    if (data.rrdData.data?.memory != null) {
+      _memoryData = (data.rrdData.data?.memory as List).map((item) {
+        return ChartData(convertTimeStringToDateTime(item.time),
+            item.rawUsageMemory.toDouble());
+      }).toList();
+    }
+
+    return _memoryData;
+  }
+
+  generateChartNetworkData(LoadedRRDDataState data) {
+    List<ChartData> _networkData = [];
+    if (data.rrdData.data?.network != null) {
+      _networkData = (data.rrdData.data?.network as List).map((item) {
+        return ChartData(
+            convertTimeStringToDateTime(item.time), item.rawNetout.toDouble());
+      }).toList();
+    }
+
+    return _networkData;
+  }
+
+  generateChartDiskData(LoadedRRDDataState data) {
+    List<ChartData> _diskData = [];
+    if (data.rrdData.data?.disk != null) {
+      _diskData = (data.rrdData.data?.disk as List).map((item) {
+        return ChartData(convertTimeStringToDateTime(item.time),
+            item.rawDiskwrite.toDouble());
+      }).toList();
+    }
+
+    return _diskData;
+  }
+
+  // manipulateRRD(LoadedRRDDataState data) async {
+  //   RRDDataState rrdDataState = BlocProvider.of<RRDDataBloc>(context).state;
+
+  //   if (rrdDataState is LoadedRRDDataState) {
+  //     LoadedRRDDataState data =
+  //         BlocProvider.of<RRDDataBloc>(context).state as LoadedRRDDataState;
+
+  //     // Ambil data CPU
+  //     if (data.rrdData.data?.cpu != null) {
+  //       final Cpu? latestCpuData = data.rrdData.data?.cpu?[0];
+  //       final double? percentage = latestCpuData?.cpu;
+  //       cpuData = (data.rrdData.data?.cpu as List).map((item) {
+  //         return ChartData(
+  //             convertTimeStringToDateTime(item.time), item.cpu.toDouble());
+  //       }).toList();
+  //       cpuPercentage = percentage!.toInt();
+  //     }
+
+  //     // Ambil data Memory
+  //     if (data.rrdData.data?.memory != null) {
+  //       final Memory? latestMemoryData = data.rrdData.data?.memory?[0];
+  //       final double? maxMemory = latestMemoryData?.rawMaxMemory;
+  //       final double? usageMemory = latestMemoryData?.rawUsageMemory;
+  //       final double percentage = (usageMemory! / maxMemory!) * 100.0;
+
+  //       memoryData = (data.rrdData.data?.memory as List).map((item) {
+  //         return ChartData(convertTimeStringToDateTime(item.time),
+  //             item.rawUsageMemory.toDouble());
+  //       }).toList();
+  //       memoryPercentage = percentage.toInt();
+  //     }
+
+  //     // Ambil data Network
+  //     if (data.rrdData.data?.network != null) {
+  //       networkData = (data.rrdData.data?.network as List).map((item) {
+  //         return ChartData(convertTimeStringToDateTime(item.time),
+  //             item.rawNetout.toDouble());
+  //       }).toList();
+  //     }
+
+  //     // Ambil data Disk
+  //     if (data.rrdData.data?.disk != null) {
+  //       diskData = (data.rrdData.data?.disk as List).map((item) {
+  //         return ChartData(convertTimeStringToDateTime(item.time),
+  //             item.rawDiskRead.toDouble());
+  //       }).toList();
+  //     }
+
+  //     setState(() {});
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -173,6 +250,14 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
         return SafeArea(
           child: BlocBuilder<VMDetailBloc, VMDetailState>(
               builder: (context, state) {
+            if (state is LoadingVMDetailState) {
+              return Center(
+                  child: LoadingAnimationWidget.waveDots(
+                color: Color.fromARGB(255, 198, 198, 198),
+                size: 40,
+              ));
+            }
+
             if (state is LoadedVMDetailState) {
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 25),
@@ -187,9 +272,9 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                         children: [
                           Row(
                             children: [
-                              Image.asset(
-                                "assets/images/icons/windows.png",
-                                height: 48,
+                              Image.network(
+                                state.vmDetail.data?.os!.image ?? "",
+                                height: 35,
                               ),
                               SizedBox(width: 12),
                               Text(state.vmDetail.data?.hostname ?? "",
@@ -297,22 +382,36 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                         ],
                       ),
                       SizedBox(height: 24),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            getGradientProgressStyle(
-                                "CPU Usage", cpuPercentage.toDouble()),
-                            getGradientProgressStyle(
-                                "Disk Operation", diskPercentage.toDouble())
-                          ]),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            getGradientProgressStyle(
-                                "Network", networkPercentage.toDouble()),
-                            getGradientProgressStyle(
-                                "Memory", memoryPercentage.toDouble())
-                          ]),
+                      BlocBuilder<RRDDataBloc, RRDDataState>(
+                          builder: (context, state) {
+                        if (state is LoadedRRDDataState) {
+                          return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                getGradientProgressStyle(
+                                    "CPU Usage", calculateCPUPercentage(state)),
+                                getGradientProgressStyle(
+                                    "Disk Operation", diskPercentage.toDouble())
+                              ]);
+                        } else {
+                          return Container();
+                        }
+                      }),
+                      BlocBuilder<RRDDataBloc, RRDDataState>(
+                          builder: (context, state) {
+                        if (state is LoadedRRDDataState) {
+                          return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                getGradientProgressStyle(
+                                    "Network", networkPercentage.toDouble()),
+                                getGradientProgressStyle(
+                                    "Memory", calculateMemoryPercentage(state))
+                              ]);
+                        } else {
+                          return Container();
+                        }
+                      }),
                       SizedBox(height: 30),
                       Column(
                         children: [
@@ -363,77 +462,104 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                         ],
                       ),
                       SizedBox(height: 20),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 10.h),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 15.w, vertical: 10.h),
-                        width: ScreenUtil().screenWidth,
-                        height: 250,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: const Color(0xffbbbbbb), width: 1),
-                            borderRadius: BorderRadius.circular(10.r)),
-                        child: Center(
-                            child: CustomLineChart.buildDefaultLineChart(
-                                'CPU Usage', cpuData)),
-                      ),
+                      BlocBuilder<RRDDataBloc, RRDDataState>(
+                          builder: (context, state) {
+                        if (state is LoadedRRDDataState) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(vertical: 10.h),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15.w, vertical: 10.h),
+                            width: ScreenUtil().screenWidth,
+                            height: 250,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color(0xffbbbbbb), width: 1),
+                                borderRadius: BorderRadius.circular(10.r)),
+                            child: Center(
+                                child: CustomLineChart.buildDefaultLineChart(
+                                    'CPU Usage', generateChartCPUData(state))),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      }),
                       SizedBox(height: 20),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 10.h),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 15.w, vertical: 10.h),
-                        width: ScreenUtil().screenWidth,
-                        height: 250,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: const Color(0xffbbbbbb), width: 1),
-                            borderRadius: BorderRadius.circular(10.r)),
-                        child: Center(
-                            child: CustomLineChart.buildDefaultLineChart(
-                                'Memory Usage', memoryData)),
-                      ),
+                      BlocBuilder<RRDDataBloc, RRDDataState>(
+                          builder: (context, state) {
+                        if (state is LoadedRRDDataState) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(vertical: 10.h),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15.w, vertical: 10.h),
+                            width: ScreenUtil().screenWidth,
+                            height: 250,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color(0xffbbbbbb), width: 1),
+                                borderRadius: BorderRadius.circular(10.r)),
+                            child: Center(
+                                child: CustomLineChart.buildDefaultLineChart(
+                                    'Memory Usage',
+                                    generateChartMemoryData(state))),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      }),
                       SizedBox(height: 20),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 10.h),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 15.w, vertical: 10.h),
-                        width: ScreenUtil().screenWidth,
-                        height: 250,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: const Color(0xffbbbbbb), width: 1),
-                            borderRadius: BorderRadius.circular(10.r)),
-                        child: Center(
-                            child: CustomLineChart.buildDefaultLineChart(
-                                'Network Usage', networkData)),
-                      ),
+                      BlocBuilder<RRDDataBloc, RRDDataState>(
+                          builder: (context, state) {
+                        if (state is LoadedRRDDataState) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(vertical: 10.h),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15.w, vertical: 10.h),
+                            width: ScreenUtil().screenWidth,
+                            height: 250,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color(0xffbbbbbb), width: 1),
+                                borderRadius: BorderRadius.circular(10.r)),
+                            child: Center(
+                                child: CustomLineChart.buildDefaultLineChart(
+                                    'Network Usage',
+                                    generateChartNetworkData(state))),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      }),
                       SizedBox(height: 20),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 10.h),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 15.w, vertical: 10.h),
-                        width: ScreenUtil().screenWidth,
-                        height: 250,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: const Color(0xffbbbbbb), width: 1),
-                            borderRadius: BorderRadius.circular(10.r)),
-                        child: Center(
-                            child: CustomLineChart.buildDefaultLineChart(
-                                'Disk Usage', diskData)),
-                      ),
+                      BlocBuilder<RRDDataBloc, RRDDataState>(
+                          builder: (context, state) {
+                        if (state is LoadedRRDDataState) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(vertical: 10.h),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15.w, vertical: 10.h),
+                            width: ScreenUtil().screenWidth,
+                            height: 250,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color(0xffbbbbbb), width: 1),
+                                borderRadius: BorderRadius.circular(10.r)),
+                            child: Center(
+                                child: CustomLineChart.buildDefaultLineChart(
+                                    'Disk Usage',
+                                    generateChartDiskData(state))),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      }),
                       SizedBox(height: 20),
                     ],
                   ),
                 ),
               );
-            } else {
-              return Center(
-                  child: LoadingAnimationWidget.waveDots(
-                color: Color.fromARGB(255, 198, 198, 198),
-                size: 40,
-              ));
             }
+
+            return Container();
           }),
         );
       }),

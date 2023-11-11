@@ -469,4 +469,34 @@ class ApiServices {
       return e;
     }
   }
+
+  static Future<dynamic> readAllNotifications(String accessToken) async {
+    try {
+      final response = await dio.patch(Endpoints.readAllNotifications,
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> logout(String accessToken) async {
+    try {
+      final response = await dio.post(Endpoints.logout,
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
 }

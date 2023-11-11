@@ -80,6 +80,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
           width: ScreenUtil().screenWidth,
           child: BlocBuilder<DepositHistoryBloc, DepositHistoryState>(
               builder: (context, state) {
+            if (state is LoadingDepositHistoryState) {
+              return Center(
+                  child: LoadingAnimationWidget.waveDots(
+                color: Color.fromARGB(255, 198, 198, 198),
+                size: 40,
+              ));
+            }
+
             if (state is LoadedDepositHistoryState) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -293,13 +301,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   )
                 ],
               );
-            } else {
-              return Center(
-                  child: LoadingAnimationWidget.waveDots(
-                color: Color.fromARGB(255, 198, 198, 198),
-                size: 40,
-              ));
             }
+            return Container();
           }),
         ),
       ),

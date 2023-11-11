@@ -174,10 +174,14 @@ class _InstanceScreenState extends State<InstanceScreen> {
               ),
             ));
           }
-          // else if (state is LoadingProductState) {
-          //   return CustomWidget.loader();
-          // }
-          else if (state is ErrorProductState) {
+          if (state is LoadingProductState) {
+            return Center(
+                child: LoadingAnimationWidget.waveDots(
+              color: Color.fromARGB(255, 198, 198, 198),
+              size: 40,
+            ));
+          }
+          if (state is ErrorProductState) {
             return SizedBox(
               height: ScreenUtil().screenHeight,
               width: ScreenUtil().screenWidth,
@@ -188,13 +192,9 @@ class _InstanceScreenState extends State<InstanceScreen> {
                 ),
               ),
             );
-          } else {
-            return Center(
-                child: LoadingAnimationWidget.waveDots(
-              color: Color.fromARGB(255, 198, 198, 198),
-              size: 40,
-            ));
           }
+
+          return Container();
         },
       ),
     );

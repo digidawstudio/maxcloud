@@ -307,6 +307,15 @@ class _BillingScreenState extends State<BillingScreen> {
                       ),
                       child: BlocBuilder<PaymentMethodBloc, PaymentMethodState>(
                           builder: (context, state) {
+                        if (state is LoadingPaymentMethodState) {
+                          return Center(
+                            child: LoadingAnimationWidget.waveDots(
+                              color: Color.fromARGB(255, 168, 168, 168),
+                              size: 30,
+                            ),
+                          );
+                        }
+
                         if (state is LoadedPaymentMethodState) {
                           final List<DropdownMenuItem> list = [
                             const DropdownMenuItem(
@@ -346,14 +355,9 @@ class _BillingScreenState extends State<BillingScreen> {
                                     },
                                     items: list,
                                   )));
-                        } else {
-                          return Center(
-                            child: LoadingAnimationWidget.waveDots(
-                              color: Color.fromARGB(255, 168, 168, 168),
-                              size: 30,
-                            ),
-                          );
                         }
+
+                        return Container();
                       }),
                     ),
                     const SizedBox(height: 50),

@@ -212,15 +212,12 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         elevation: 0,
-        leading: GestureDetector(
-          onTap: () {
+        leading: IconButton(
+          icon: SvgPicture.asset('assets/svg/icons/ios-back.svg',
+              height: 24, fit: BoxFit.scaleDown),
+          onPressed: () {
             Navigator.pop(context);
           },
-          behavior: HitTestBehavior.opaque,
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
         ),
         title: const Text(
           "Help Desk",
@@ -569,7 +566,8 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
                                 color: widget.ticket.status == "Open"
                                     ? Color(0xffE9FCE5)
                                     : widget.ticket.status == "Answered" ||
-                                            widget.ticket.status == "Customer Reply"
+                                            widget.ticket.status ==
+                                                "Customer Reply"
                                         ? Color.fromARGB(255, 255, 226, 121)
                                         : Colors.red,
                                 radius: 5.r,

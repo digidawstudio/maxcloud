@@ -6,10 +6,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:maxcloud/bloc/auth/auth.bloc.dart';
 import 'package:maxcloud/bloc/profile/change-password.bloc.dart';
 import 'package:maxcloud/bloc/profile/profile.bloc.dart';
 import 'package:maxcloud/bloc/user/user.bloc.dart';
 import 'package:maxcloud/repository/profile/updateprofile.model.dart';
+import 'package:maxcloud/screens/auth/login-screen.dart';
 import 'package:maxcloud/services/api.services.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -22,6 +24,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   ProfileBloc? profileBloc;
   ChangePasswordBloc? changePasswordBloc;
+  AuthBloc? authBloc;
   TextEditingController fullNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -66,6 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     profileBloc = BlocProvider.of<ProfileBloc>(context);
     changePasswordBloc = BlocProvider.of<ChangePasswordBloc>(context);
+    authBloc = BlocProvider.of<AuthBloc>(context);
 
     final LoadedProfileState profileState =
         BlocProvider.of<ProfileBloc>(context).state as LoadedProfileState;
@@ -193,7 +197,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void getDistrict(String cityId, {bool initial = false}) async {
-    print("PENTIL KUDA: $cityId");
     final Response snap = await ApiServices.placesLookup(PlaceType.district,
         param: "?city_id=$cityId");
 
@@ -1012,6 +1015,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ],
                         ));
+                  }),
+                  SizedBox(height: 20),
+                  BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: MaterialButton(
+                        minWidth: double.infinity,
+                        height: 45,
+                        elevation: 0,
+                        color: Color.fromARGB(255, 255, 0, 34),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        onPressed: state is LoadingAuthState
+                            ? () {}
+                            : () async {
+                                authBloc?.add(LogoutEvent(getAccessToken()));
+                                await storage.delete(key: 'accessToken');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginScreen()));
+                              },
+                        child: state is LoadingAuthState
+                            ? Center(
+                                child: LoadingAnimationWidget.waveDots(
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                              )
+                            : Text(
+                                "Logout",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600)),
+                              ),
+                      ),
+                    );
                   }),
                   SizedBox(height: 40),
                 ],

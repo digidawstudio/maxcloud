@@ -8,6 +8,7 @@ import 'package:maxcloud/bloc/billing/month-summary.bloc.dart';
 import 'package:maxcloud/bloc/billing/payment-method.bloc.dart';
 import 'package:maxcloud/bloc/helpdesk/helpdesk.bloc.dart';
 import 'package:maxcloud/bloc/notifications/notifications.bloc.dart';
+import 'package:maxcloud/bloc/notifications/read-all-notifcations.bloc.dart';
 import 'package:maxcloud/bloc/product/product.bloc.dart';
 import 'package:maxcloud/bloc/product/rrd-data.bloc.dart';
 import 'package:maxcloud/bloc/product/total-resource.bloc.dart';
@@ -30,6 +31,7 @@ void main() async {
       BlocProvider(create: (context) => AuthBloc()),
       BlocProvider(create: (context) => RRDDataBloc()),
       BlocProvider(create: (context) => NotificationBloc()),
+      BlocProvider(create: (context) => ReadAllNotificationBloc()),
       BlocProvider(create: (context) => PaymentMethodBloc()),
       BlocProvider(create: (context) => DepositHistoryBloc()),
       BlocProvider(create: (context) => ChangePasswordBloc()),

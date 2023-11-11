@@ -4,6 +4,7 @@ class Endpoints {
   static String register = '/auth/otp/request';
   static String requestOtp = '/mobile/auth/otp/request';
   static String validateOtp = '/mobile/auth/otp/verify';
+  static String logout = '/mobile/auth/logout';
 
   // Billing Endpoints
   static String getCurrentMonthSummary = '/mobile/billing/summary';
@@ -24,12 +25,13 @@ class Endpoints {
 
   // Notifications Endpoints
   static String getNotifications = '/mobile/notifications/all';
+  static String readAllNotifications = '/mobile/notifications/read';
+
   //places lookup
   static String countryLookup = '/lookup/country';
   static String provinceLookup = '/lookup/province';
   static String cityLookup = '/lookup/city';
   static String districtLookup = '/lookup/district';
-
 
   static String helpDeskItems = '/mobile/ticket/tickets';
   static String ticketConversation = '/mobile/ticket';

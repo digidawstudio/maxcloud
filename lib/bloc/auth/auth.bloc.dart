@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:maxcloud/repository/auth/login.model.dart';
@@ -68,6 +67,14 @@ class ErrorAuthState extends AuthState {
   final AuthErrorModel error;
   ErrorAuthState(this.error);
 }
+
+class LogoutEvent extends AuthEvent {
+  final String token;
+
+  LogoutEvent(this.token);
+}
+
+class SuccessLogoutState extends AuthState {}
 
 //===================
 
@@ -141,11 +148,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         //     emit(ErrorAuthState(loginResponse));
         //   }
         // }
-      } else if (event is RegisterEvent) {
+      } else if (event is LogoutEvent) {
         emit(LoadingAuthState());
 
-        final response = await ApiServices.register(event.credential,
-            event.password, event.tos_agreement, event.referral_code);
+        final response = await ApiServices.logout(
+          event.token,
+        );
 
         print(response.runtimeType);
 
@@ -153,7 +161,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           print("status code $response");
           if (response.statusCode == 200) {
             print(response);
-            emit(RegisterSuccessState(RegisterModel.fromJson(response.data)));
+            emit(SuccessLogoutState());
           } else {
             emit(ErrorAuthState(response.data));
           }

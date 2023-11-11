@@ -314,6 +314,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   BlocBuilder<MonthSummaryBloc, MonthSummaryState>(
                       builder: (context, state) {
+                    if (state is LoadingMonthSummaryState) {
+                      return currentCostInitState(loading: true);
+                    }
+
                     if (state is LoadedMonthSummaryState) {
                       return Container(
                         transform: Matrix4.translationValues(0, 200.h, 0),
@@ -387,12 +391,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       );
-                    } else {
-                      return currentCostInitState(loading: true);
                     }
+
+                    return currentCostInitState(loading: false);
                   }),
                   BlocBuilder<ProfileBloc, ProfileState>(
                       builder: (context, state) {
+                    if (state is LoadingProfileState) {
+                      return profileInitState(loading: true);
+                    }
+
                     if (state is LoadedProfileState) {
                       return Container(
                         height: 242.h,
@@ -539,15 +547,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       );
-                    } else {
-                      return profileInitState(loading: true);
                     }
+
+                    return profileInitState(loading: false);
                   }),
                 ],
               ),
             ),
             BlocBuilder<TotalResourceBloc, TotalResourceState>(
                 builder: (context, state) {
+              if (state is LoadingTotalResourceState) {
+                return totalResourceInitState(loading: true);
+              }
+
               if (state is LoadedTotalResourceState) {
                 LoadedTotalResourceState totalResource = state;
 
@@ -579,9 +591,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     )),
                   ],
                 );
-              } else {
-                return totalResourceInitState(loading: true);
               }
+
+              return Container();
             }),
             BlocBuilder<LatestVMBloc, LatestVMState>(builder: (context, state) {
               if (state is LoadedLatestVMState) {

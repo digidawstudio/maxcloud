@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:maxcloud/bloc/notifications/notifications.bloc.dart';
+import 'package:maxcloud/bloc/notifications/read-all-notifcations.bloc.dart';
 import 'package:maxcloud/repository/notifications/notifications.model.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -17,6 +18,7 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenStateState extends State<NotificationScreen> {
   NotificationBloc? notificationBloc;
+  ReadAllNotificationBloc? readAllNotificationBloc;
 
   final storage = const FlutterSecureStorage();
 
@@ -48,6 +50,7 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
   @override
   void initState() {
     notificationBloc = BlocProvider.of<NotificationBloc>(context);
+    readAllNotificationBloc = BlocProvider.of<ReadAllNotificationBloc>(context);
 
     getAccessToken();
     super.initState();
@@ -89,82 +92,99 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
           },
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Material(
-            borderRadius: BorderRadius.circular(5.r),
-            elevation: 3,
-            color: Colors.white,
-            child: Container(
-              padding: EdgeInsets.only(
-                  left: 25.w, right: 25.w, bottom: 10.h, top: 25.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      GestureDetector(
-                          onTap: () {
-                            notificationBloc?.add(FetchNotificationEvent(
-                                token, "General", page, limit));
-                            setState(() {
-                              currentActive = 0;
-                            });
-                          },
-                          child: ToggleButton("General")),
-                      Expanded(child: Container()),
-                      GestureDetector(
-                          onTap: () {
-                            notificationBloc?.add(FetchNotificationEvent(
-                                token, "Service", page, limit));
-                            setState(() {
-                              currentActive = 1;
-                            });
-                          },
-                          child: ToggleButton("Service")),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 24.h,
-                  ),
-                  Text(
-                    "Mark all as read",
-                    style: GoogleFonts.manrope(
-                        textStyle: const TextStyle(
-                            color: Color(0xff009EFF),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600)),
-                  )
-                ],
+      body: BlocBuilder<ReadAllNotificationBloc, ReadAllNotificationState>(
+          builder: (context, state) {
+        if (state is LoadedReadAllNotificationState) {
+          notificationBloc
+              ?.add(FetchNotificationEvent(token, type, page, limit));
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Material(
+              borderRadius: BorderRadius.circular(5.r),
+              elevation: 3,
+              color: Colors.white,
+              child: Container(
+                padding: EdgeInsets.only(
+                    left: 25.w, right: 25.w, bottom: 10.h, top: 25.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              notificationBloc?.add(FetchNotificationEvent(
+                                  token, "General", page, limit));
+                              setState(() {
+                                currentActive = 0;
+                              });
+                            },
+                            child: ToggleButton("General")),
+                        Expanded(child: Container()),
+                        GestureDetector(
+                            onTap: () {
+                              notificationBloc?.add(FetchNotificationEvent(
+                                  token, "Service", page, limit));
+                              setState(() {
+                                currentActive = 1;
+                              });
+                            },
+                            child: ToggleButton("Service")),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 24.h,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        readAllNotificationBloc
+                            ?.add(PostReadAllNotificationEvent(token));
+                      },
+                      child: Text(
+                        "Mark all as read",
+                        style: GoogleFonts.manrope(
+                            textStyle: const TextStyle(
+                                color: Color(0xff009EFF),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600)),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          Flexible(
-            child: BlocBuilder<NotificationBloc, NotificationState>(
-                builder: (context, state) {
-              if (state is LoadedNotificationState) {
-                return ListView.builder(
-                  itemCount: currentActive == 0
-                      ? state.data.data?.notifData?.length
-                      : state.data.data?.notifData?.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, i) => NotificationItem(
-                      currentActive == 0
-                          ? state.data.data?.notifData![i]
-                          : state.data.data?.notifData![i]),
-                );
-              } else {
-                return Center(
-                    child: LoadingAnimationWidget.waveDots(
-                  color: Color.fromARGB(255, 198, 198, 198),
-                  size: 40,
-                ));
-              }
-            }),
-          )
-        ],
-      ),
+            Flexible(
+              child: BlocBuilder<NotificationBloc, NotificationState>(
+                  builder: (context, state) {
+                if (state is LoadingNotificationState) {
+                  return Center(
+                      child: LoadingAnimationWidget.waveDots(
+                    color: Color.fromARGB(255, 198, 198, 198),
+                    size: 40,
+                  ));
+                }
+
+                if (state is LoadedNotificationState) {
+                  return ListView.builder(
+                    itemCount: currentActive == 0
+                        ? state.data.data?.notifData?.length
+                        : state.data.data?.notifData?.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, i) => NotificationItem(
+                        currentActive == 0
+                            ? state.data.data?.notifData![i]
+                            : state.data.data?.notifData![i]),
+                  );
+                }
+                return Container();
+              }),
+            )
+          ],
+        );
+      }),
     );
   }
 
@@ -173,8 +193,8 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
       height: 103.h,
       padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 15.h),
       color: notifData?.readAt != null
-          ? const Color(0xfff1f1f1f1)
-          : const Color(0xffE3F3FD),
+          ? const Color(0xffE3F3FD)
+          : const Color(0xfff1f1f1f1),
       child: Column(
         children: [
           Row(
