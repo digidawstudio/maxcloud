@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:maxcloud/repository/tickets.model.dart';
 import 'package:maxcloud/repository/tickets/message.model.dart';
 import 'package:maxcloud/repository/tickets/ticketsconv.model.dart';
@@ -118,7 +119,7 @@ class TicketConversationBloc extends Bloc<HelpDeskEvent, FetchConversationState>
 
 class SendMessageEvent extends HelpDeskEvent {
   final String token, convToken, message;
-  final List<String> attachments;
+  final List<XFile> attachments;
 
   SendMessageEvent(this.token, this.convToken, this.message, {this.attachments = const []});
 }

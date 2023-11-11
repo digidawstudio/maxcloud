@@ -33,4 +33,5 @@ class Endpoints {
 
   static String helpDeskItems = '/mobile/ticket/tickets';
   static String ticketConversation = '/mobile/ticket';
+  static String createTicket = '/mobile/ticket/create';
 }

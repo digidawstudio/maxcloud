@@ -13,7 +13,7 @@ class CustomWidget {
       color: backgroundColor ?? Colors.grey.withOpacity(0.5),
       child: Center(
           child: CircularProgressIndicator(
-        color: loaderColor,
+        color: loaderColor ?? Colors.blue,
       )),
     );
   }

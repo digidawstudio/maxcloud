@@ -45,6 +45,10 @@
 		<false/>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true/>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>We need to access your Photo Library so you can attach an image to the help tickets that you create</string>
+		<key>NSCameraUsageDescription</key>
+		<string>We need to access your Camera so you can take and attach an image to the help tickets that you create</string>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>NSAppTransportSecurity</key>
