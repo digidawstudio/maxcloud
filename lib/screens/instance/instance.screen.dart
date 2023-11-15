@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:maxcloud/bloc/product/product.bloc.dart';
 import 'package:maxcloud/screens/instance/instance.detail.screen.dart';
+import 'package:maxcloud/utils/widget.classes/InstanceFilterDialog.dart';
 import 'package:maxcloud/utils/widgets.dart';
 
 class InstanceScreen extends StatefulWidget {
@@ -19,6 +20,12 @@ class InstanceScreen extends StatefulWidget {
 
 class _InstanceScreenState extends State<InstanceScreen> {
   ProductBloc? productBloc;
+  String sort = "";
+  String status = "";
+  String token = "";
+
+  int limit = 10;
+  int page = 1;
 
   final storage = const FlutterSecureStorage();
 
@@ -32,7 +39,10 @@ class _InstanceScreenState extends State<InstanceScreen> {
 
   void getAccessToken() async {
     String? accessToken = await storage.read(key: 'accessToken');
-    productBloc?.add(FetchProductEvent(accessToken ?? ""));
+    productBloc?.add(FetchProductEvent(accessToken ?? "", status, limit, page));
+    setState(() {
+      token = accessToken!;
+    });
   }
 
   @override
@@ -137,7 +147,17 @@ class _InstanceScreenState extends State<InstanceScreen> {
                                   width: 1, color: Color(0xffBBBBBB)),
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                  context: this.context,
+                                  builder: (ctx) => InstanceFilterDialog(
+                                        onFilter: (sort, status) async {
+                                          Navigator.pop(this.context);
+                                          productBloc?.add(FetchProductEvent(
+                                              token, status, limit, page));
+                                        },
+                                      ));
+                            },
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -160,26 +180,22 @@ class _InstanceScreenState extends State<InstanceScreen> {
                       ],
                     ),
                     instances.products.data!.data!.isNotEmpty
-                        ? SingleChildScrollView(
-                            child: Column(
-                              children: instances.products.data!.data!.map((e) {
-                                return CustomWidget.InstanceSpecs(() {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              InstanceDetailScreen(data: e)));
-                                }, data: e);
-                              }).toList(),
-                            ),
+                        ? Column(
+                            children: instances.products.data!.data!.map((e) {
+                              return CustomWidget.InstanceSpecs(() {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            InstanceDetailScreen(data: e)));
+                              }, data: e);
+                            }).toList(),
                           )
-                        : Flexible(
-                            child: Container(
-                              height: ScreenUtil().screenHeight,
-                              width: ScreenUtil().screenWidth,
-                              child: Center(
-                                child: Text("There is no instances"),
-                              ),
+                        : Container(
+                            height: ScreenUtil().screenHeight / 1.4,
+                            width: ScreenUtil().screenWidth,
+                            child: Center(
+                              child: Text("There is no instances"),
                             ),
                           ),
                   ],
