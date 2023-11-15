@@ -17,6 +17,7 @@ import 'package:maxcloud/repository/tickets.model.dart';
 import 'package:maxcloud/screens/auth/login-screen.dart';
 import 'package:maxcloud/screens/help/helpdesk-detail.screen.dart';
 import 'package:maxcloud/services/api.services.dart';
+import 'package:maxcloud/utils/widget.classes/HelpdeskFilterDialog.dart';
 import 'package:maxcloud/utils/widgets.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
@@ -509,7 +510,15 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                       width: 1, color: Color(0xffBBBBBB)),
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  showDialog(
+                                      context: this.context,
+                                      builder: (ctx) => HelpdeskFilterDialog(
+                                            onFilter: () async {
+                                              Navigator.pop(this.context);
+                                            },
+                                          ));
+                                },
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,

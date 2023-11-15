@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
 import 'package:maxcloud/services/api.services.dart';
@@ -8,9 +7,10 @@ import '../../repository/auth/login.model.dart';
 abstract class ProductEvent {}
 
 class FetchProductEvent extends ProductEvent {
-  final String? token;
+  final String? token, status;
+  final int limit, page;
 
-  FetchProductEvent(this.token);
+  FetchProductEvent(this.token, this.status, this.limit, this.page);
 }
 
 abstract class ProductState {}
@@ -37,7 +37,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       if (event is FetchProductEvent) {
         emit(LoadingProductState());
 
-        final response = await ApiServices.getMyInstances(event.token!);
+        final response = await ApiServices.getMyInstances(
+            event.token!, event.status!, event.limit, event.page);
 
         print(response.runtimeType);
 

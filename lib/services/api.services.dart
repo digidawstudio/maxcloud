@@ -64,9 +64,11 @@ class ApiServices {
     }
   }
 
-  static Future<dynamic> getMyInstances(String token) async {
+  static Future<dynamic> getMyInstances(
+      String token, String status, int limit, int page) async {
     try {
       final response = await dio.get(Endpoints.myInstance,
+          queryParameters: {"limit": limit, "page": page, "statuses": status},
           options: Options(headers: {
             "x-mobile-token": "=U-wQEy1xn0uBgcy",
             'Authorization': 'Bearer $token'
