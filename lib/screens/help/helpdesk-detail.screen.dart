@@ -247,239 +247,241 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
       ),
       bottomNavigationBar: SizedBox(
         height: 60.h,
-        child: ButtonTheme(
-          child: BlocBuilder<SendMessageBloc, SendMessageState>(
-            builder: (context, state) {
-              return ElevatedButton(
-                onPressed: widget.ticket.status == "Closed"
-                    ? () {}
-                    : () {
-                        showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (currentContext) {
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context)
-                                        .viewInsets
-                                        .bottom),
-                                child: StatefulBuilder(
-                                  builder: (context, thisSetState) => Container(
-                                    height: 600.h,
-                                    padding: EdgeInsets.all(25.w),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10.r),
-                                        color: Colors.white),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Text("Message"),
-                                        SizedBox(
-                                          height: 9.h,
-                                        ),
-                                        Flexible(
-                                          child: SizedBox(
-                                            height: 160.h,
-                                            child: TextFormField(
-                                              maxLines: 20,
-                                              canRequestFocus: true,
-                                              focusNode: messageFocus,
-                                              autofocus: true,
-                                              controller: messageController,
-                                              keyboardType: TextInputType.text,
-                                              decoration: InputDecoration(
-                                                hintText: "Type Reply",
-                                                border: OutlineInputBorder(
-                                                  borderSide: const BorderSide(
-                                                      color: Colors.black),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.r),
-                                                ),
-                                              ),
-                                            ),
+        child: SafeArea(
+          child: ButtonTheme(
+            child: BlocBuilder<SendMessageBloc, SendMessageState>(
+              builder: (context, state) {
+                return ElevatedButton(
+                  onPressed: widget.ticket.status == "Closed"
+                      ? () {}
+                      : () {
+                          showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (currentContext) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom),
+                                  child: StatefulBuilder(
+                                    builder: (context, thisSetState) => Container(
+                                      height: 600.h,
+                                      padding: EdgeInsets.all(25.w),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
+                                          color: Colors.white),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text("Message"),
+                                          SizedBox(
+                                            height: 9.h,
                                           ),
-                                        ),
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        Container(
-                                          width: ScreenUtil().screenWidth,
-                                          height: files.isEmpty ? 0 : 50.h,
-                                          child: ListView.builder(
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: files.length,
-                                            itemBuilder: (context, i) {
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  showImageViewer(
-                                                      context,
-                                                      useSafeArea: true,
-                                                      swipeDismissible: true,
-                                                      Image.file(File(
-                                                              files[i].path))
-                                                          .image);
-                                                },
-                                                child: Container(
-                                                  height: 36.h,
-                                                  width: 36.w,
-                                                  child: Image.file(
-                                                      File(files[i].path)),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        files.length >= 5
-                                            ? Container()
-                                            : GestureDetector(
-                                                onTap: () {
-                                                  pickImage(thisSetState);
-                                                },
-                                                child: Container(
-                                                  height: 36.h,
-                                                  width: 36.h,
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: Colors.grey),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.r)),
-                                                  child: Center(
-                                                    child: Text("+"),
+                                          Flexible(
+                                            child: SizedBox(
+                                              height: 160.h,
+                                              child: TextFormField(
+                                                maxLines: 20,
+                                                canRequestFocus: true,
+                                                focusNode: messageFocus,
+                                                autofocus: true,
+                                                controller: messageController,
+                                                keyboardType: TextInputType.text,
+                                                decoration: InputDecoration(
+                                                  hintText: "Type Reply",
+                                                  border: OutlineInputBorder(
+                                                    borderSide: const BorderSide(
+                                                        color: Colors.black),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.r),
                                                   ),
                                                 ),
                                               ),
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Container(),
                                             ),
-                                            ElevatedButton(
-                                              onPressed: () async {
-                                                if (messageController
-                                                    .text.isEmpty) {
-                                                  Flushbar(
-                                                          message:
-                                                              "Content is required",
-                                                          flushbarPosition:
-                                                              FlushbarPosition
-                                                                  .TOP,
-                                                          backgroundColor:
-                                                              Colors.red,
-                                                          duration:
-                                                              const Duration(
-                                                                  seconds: 2))
-                                                      .show(currentContext);
-                                                  return;
-                                                }
-
-                                                BlocProvider.of<
-                                                            SendMessageBloc>(
-                                                        currentContext)
-                                                    .add(
-                                                  SendMessageEvent(
-                                                      await token() ?? "",
-                                                      widget.ticket.token!,
-                                                      messageController.text,
-                                                      attachments: files),
+                                          ),
+                                          SizedBox(
+                                            height: 10.h,
+                                          ),
+                                          Container(
+                                            width: ScreenUtil().screenWidth,
+                                            height: files.isEmpty ? 0 : 50.h,
+                                            child: ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: files.length,
+                                              itemBuilder: (context, i) {
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    showImageViewer(
+                                                        context,
+                                                        useSafeArea: true,
+                                                        swipeDismissible: true,
+                                                        Image.file(File(
+                                                                files[i].path))
+                                                            .image);
+                                                  },
+                                                  child: Container(
+                                                    height: 36.h,
+                                                    width: 36.w,
+                                                    child: Image.file(
+                                                        File(files[i].path)),
+                                                  ),
                                                 );
-
-                                                Navigator.pop(currentContext);
-                                                showModalBottomSheet(
-                                                    context: context,
-                                                    enableDrag: true,
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    builder: (bbbb) {
-                                                      Future.delayed(
-                                                          Duration.zero, () {
-                                                        Flushbar(
-                                                                message:
-                                                                    "Message Sent",
-                                                                flushbarPosition:
-                                                                    FlushbarPosition
-                                                                        .TOP,
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .green,
-                                                                duration:
-                                                                    const Duration(
-                                                                        seconds:
-                                                                            2))
-                                                            .show(bbbb);
-                                                        convData.insert(
-                                                            0,
-                                                            ConversationData(
-                                                                isAdmin: 0,
-                                                                timeAt: 'now',
-                                                                creatorName: widget
-                                                                    .ticket
-                                                                    .members
-                                                                    ?.where((element) =>
-                                                                        element
-                                                                            .isAdmin ==
-                                                                        false)
-                                                                    .first
-                                                                    .name,
-                                                                content:
-                                                                    messageController
-                                                                        .text,
-                                                                dateAt:
-                                                                    "Today"));
-                                                        setState(() {});
-                                                        // getMessage();
-                                                      });
-                                                      Navigator.pop(bbbb);
-                                                      return Container(
-                                                        height: 200.h,
-                                                        color: Colors.white,
-                                                        padding: EdgeInsets.all(
-                                                            25.w),
-                                                        child: const Center(
-                                                            child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            CircularProgressIndicator(),
-                                                            Text(
-                                                                "Sending Message")
-                                                          ],
-                                                        )),
-                                                      );
-                                                    });
                                               },
-                                              child: const Text("Send"),
-                                            )
-                                          ],
-                                        )
-                                      ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10.h,
+                                          ),
+                                          files.length >= 5
+                                              ? Container()
+                                              : GestureDetector(
+                                                  onTap: () {
+                                                    pickImage(thisSetState);
+                                                  },
+                                                  child: Container(
+                                                    height: 36.h,
+                                                    width: 36.h,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color: Colors.grey),
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10.r)),
+                                                    child: Center(
+                                                      child: Text("+"),
+                                                    ),
+                                                  ),
+                                                ),
+                                          SizedBox(
+                                            height: 10.h,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Container(),
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () async {
+                                                  if (messageController
+                                                      .text.isEmpty) {
+                                                    Flushbar(
+                                                            message:
+                                                                "Content is required",
+                                                            flushbarPosition:
+                                                                FlushbarPosition
+                                                                    .TOP,
+                                                            backgroundColor:
+                                                                Colors.red,
+                                                            duration:
+                                                                const Duration(
+                                                                    seconds: 2))
+                                                        .show(currentContext);
+                                                    return;
+                                                  }
+        
+                                                  BlocProvider.of<
+                                                              SendMessageBloc>(
+                                                          currentContext)
+                                                      .add(
+                                                    SendMessageEvent(
+                                                        await token() ?? "",
+                                                        widget.ticket.token!,
+                                                        messageController.text,
+                                                        attachments: files),
+                                                  );
+        
+                                                  Navigator.pop(currentContext);
+                                                  showModalBottomSheet(
+                                                      context: context,
+                                                      enableDrag: true,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      builder: (bbbb) {
+                                                        Future.delayed(
+                                                            Duration.zero, () {
+                                                          Flushbar(
+                                                                  message:
+                                                                      "Message Sent",
+                                                                  flushbarPosition:
+                                                                      FlushbarPosition
+                                                                          .TOP,
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .green,
+                                                                  duration:
+                                                                      const Duration(
+                                                                          seconds:
+                                                                              2))
+                                                              .show(bbbb);
+                                                          convData.insert(
+                                                              0,
+                                                              ConversationData(
+                                                                  isAdmin: 0,
+                                                                  timeAt: 'now',
+                                                                  creatorName: widget
+                                                                      .ticket
+                                                                      .members
+                                                                      ?.where((element) =>
+                                                                          element
+                                                                              .isAdmin ==
+                                                                          false)
+                                                                      .first
+                                                                      .name,
+                                                                  content:
+                                                                      messageController
+                                                                          .text,
+                                                                  dateAt:
+                                                                      "Today"));
+                                                          setState(() {});
+                                                          // getMessage();
+                                                        });
+                                                        Navigator.pop(bbbb);
+                                                        return Container(
+                                                          height: 200.h,
+                                                          color: Colors.white,
+                                                          padding: EdgeInsets.all(
+                                                              25.w),
+                                                          child: const Center(
+                                                              child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              CircularProgressIndicator(),
+                                                              Text(
+                                                                  "Sending Message")
+                                                            ],
+                                                          )),
+                                                        );
+                                                      });
+                                                },
+                                                child: const Text("Send"),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            });
-                      },
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        widget.ticket.status == "Closed"
-                            ? Colors.red
-                            : Colors.blue)),
-                child: Text(widget.ticket.status == "Closed"
-                    ? "Ticket Closed"
-                    : "Reply"),
-              );
-            },
+                                );
+                              });
+                        },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          widget.ticket.status == "Closed"
+                              ? Colors.red
+                              : Colors.blue)),
+                  child: Text(widget.ticket.status == "Closed"
+                      ? "Ticket Closed"
+                      : "Reply"),
+                );
+              },
+            ),
           ),
         ),
       ),
