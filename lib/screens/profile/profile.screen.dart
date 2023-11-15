@@ -1031,7 +1031,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: state is LoadingAuthState
                             ? () {}
                             : () async {
-                                authBloc?.add(LogoutEvent(getAccessToken()));
+                                authBloc?.add(LogoutEvent(getAccessToken().toString()));
                                 await storage.delete(key: 'accessToken');
                                 Navigator.push(
                                     context,

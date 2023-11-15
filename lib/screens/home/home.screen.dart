@@ -190,76 +190,85 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   )
-                : Column(children: [
-                    Flexible(
-                        child: SizedBox(
-                      height: 12.h,
-                    )),
-                    Container(
-                      height: 80.h,
-                      padding: EdgeInsets.symmetric(horizontal: 15.w),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15.r)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Flexible(
-                                    child: Text("Saldo Anda",
-                                        style: GoogleFonts.manrope(
-                                            textStyle: TextStyle(
-                                                fontSize: 12.sp,
-                                                color: const Color(0xffBBBBBB),
-                                                fontWeight: FontWeight.w500)))),
-                                SizedBox(
-                                  height: 2.h,
-                                ),
-                                Flexible(
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        "Rp",
-                                        style: GoogleFonts.manrope(
-                                            textStyle: TextStyle(
-                                                fontSize: 20.sp,
-                                                color: const Color(0xff232226),
-                                                fontWeight: FontWeight.w500)),
-                                      ),
-                                      SizedBox(
-                                        width: 7.w,
-                                      ),
-                                      Text("0,00",
+                : Container(
+                    height: 50.h,
+                    child: Column(children: [
+                      Flexible(
+                          child: SizedBox(
+                        height: 12.h,
+                      )),
+                      Container(
+                        height: 80.h,
+                        padding: EdgeInsets.symmetric(horizontal: 15.w),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15.r)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                      child: Text("Saldo Anda",
                                           style: GoogleFonts.manrope(
                                               textStyle: TextStyle(
-                                                  fontSize: 22.sp,
+                                                  fontSize: 12.sp,
                                                   color:
-                                                      const Color(0xff009EFF),
+                                                      const Color(0xffBBBBBB),
                                                   fontWeight:
-                                                      FontWeight.w700))),
-                                    ],
+                                                      FontWeight.w500)))),
+                                  SizedBox(
+                                    height: 2.h,
                                   ),
-                                )
-                              ],
+                                  Flexible(
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          "Rp",
+                                          style: GoogleFonts.manrope(
+                                              textStyle: TextStyle(
+                                                  fontSize: 20.sp,
+                                                  color:
+                                                      const Color(0xff232226),
+                                                  fontWeight: FontWeight.w500)),
+                                        ),
+                                        SizedBox(
+                                          width: 7.w,
+                                        ),
+                                        Text(
+                                          "0,00",
+                                          style: GoogleFonts.manrope(
+                                            textStyle: TextStyle(
+                                                fontSize: 22.sp,
+                                                color: const Color(0xff009EFF),
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              //TODO: add function
-                            },
-                            child: const Image(
-                              image: AssetImage("assets/images/add-button.png"),
-                            ),
-                          )
-                        ],
+                            GestureDetector(
+                              onTap: () {
+                                //TODO: add function
+                              },
+                              child: const Image(
+                                image:
+                                    AssetImage("assets/images/add-button.png"),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ])
+                    ]),
+                  )
           ],
         ),
       ),
