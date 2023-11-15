@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,6 +19,17 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  bool isHidePassword = true;
+
+  @override
+  void initState() {
+    // AuthBloc authBloc = AuthBloc();
+
+    // // authBloc.stream.listen((event) { });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +43,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     builder: (context) => OtpScreen(
                           loginData: state.data,
                         )));
+          });
+        }
+
+        if (state is ErrorAuthState) {
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            Flushbar(
+              message: state.error.message,
+              backgroundColor: Colors.red,
+              flushbarPosition: FlushbarPosition.TOP,
+              messageColor: Colors.white,
+              duration: Duration(seconds: 2),
+            ).show(context);
           });
         }
 
@@ -68,6 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             autocorrect: false,
                             controller: emailController,
                             keyboardType: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.done,
                             // controller: _phoneController,
                             style: GoogleFonts.manrope(
                                 textStyle: const TextStyle(
@@ -111,6 +136,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(height: 10),
                         TextField(
                             controller: passwordController,
+                            obscureText: isHidePassword,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.go,
                             autocorrect: false,
                             // controller: _phoneController,
                             style: GoogleFonts.manrope(
@@ -120,10 +148,16 @@ class _LoginScreenState extends State<LoginScreen> {
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10.5, horizontal: 15),
                               isDense: true,
-                              suffixIcon: SvgPicture.asset(
-                                  'assets/svg/icons/password-not-visible.svg',
-                                  height: 16,
-                                  fit: BoxFit.scaleDown),
+                              suffixIcon: GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: () => setState(() {
+                                  isHidePassword = !isHidePassword;
+                                }),
+                                child: SvgPicture.asset(
+                                    'assets/svg/icons/password-not-visible.svg',
+                                    height: 16,
+                                    fit: BoxFit.scaleDown),
+                              ),
                               hintText: 'Masukkan password anda',
                               hintStyle: GoogleFonts.manrope(
                                   textStyle: const TextStyle(
@@ -142,7 +176,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            onEditingComplete: () {}),
+                            onEditingComplete: () {
+                              BlocProvider.of<AuthBloc>(context).add(LoginEvent(
+                                  emailController.text,
+                                  passwordController.text));
+                            }),
                       ],
                     ),
                     const SizedBox(height: 30),
@@ -180,8 +218,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
-                            side:
-                                const BorderSide(width: 1, color: Color(0xffBBBBBB))),
+                            side: const BorderSide(
+                                width: 1, color: Color(0xffBBBBBB))),
                         onPressed: () {
                           Navigator.push(
                               context,

@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -327,6 +328,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       return currentCostInitState(loading: true);
                     }
 
+                    if (state is ErrorMonthSummaryState) {
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                        Flushbar(
+                          message: state.error.message,
+                          backgroundColor: Colors.red,
+                          flushbarPosition: FlushbarPosition.TOP,
+                          messageColor: Colors.white,
+                          duration: Duration(seconds: 2),
+                        ).show(context);
+                      });
+                    }
+
                     if (state is LoadedMonthSummaryState) {
                       return Container(
                         transform: Matrix4.translationValues(0, 200.h, 0),
@@ -408,6 +421,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       builder: (context, state) {
                     if (state is LoadingProfileState) {
                       return profileInitState(loading: true);
+                    }
+
+                    if (state is ErrorProfileState) {
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                        Flushbar(
+                          message: state.error.message,
+                          backgroundColor: Colors.red,
+                          flushbarPosition: FlushbarPosition.TOP,
+                          messageColor: Colors.white,
+                          duration: Duration(seconds: 2),
+                        ).show(context);
+                      });
                     }
 
                     if (state is LoadedProfileState) {
@@ -569,6 +594,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 return totalResourceInitState(loading: true);
               }
 
+              if (state is ErrorTotalResourceState) {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                  Flushbar(
+                    message: state.error,
+                    backgroundColor: Colors.red,
+                    flushbarPosition: FlushbarPosition.TOP,
+                    messageColor: Colors.white,
+                    duration: Duration(seconds: 2),
+                  ).show(context);
+                });
+              }
+
               if (state is LoadedTotalResourceState) {
                 LoadedTotalResourceState totalResource = state;
 
@@ -605,6 +642,18 @@ class _HomeScreenState extends State<HomeScreen> {
               return Container();
             }),
             BlocBuilder<LatestVMBloc, LatestVMState>(builder: (context, state) {
+              if (state is ErrorLatestVMState) {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                  Flushbar(
+                    message: state.error,
+                    backgroundColor: Colors.red,
+                    flushbarPosition: FlushbarPosition.TOP,
+                    messageColor: Colors.white,
+                    duration: Duration(seconds: 2),
+                  ).show(context);
+                });
+              }
+
               if (state is LoadedLatestVMState) {
                 LoadedLatestVMState latestVM = state;
 

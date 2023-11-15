@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -62,6 +63,18 @@ class _InstanceScreenState extends State<InstanceScreen> {
       ),
       body: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
+          if (state is ErrorProductState) {
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              Flushbar(
+                message: state.error,
+                backgroundColor: Colors.red,
+                flushbarPosition: FlushbarPosition.TOP,
+                messageColor: Colors.white,
+                duration: Duration(seconds: 2),
+              ).show(context);
+            });
+          }
+
           if (state is LoadedProductState) {
             LoadedProductState instances = state;
 

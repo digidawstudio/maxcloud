@@ -238,8 +238,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   final storage = const FlutterSecureStorage();
 
-  getAccessToken() async {
-    return await storage.read(key: 'accessToken');
+  Future<String> getAccessToken() async {
+    return await storage.read(key: 'accessToken') ?? "";
   }
 
   @override
@@ -1031,12 +1031,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: state is LoadingAuthState
                             ? () {}
                             : () async {
-                                authBloc?.add(LogoutEvent(getAccessToken().toString()));
+                                authBloc?.add(LogoutEvent(await getAccessToken()));
                                 await storage.delete(key: 'accessToken');
-                                Navigator.push(
+                                Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => LoginScreen()));
+                                        builder: (context) => LoginScreen()), ((route) => false));
                               },
                         child: state is LoadingAuthState
                             ? Center(

@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -247,6 +248,18 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
           vmDetailBloc?.add(FetchVMDetailEvent(token, widget.data.uuid));
         }
 
+        if (state is ErrorVMState) {
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            Flushbar(
+              message: state.error.message,
+              backgroundColor: Colors.red,
+              flushbarPosition: FlushbarPosition.TOP,
+              messageColor: Colors.white,
+              duration: Duration(seconds: 2),
+            ).show(context);
+          });
+        }
+
         return SafeArea(
           child: BlocBuilder<VMDetailBloc, VMDetailState>(
               builder: (context, state) {
@@ -256,6 +269,18 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                 color: Color.fromARGB(255, 198, 198, 198),
                 size: 40,
               ));
+            }
+
+            if (state is ErrorVMDetailState) {
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                Flushbar(
+                  message: state.error,
+                  backgroundColor: Colors.red,
+                  flushbarPosition: FlushbarPosition.TOP,
+                  messageColor: Colors.white,
+                  duration: Duration(seconds: 2),
+                ).show(context);
+              });
             }
 
             if (state is LoadedVMDetailState) {
@@ -384,6 +409,18 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                       SizedBox(height: 24),
                       BlocBuilder<RRDDataBloc, RRDDataState>(
                           builder: (context, state) {
+                        if (state is ErrorRRDDataState) {
+                          WidgetsBinding.instance
+                              .addPostFrameCallback((timeStamp) {
+                            Flushbar(
+                              message: state.error,
+                              backgroundColor: Colors.red,
+                              flushbarPosition: FlushbarPosition.TOP,
+                              messageColor: Colors.white,
+                              duration: Duration(seconds: 2),
+                            ).show(context);
+                          });
+                        }
                         if (state is LoadedRRDDataState) {
                           return Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -393,12 +430,24 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                                 getGradientProgressStyle(
                                     "Disk Operation", diskPercentage.toDouble())
                               ]);
-                        } else {
-                          return Container();
                         }
+
+                        return Container();
                       }),
                       BlocBuilder<RRDDataBloc, RRDDataState>(
                           builder: (context, state) {
+                        if (state is ErrorRRDDataState) {
+                          WidgetsBinding.instance
+                              .addPostFrameCallback((timeStamp) {
+                            Flushbar(
+                              message: state.error,
+                              backgroundColor: Colors.red,
+                              flushbarPosition: FlushbarPosition.TOP,
+                              messageColor: Colors.white,
+                              duration: Duration(seconds: 2),
+                            ).show(context);
+                          });
+                        }
                         if (state is LoadedRRDDataState) {
                           return Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -408,9 +457,8 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                                 getGradientProgressStyle(
                                     "Memory", calculateMemoryPercentage(state))
                               ]);
-                        } else {
-                          return Container();
                         }
+                        return Container();
                       }),
                       SizedBox(height: 30),
                       Column(
@@ -464,6 +512,18 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                       SizedBox(height: 20),
                       BlocBuilder<RRDDataBloc, RRDDataState>(
                           builder: (context, state) {
+                        if (state is ErrorRRDDataState) {
+                          WidgetsBinding.instance
+                              .addPostFrameCallback((timeStamp) {
+                            Flushbar(
+                              message: state.error,
+                              backgroundColor: Colors.red,
+                              flushbarPosition: FlushbarPosition.TOP,
+                              messageColor: Colors.white,
+                              duration: Duration(seconds: 2),
+                            ).show(context);
+                          });
+                        }
                         if (state is LoadedRRDDataState) {
                           return Container(
                             margin: EdgeInsets.symmetric(vertical: 10.h),
