@@ -75,6 +75,7 @@ class _InstanceScreenState extends State<InstanceScreen> {
       body: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
           if (state is ErrorProductState) {
+            
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
               Flushbar(
                 message: state.error,
@@ -189,10 +190,14 @@ class _InstanceScreenState extends State<InstanceScreen> {
                             children: instances.products.data!.data!.map((e) {
                               return CustomWidget.InstanceSpecs(() {
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            InstanceDetailScreen(data: e)));
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        InstanceDetailScreen(data: e),
+                                  ),
+                                ).then((value){
+                                  getAccessToken();
+                                });
                               }, data: e);
                             }).toList(),
                           )

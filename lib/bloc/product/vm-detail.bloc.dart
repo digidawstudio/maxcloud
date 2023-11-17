@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:maxcloud/repository/instances/vm-detail.model.dart';
 import 'package:maxcloud/services/api.services.dart';
@@ -37,6 +36,8 @@ class VMDetailBloc extends Bloc<VMDetailEvent, VMDetailState> {
     on<VMDetailEvent>((event, emit) async {
       if (event is FetchVMDetailEvent) {
         emit(LoadingVMDetailState());
+
+        print("Vm detail bloc token: " + event.token!);
 
         final response =
             await ApiServices.getVMDetail(event.token!, event.vmUuid!);

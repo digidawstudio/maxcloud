@@ -80,6 +80,8 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
   getAccessToken() async {
     String? accessToken = await storage.read(key: 'accessToken');
 
+    print("accessToken: $accessToken");
+
     vmDetailBloc?.add(FetchVMDetailEvent(accessToken ?? "", widget.data.uuid));
     rrdDataBloc
         ?.add(FetchRRDDataEvent(accessToken ?? "", widget.data.uuid, period));
@@ -250,6 +252,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
         }
 
         if (state is ErrorVMState) {
+          print(" State: " + state.toString());
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             Flushbar(
               message: state.error.message,
@@ -273,6 +276,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
             }
 
             if (state is ErrorVMDetailState) {
+              print("vm detail state: " + state.error);
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                 Flushbar(
                   message: state.error,
@@ -411,6 +415,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                       BlocBuilder<RRDDataBloc, RRDDataState>(
                           builder: (context, state) {
                         if (state is ErrorRRDDataState) {
+                          print("RRD State: " + state.toString());
                           WidgetsBinding.instance
                               .addPostFrameCallback((timeStamp) {
                             Flushbar(
@@ -437,18 +442,18 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                       }),
                       BlocBuilder<RRDDataBloc, RRDDataState>(
                           builder: (context, state) {
-                        if (state is ErrorRRDDataState) {
-                          WidgetsBinding.instance
-                              .addPostFrameCallback((timeStamp) {
-                            Flushbar(
-                              message: state.error,
-                              backgroundColor: Colors.red,
-                              flushbarPosition: FlushbarPosition.TOP,
-                              messageColor: Colors.white,
-                              duration: Duration(seconds: 2),
-                            ).show(context);
-                          });
-                        }
+                        // if (state is ErrorRRDDataState) {
+                        //   WidgetsBinding.instance
+                        //       .addPostFrameCallback((timeStamp) {
+                        //     Flushbar(
+                        //       message: state.error,
+                        //       backgroundColor: Colors.red,
+                        //       flushbarPosition: FlushbarPosition.TOP,
+                        //       messageColor: Colors.white,
+                        //       duration: Duration(seconds: 2),
+                        //     ).show(context);
+                        //   });
+                        // }
                         if (state is LoadedRRDDataState) {
                           return Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -511,18 +516,18 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                       SizedBox(height: 20),
                       BlocBuilder<RRDDataBloc, RRDDataState>(
                           builder: (context, state) {
-                        if (state is ErrorRRDDataState) {
-                          WidgetsBinding.instance
-                              .addPostFrameCallback((timeStamp) {
-                            Flushbar(
-                              message: state.error,
-                              backgroundColor: Colors.red,
-                              flushbarPosition: FlushbarPosition.TOP,
-                              messageColor: Colors.white,
-                              duration: Duration(seconds: 2),
-                            ).show(context);
-                          });
-                        }
+                        // if (state is ErrorRRDDataState) {
+                        //   WidgetsBinding.instance
+                        //       .addPostFrameCallback((timeStamp) {
+                        //     Flushbar(
+                        //       message: state.error,
+                        //       backgroundColor: Colors.red,
+                        //       flushbarPosition: FlushbarPosition.TOP,
+                        //       messageColor: Colors.white,
+                        //       duration: Duration(seconds: 2),
+                        //     ).show(context);
+                        //   });
+                        // }
                         if (state is LoadedRRDDataState) {
                           return Container(
                             margin: EdgeInsets.symmetric(vertical: 10.h),
