@@ -76,6 +76,7 @@ dependencies:
   socket_io_client:
   image_picker:
   easy_image_viewer:
+  webview_flutter:
 
 dev_dependencies:
   flutter_test:

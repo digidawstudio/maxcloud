@@ -27,12 +27,15 @@ class _InstanceCreateScreenState extends State<InstanceCreateScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text("Instance",
-                style: GoogleFonts.manrope(
-                    textStyle: const TextStyle(
-                        color: Color(0xff353333),
-                        fontSize: 25,
-                        fontWeight: FontWeight.w600))),
+            Text(
+              "Instance",
+              style: GoogleFonts.manrope(
+                textStyle: const TextStyle(
+                    color: Color(0xff353333),
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
           ],
         ),
         leading: IconButton(
@@ -79,8 +82,9 @@ class _InstanceCreateScreenState extends State<InstanceCreateScreen> {
                           decoration: const BoxDecoration(
                             color: Color(0xffF1F1F1),
                             borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                bottomLeft: Radius.circular(10)),
+                              topLeft: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                            ),
                           ),
                           child: Center(
                               child: SvgPicture.asset(
@@ -129,7 +133,8 @@ class _InstanceCreateScreenState extends State<InstanceCreateScreen> {
               const SizedBox(height: 15),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color(0xffbbbbbb),
@@ -205,7 +210,8 @@ class _InstanceCreateScreenState extends State<InstanceCreateScreen> {
                   border:
                       Border.all(width: 1.0, color: const Color(0xFFBBBBBB)),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -278,14 +284,17 @@ class _InstanceCreateScreenState extends State<InstanceCreateScreen> {
                                   child: SliderTheme(
                                     data: SliderTheme.of(context).copyWith(
                                       activeTrackColor: const Color(0xff232226),
-                                      inactiveTrackColor: const Color(0xffBBBBBB),
-                                      trackShape: const RectangularSliderTrackShape(),
+                                      inactiveTrackColor:
+                                          const Color(0xffBBBBBB),
+                                      trackShape:
+                                          const RectangularSliderTrackShape(),
                                       trackHeight: 2.0,
                                       thumbColor: Colors.blueAccent,
                                       thumbShape: const RoundSliderThumbShape(
                                           enabledThumbRadius: 8.0),
-                                      overlayShape: const RoundSliderOverlayShape(
-                                          overlayRadius: 10.0),
+                                      overlayShape:
+                                          const RoundSliderOverlayShape(
+                                              overlayRadius: 10.0),
                                     ),
                                     child: Slider(
                                       value: _currentCPUSliderValue,
@@ -348,14 +357,17 @@ class _InstanceCreateScreenState extends State<InstanceCreateScreen> {
                                   child: SliderTheme(
                                     data: SliderTheme.of(context).copyWith(
                                       activeTrackColor: const Color(0xff232226),
-                                      inactiveTrackColor: const Color(0xffBBBBBB),
-                                      trackShape: const RectangularSliderTrackShape(),
+                                      inactiveTrackColor:
+                                          const Color(0xffBBBBBB),
+                                      trackShape:
+                                          const RectangularSliderTrackShape(),
                                       trackHeight: 2.0,
                                       thumbColor: Colors.blueAccent,
                                       thumbShape: const RoundSliderThumbShape(
                                           enabledThumbRadius: 8.0),
-                                      overlayShape: const RoundSliderOverlayShape(
-                                          overlayRadius: 10.0),
+                                      overlayShape:
+                                          const RoundSliderOverlayShape(
+                                              overlayRadius: 10.0),
                                     ),
                                     child: Slider(
                                       value: _currentRAMSliderValue,
@@ -418,14 +430,17 @@ class _InstanceCreateScreenState extends State<InstanceCreateScreen> {
                                   child: SliderTheme(
                                     data: SliderTheme.of(context).copyWith(
                                       activeTrackColor: const Color(0xff232226),
-                                      inactiveTrackColor: const Color(0xffBBBBBB),
-                                      trackShape: const RectangularSliderTrackShape(),
+                                      inactiveTrackColor:
+                                          const Color(0xffBBBBBB),
+                                      trackShape:
+                                          const RectangularSliderTrackShape(),
                                       trackHeight: 2.0,
                                       thumbColor: Colors.blueAccent,
                                       thumbShape: const RoundSliderThumbShape(
                                           enabledThumbRadius: 8.0),
-                                      overlayShape: const RoundSliderOverlayShape(
-                                          overlayRadius: 10.0),
+                                      overlayShape:
+                                          const RoundSliderOverlayShape(
+                                              overlayRadius: 10.0),
                                     ),
                                     child: Slider(
                                       value: _currentDISKSliderValue,

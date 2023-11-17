@@ -81,24 +81,20 @@ class SuccessLogoutState extends AuthState {}
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(InitialAuthState()) {
     on<AuthEvent>((event, emit) async {
-      print(event.runtimeType);
       if (event is LoginEvent) {
         emit(LoadingAuthState());
 
         final response = await ApiServices.login(event.email, event.password);
 
-        print(response.runtimeType);
-
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code $response");
           if (response.statusCode == 200) {
-            print(response);
             emit(LoadedAuthState(LoginModel.fromJson(response.data)));
           } else {
             emit(ErrorAuthState(response.data));
           }
-        } else if (response.runtimeType.toString() == 'DioException') {
-          Map<String, dynamic> errorData = response.response?.data;
+        } else if (response is DioException) {
+          Map<String, dynamic> errorData =
+              response.response?.data ?? {"message": response.message};
           emit(ErrorAuthState(AuthErrorModel.fromJson(errorData)));
           print(response);
         }

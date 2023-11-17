@@ -19,6 +19,8 @@ PODS:
     - Starscream (~> 3.0.5)
   - ReachabilitySwift (4.3.0)
   - Starscream (3.0.6)
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -27,6 +29,7 @@ DEPENDENCIES:
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - laravel_flutter_pusher (from `.symlinks/plugins/laravel_flutter_pusher/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
   trunk:
@@ -48,6 +51,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/laravel_flutter_pusher/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
   CryptoSwift: 769f58a9e89f64e8796c2e59ce5f002dc81a2438
@@ -60,6 +65,7 @@ SPEC CHECKSUMS:
   PusherSwift: a5369a01e8a9106b4897e9186265af1426726062
   ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
+  webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
 
 PODFILE CHECKSUM: ae273562e2241d2b1bd4b6d2d349a48b8fe1a2a7
 

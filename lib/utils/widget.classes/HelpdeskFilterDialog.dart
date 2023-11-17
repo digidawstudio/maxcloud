@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HelpdeskFilterDialog extends StatefulWidget {
-  final Function onFilter;
+  final Function(String selectedDepartment, String selectedStatus) onFilter;
   const HelpdeskFilterDialog({
     super.key,
     required this.onFilter,
@@ -182,24 +182,27 @@ class _HelpdeskFilterDialogState extends State<HelpdeskFilterDialog> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      status = "Close";
+                      status = "Closed";
                     });
                   },
                   child: Row(
                     children: [
                       SvgPicture.asset(
-                          status == "Close"
+                          status == "Closed"
                               ? 'assets/svg/icons/checkbox-black.svg'
                               : 'assets/svg/icons/uncheck-box.svg',
                           height: 11,
                           fit: BoxFit.scaleDown),
                       SizedBox(width: 8),
-                      Text("Close",
-                          style: GoogleFonts.manrope(
-                              textStyle: const TextStyle(
-                                  color: Color(0xff232226),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500))),
+                      Text(
+                        "Closed",
+                        style: GoogleFonts.manrope(
+                          textStyle: const TextStyle(
+                              color: Color(0xff232226),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -215,7 +218,9 @@ class _HelpdeskFilterDialogState extends State<HelpdeskFilterDialog> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              onPressed: () {},
+              onPressed: () {
+                widget.onFilter(department, status);
+              },
               child: Text(
                 "Filter",
                 style: GoogleFonts.manrope(

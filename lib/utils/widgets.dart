@@ -150,7 +150,7 @@ class CustomWidget {
                           ),
                           Flexible(
                             child: Text(
-                              data.ipAddress!,
+                              data.ipAddress ?? "No address found",
                               style: GoogleFonts.manrope(
                                   textStyle: TextStyle(
                                       color: const Color(0xff009EFF),

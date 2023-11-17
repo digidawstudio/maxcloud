@@ -50,6 +50,8 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
   bool isSavedPressed = false;
   bool isSendTicketLoading = false;
   String token = "";
+  List<TicketData> ticketData = [];
+  List<TicketData> filteredTicketData = [];
 
   @override
   void initState() {
@@ -514,7 +516,32 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                   showDialog(
                                       context: this.context,
                                       builder: (ctx) => HelpdeskFilterDialog(
-                                            onFilter: () async {
+                                            onFilter:
+                                                (department, status) async {
+                                              filteredTicketData = ticketData
+                                                  .where((element) =>
+                                                      element.department ==
+                                                          department &&
+                                                      element.status == status)
+                                                  .toList();
+
+                                              if (filteredTicketData.isEmpty) {
+                                                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                                                  Flushbar(
+                                                        message:
+                                                            "No Ticket Found!",
+                                                        flushbarPosition:
+                                                            FlushbarPosition
+                                                                .TOP,
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        duration:
+                                                            const Duration(
+                                                                seconds: 2))
+                                                    .show(context);
+                                                });
+                                              }
+                                              setState(() {});
                                               Navigator.pop(this.context);
                                             },
                                           ));
@@ -548,12 +575,13 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                           if (state is ErrorFetchHelpDeskState) {
                             WidgetsBinding.instance
                                 .addPostFrameCallback((timeStamp) {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LoginScreen()),
-                                  (route) => false);
+                              Flushbar(
+                                message: state.error["error"],
+                                backgroundColor: Colors.red,
+                                flushbarPosition: FlushbarPosition.TOP,
+                                messageColor: Colors.white,
+                                duration: Duration(seconds: 2),
+                              ).show(context);
                             });
                           }
 
@@ -566,6 +594,8 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                           }
 
                           if (state is LoadedFetchHelpDeskItemsState) {
+                            ticketData = state.data.data?.data ?? [];
+
                             return Container(
                               height: ScreenUtil().screenHeight,
                               child: ListView.builder(
@@ -574,7 +604,9 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                   // horizontal: 25.w,
                                   vertical: 15.h,
                                 ),
-                                itemCount: state.data.data?.data.length,
+                                itemCount: filteredTicketData.isNotEmpty
+                                    ? filteredTicketData.length
+                                    : state.data.data?.data.length,
                                 itemBuilder: (context, i) => GestureDetector(
                                   onTap: () {
                                     Navigator.push(
@@ -586,8 +618,10 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                                             ?.data[i] ??
                                                         TicketData())));
                                   },
-                                  child:
-                                      helpdeskItems(state.data.data?.data[i]),
+                                  child: helpdeskItems(
+                                      filteredTicketData.isNotEmpty
+                                          ? filteredTicketData[i]
+                                          : state.data.data?.data[i]),
                                 ),
                               ),
                             );

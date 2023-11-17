@@ -1,10 +1,12 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maxcloud/screens/auth/login-screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../bloc/auth/auth.bloc.dart';
 
@@ -22,11 +24,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController rePasswordController = TextEditingController();
   bool tosAgreement = true;
+  WebViewController webViewController = WebViewController();
+  double progressTime = 0.0;
+  bool isLoading = false;
 
   @override
   void initState() {
     authBloc = BlocProvider.of<AuthBloc>(context);
     super.initState();
+
+    webViewController
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(Colors.white)
+      ..setNavigationDelegate(NavigationDelegate(
+        onProgress: (progress) {
+          setState(() {
+            isLoading = true;
+          });
+        },
+        onPageFinished: (url) {
+          setState(() {
+            isLoading = false;
+          });
+        },
+      ))
+      ..loadRequest(
+        Uri.parse("https://app.maxcloud.id/register"),
+      );
   }
 
   @override
@@ -41,12 +65,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text("Daftar",
-                  style: GoogleFonts.manrope(
-                      textStyle: const TextStyle(
-                          color: Color(0xff353333),
-                          fontSize: 30,
-                          fontWeight: FontWeight.w600))),
+              Text(
+                "Daftar",
+                style: GoogleFonts.manrope(
+                  textStyle: const TextStyle(
+                      color: Color(0xff353333),
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600),
+                ),
+              ),
             ],
           ),
           leading: IconButton(
@@ -57,318 +84,328 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
           ),
         ),
-        body: BlocBuilder<AuthBloc, AuthState>(
-          builder: ((context, state) {
-            if (state is RegisterSuccessState) {
-              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const LoginScreen()));
-              });
-            }
-
-            if (state is ErrorAuthState) {
-              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                Flushbar(
-                  message: state.error.message,
-                  backgroundColor: Colors.red,
-                  flushbarPosition: FlushbarPosition.TOP,
-                  messageColor: Colors.white,
-                  duration: Duration(seconds: 2),
-                ).show(context);
-              });
-            }
-
-            return SafeArea(
-                child: Stack(
-              children: [
-                SingleChildScrollView(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 47),
-                        // Column(
-                        //   mainAxisAlignment: MainAxisAlignment.start,
-                        //   crossAxisAlignment: CrossAxisAlignment.start,
-                        //   children: [
-                        //     Text("Nama",
-                        //         style: GoogleFonts.manrope(
-                        //             textStyle: TextStyle(
-                        //                 color: Color(0xff232226),
-                        //                 fontSize: 14,
-                        //                 fontWeight: FontWeight.w500))),
-                        //     SizedBox(height: 10),
-                        //     TextField(
-                        //         autocorrect: false,
-                        //         // controller: _phoneController,
-                        //         style: GoogleFonts.manrope(
-                        //             textStyle: TextStyle(
-                        //                 fontSize: 14, fontWeight: FontWeight.w400)),
-                        //         decoration: InputDecoration(
-                        //           contentPadding: EdgeInsets.symmetric(
-                        //               vertical: 10.5, horizontal: 15),
-                        //           isDense: true,
-                        //           hintText: 'Masukkan nama anda',
-                        //           hintStyle: GoogleFonts.manrope(
-                        //               textStyle: TextStyle(
-                        //                   fontSize: 14,
-                        //                   color: Color(0xffBBBBBB),
-                        //                   fontWeight: FontWeight.w400)),
-                        //           enabledBorder: OutlineInputBorder(
-                        //             borderSide: const BorderSide(
-                        //                 width: 1, color: Color(0xffBBBBBB)),
-                        //             borderRadius: BorderRadius.circular(10),
-                        //           ),
-                        //           // Set border for focused state
-                        //           focusedBorder: OutlineInputBorder(
-                        //             borderSide: const BorderSide(
-                        //                 width: 1, color: Color(0xff009EFF)),
-                        //             borderRadius: BorderRadius.circular(10),
-                        //           ),
-                        //         ),
-                        //         onEditingComplete: () {}),
-                        //   ],
-                        // ),
-                        // SizedBox(height: 15),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Email",
-                                style: GoogleFonts.manrope(
-                                    textStyle: const TextStyle(
-                                        color: Color(0xff232226),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500))),
-                            const SizedBox(height: 10),
-                            TextField(
-                                autocorrect: false,
-                                controller: credentialController,
-                                style: GoogleFonts.manrope(
-                                    textStyle: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400)),
-                                decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10.5, horizontal: 15),
-                                  isDense: true,
-                                  hintText: 'Masukkan email anda',
-                                  hintStyle: GoogleFonts.manrope(
-                                      textStyle: const TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xffBBBBBB),
-                                          fontWeight: FontWeight.w400)),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 1, color: Color(0xffBBBBBB)),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  // Set border for focused state
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 1, color: Color(0xff009EFF)),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                onEditingComplete: () {}),
-                          ],
-                        ),
-                        // SizedBox(height: 15),
-                        // Column(
-                        //   mainAxisAlignment: MainAxisAlignment.start,
-                        //   crossAxisAlignment: CrossAxisAlignment.start,
-                        //   children: [
-                        //     Text("No. Handphone",
-                        //         style: GoogleFonts.manrope(
-                        //             textStyle: TextStyle(
-                        //                 color: Color(0xff232226),
-                        //                 fontSize: 14,
-                        //                 fontWeight: FontWeight.w500))),
-                        //     SizedBox(height: 10),
-                        //     TextField(
-                        //         autocorrect: false,
-                        //         // controller: _phoneController,
-                        //         style: GoogleFonts.manrope(
-                        //             textStyle: TextStyle(
-                        //                 fontSize: 14, fontWeight: FontWeight.w400)),
-                        //         decoration: InputDecoration(
-                        //           contentPadding: EdgeInsets.symmetric(
-                        //               vertical: 10.5, horizontal: 15),
-                        //           isDense: true,
-                        //           hintText: '812 - 4021 - 5218',
-                        //           hintStyle: GoogleFonts.manrope(
-                        //               textStyle: TextStyle(
-                        //                   fontSize: 14,
-                        //                   color: Color(0xffBBBBBB),
-                        //                   fontWeight: FontWeight.w400)),
-                        //           enabledBorder: OutlineInputBorder(
-                        //             borderSide: const BorderSide(
-                        //                 width: 1, color: Color(0xffBBBBBB)),
-                        //             borderRadius: BorderRadius.circular(10),
-                        //           ),
-                        //           // Set border for focused state
-                        //           focusedBorder: OutlineInputBorder(
-                        //             borderSide: const BorderSide(
-                        //                 width: 1, color: Color(0xff009EFF)),
-                        //             borderRadius: BorderRadius.circular(10),
-                        //           ),
-                        //         ),
-                        //         onEditingComplete: () {}),
-                        //   ],
-                        // ),
-                        const SizedBox(height: 15),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Masukkan Password",
-                                style: GoogleFonts.manrope(
-                                    textStyle: const TextStyle(
-                                        color: Color(0xff232226),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500))),
-                            const SizedBox(height: 10),
-                            TextField(
-                                autocorrect: false,
-                                controller: passwordController,
-                                style: GoogleFonts.manrope(
-                                    textStyle: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
-                                decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10.5, horizontal: 15),
-                                  isDense: true,
-                                  suffixIcon: SvgPicture.asset(
-                                      'assets/svg/icons/password-not-visible.svg',
-                                      height: 16,
-                                      fit: BoxFit.scaleDown),
-                                  hintText: 'Masukkan password anda',
-                                  hintStyle: GoogleFonts.manrope(
-                                      textStyle: const TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xffBBBBBB),
-                                          fontWeight: FontWeight.w400)),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 1, color: Color(0xffBBBBBB)),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  // Set border for focused state
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 1, color: Color(0xff009EFF)),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                onEditingComplete: () {}),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Konfirmasi ulang Password",
-                                style: GoogleFonts.manrope(
-                                    textStyle: const TextStyle(
-                                        color: Color(0xff232226),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500))),
-                            const SizedBox(height: 10),
-                            TextField(
-                                autocorrect: false,
-                                controller: rePasswordController,
-                                style: GoogleFonts.manrope(
-                                    textStyle: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
-                                decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10.5, horizontal: 15),
-                                  isDense: true,
-                                  suffixIcon: SvgPicture.asset(
-                                      'assets/svg/icons/password-not-visible.svg',
-                                      height: 16,
-                                      fit: BoxFit.scaleDown),
-                                  hintText: 'Masukkan ulang password anda',
-                                  hintStyle: GoogleFonts.manrope(
-                                      textStyle: const TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xffBBBBBB),
-                                          fontWeight: FontWeight.w400)),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 1, color: Color(0xffBBBBBB)),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  // Set border for focused state
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 1, color: Color(0xff009EFF)),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                onEditingComplete: () {}),
-                          ],
-                        ),
-                        const SizedBox(height: 40),
-                        Center(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset('assets/svg/icons/checkbox.svg',
-                                  height: 18, fit: BoxFit.scaleDown),
-                              const SizedBox(width: 10),
-                              Text("Saya setuju dengan peraturan yang ada.",
-                                  style: GoogleFonts.manrope(
-                                      textStyle: const TextStyle(
-                                          fontSize: 12,
-                                          color: Color(0xffBBBBBB),
-                                          fontWeight: FontWeight.w500))),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: MaterialButton(
-                            minWidth: double.infinity,
-                            height: 45,
-                            elevation: 0,
-                            color: const Color(0xff009EFF),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            onPressed: () {
-                              authBloc?.add(RegisterEvent(
-                                  credentialController.text,
-                                  passwordController.text,
-                                  tosAgreement));
-                            },
-                            child: Text(
-                              "Daftar",
-                              style: GoogleFonts.manrope(
-                                  textStyle: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+        body: isLoading
+            ? Container(
+                height: ScreenUtil().screenHeight,
+                width: ScreenUtil().screenWidth,
+                child: Center(
+                  child: CircularProgressIndicator(),
                 ),
-                state is LoadingAuthState ? CustomWidget.loader() : Container()
-              ],
-            ));
-          }),
-        ));
+              )
+            : WebViewWidget(controller: webViewController)
+        // BlocBuilder<AuthBloc, AuthState>(
+        //   builder: ((context, state) {
+        //     if (state is RegisterSuccessState) {
+        //       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        //         Navigator.push(
+        //             context,
+        //             MaterialPageRoute(
+        //                 builder: (context) => const LoginScreen()));
+        //       });
+        //     }
+
+        //     if (state is ErrorAuthState) {
+        //       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        //         Flushbar(
+        //           message: state.error.message,
+        //           backgroundColor: Colors.red,
+        //           flushbarPosition: FlushbarPosition.TOP,
+        //           messageColor: Colors.white,
+        //           duration: Duration(seconds: 2),
+        //         ).show(context);
+        //       });
+        //     }
+
+        //     return SafeArea(
+        //         child: Stack(
+        //       children: [
+        //         SingleChildScrollView(
+        //           child: Container(
+        //             padding: const EdgeInsets.symmetric(horizontal: 25),
+        //             width: MediaQuery.of(context).size.width,
+        //             height: MediaQuery.of(context).size.height,
+        //             child: Column(
+        //               children: [
+        //                 const SizedBox(height: 47),
+        //                 // Column(
+        //                 //   mainAxisAlignment: MainAxisAlignment.start,
+        //                 //   crossAxisAlignment: CrossAxisAlignment.start,
+        //                 //   children: [
+        //                 //     Text("Nama",
+        //                 //         style: GoogleFonts.manrope(
+        //                 //             textStyle: TextStyle(
+        //                 //                 color: Color(0xff232226),
+        //                 //                 fontSize: 14,
+        //                 //                 fontWeight: FontWeight.w500))),
+        //                 //     SizedBox(height: 10),
+        //                 //     TextField(
+        //                 //         autocorrect: false,
+        //                 //         // controller: _phoneController,
+        //                 //         style: GoogleFonts.manrope(
+        //                 //             textStyle: TextStyle(
+        //                 //                 fontSize: 14, fontWeight: FontWeight.w400)),
+        //                 //         decoration: InputDecoration(
+        //                 //           contentPadding: EdgeInsets.symmetric(
+        //                 //               vertical: 10.5, horizontal: 15),
+        //                 //           isDense: true,
+        //                 //           hintText: 'Masukkan nama anda',
+        //                 //           hintStyle: GoogleFonts.manrope(
+        //                 //               textStyle: TextStyle(
+        //                 //                   fontSize: 14,
+        //                 //                   color: Color(0xffBBBBBB),
+        //                 //                   fontWeight: FontWeight.w400)),
+        //                 //           enabledBorder: OutlineInputBorder(
+        //                 //             borderSide: const BorderSide(
+        //                 //                 width: 1, color: Color(0xffBBBBBB)),
+        //                 //             borderRadius: BorderRadius.circular(10),
+        //                 //           ),
+        //                 //           // Set border for focused state
+        //                 //           focusedBorder: OutlineInputBorder(
+        //                 //             borderSide: const BorderSide(
+        //                 //                 width: 1, color: Color(0xff009EFF)),
+        //                 //             borderRadius: BorderRadius.circular(10),
+        //                 //           ),
+        //                 //         ),
+        //                 //         onEditingComplete: () {}),
+        //                 //   ],
+        //                 // ),
+        //                 // SizedBox(height: 15),
+        //                 Column(
+        //                   mainAxisAlignment: MainAxisAlignment.start,
+        //                   crossAxisAlignment: CrossAxisAlignment.start,
+        //                   children: [
+        //                     Text("Email",
+        //                         style: GoogleFonts.manrope(
+        //                             textStyle: const TextStyle(
+        //                                 color: Color(0xff232226),
+        //                                 fontSize: 14,
+        //                                 fontWeight: FontWeight.w500))),
+        //                     const SizedBox(height: 10),
+        //                     TextField(
+        //                         autocorrect: false,
+        //                         controller: credentialController,
+        //                         style: GoogleFonts.manrope(
+        //                             textStyle: const TextStyle(
+        //                                 fontSize: 14,
+        //                                 fontWeight: FontWeight.w400)),
+        //                         decoration: InputDecoration(
+        //                           contentPadding: const EdgeInsets.symmetric(
+        //                               vertical: 10.5, horizontal: 15),
+        //                           isDense: true,
+        //                           hintText: 'Masukkan email anda',
+        //                           hintStyle: GoogleFonts.manrope(
+        //                               textStyle: const TextStyle(
+        //                                   fontSize: 14,
+        //                                   color: Color(0xffBBBBBB),
+        //                                   fontWeight: FontWeight.w400)),
+        //                           enabledBorder: OutlineInputBorder(
+        //                             borderSide: const BorderSide(
+        //                                 width: 1, color: Color(0xffBBBBBB)),
+        //                             borderRadius: BorderRadius.circular(10),
+        //                           ),
+        //                           // Set border for focused state
+        //                           focusedBorder: OutlineInputBorder(
+        //                             borderSide: const BorderSide(
+        //                                 width: 1, color: Color(0xff009EFF)),
+        //                             borderRadius: BorderRadius.circular(10),
+        //                           ),
+        //                         ),
+        //                         onEditingComplete: () {}),
+        //                   ],
+        //                 ),
+        //                 // SizedBox(height: 15),
+        //                 // Column(
+        //                 //   mainAxisAlignment: MainAxisAlignment.start,
+        //                 //   crossAxisAlignment: CrossAxisAlignment.start,
+        //                 //   children: [
+        //                 //     Text("No. Handphone",
+        //                 //         style: GoogleFonts.manrope(
+        //                 //             textStyle: TextStyle(
+        //                 //                 color: Color(0xff232226),
+        //                 //                 fontSize: 14,
+        //                 //                 fontWeight: FontWeight.w500))),
+        //                 //     SizedBox(height: 10),
+        //                 //     TextField(
+        //                 //         autocorrect: false,
+        //                 //         // controller: _phoneController,
+        //                 //         style: GoogleFonts.manrope(
+        //                 //             textStyle: TextStyle(
+        //                 //                 fontSize: 14, fontWeight: FontWeight.w400)),
+        //                 //         decoration: InputDecoration(
+        //                 //           contentPadding: EdgeInsets.symmetric(
+        //                 //               vertical: 10.5, horizontal: 15),
+        //                 //           isDense: true,
+        //                 //           hintText: '812 - 4021 - 5218',
+        //                 //           hintStyle: GoogleFonts.manrope(
+        //                 //               textStyle: TextStyle(
+        //                 //                   fontSize: 14,
+        //                 //                   color: Color(0xffBBBBBB),
+        //                 //                   fontWeight: FontWeight.w400)),
+        //                 //           enabledBorder: OutlineInputBorder(
+        //                 //             borderSide: const BorderSide(
+        //                 //                 width: 1, color: Color(0xffBBBBBB)),
+        //                 //             borderRadius: BorderRadius.circular(10),
+        //                 //           ),
+        //                 //           // Set border for focused state
+        //                 //           focusedBorder: OutlineInputBorder(
+        //                 //             borderSide: const BorderSide(
+        //                 //                 width: 1, color: Color(0xff009EFF)),
+        //                 //             borderRadius: BorderRadius.circular(10),
+        //                 //           ),
+        //                 //         ),
+        //                 //         onEditingComplete: () {}),
+        //                 //   ],
+        //                 // ),
+        //                 const SizedBox(height: 15),
+        //                 Column(
+        //                   mainAxisAlignment: MainAxisAlignment.start,
+        //                   crossAxisAlignment: CrossAxisAlignment.start,
+        //                   children: [
+        //                     Text("Masukkan Password",
+        //                         style: GoogleFonts.manrope(
+        //                             textStyle: const TextStyle(
+        //                                 color: Color(0xff232226),
+        //                                 fontSize: 14,
+        //                                 fontWeight: FontWeight.w500))),
+        //                     const SizedBox(height: 10),
+        //                     TextField(
+        //                         autocorrect: false,
+        //                         controller: passwordController,
+        //                         style: GoogleFonts.manrope(
+        //                             textStyle: const TextStyle(
+        //                                 fontSize: 14,
+        //                                 fontWeight: FontWeight.w500)),
+        //                         decoration: InputDecoration(
+        //                           contentPadding: const EdgeInsets.symmetric(
+        //                               vertical: 10.5, horizontal: 15),
+        //                           isDense: true,
+        //                           suffixIcon: SvgPicture.asset(
+        //                               'assets/svg/icons/password-not-visible.svg',
+        //                               height: 16,
+        //                               fit: BoxFit.scaleDown),
+        //                           hintText: 'Masukkan password anda',
+        //                           hintStyle: GoogleFonts.manrope(
+        //                               textStyle: const TextStyle(
+        //                                   fontSize: 14,
+        //                                   color: Color(0xffBBBBBB),
+        //                                   fontWeight: FontWeight.w400)),
+        //                           enabledBorder: OutlineInputBorder(
+        //                             borderSide: const BorderSide(
+        //                                 width: 1, color: Color(0xffBBBBBB)),
+        //                             borderRadius: BorderRadius.circular(10),
+        //                           ),
+        //                           // Set border for focused state
+        //                           focusedBorder: OutlineInputBorder(
+        //                             borderSide: const BorderSide(
+        //                                 width: 1, color: Color(0xff009EFF)),
+        //                             borderRadius: BorderRadius.circular(10),
+        //                           ),
+        //                         ),
+        //                         onEditingComplete: () {}),
+        //                   ],
+        //                 ),
+        //                 const SizedBox(height: 15),
+        //                 Column(
+        //                   mainAxisAlignment: MainAxisAlignment.start,
+        //                   crossAxisAlignment: CrossAxisAlignment.start,
+        //                   children: [
+        //                     Text("Konfirmasi ulang Password",
+        //                         style: GoogleFonts.manrope(
+        //                             textStyle: const TextStyle(
+        //                                 color: Color(0xff232226),
+        //                                 fontSize: 14,
+        //                                 fontWeight: FontWeight.w500))),
+        //                     const SizedBox(height: 10),
+        //                     TextField(
+        //                         autocorrect: false,
+        //                         controller: rePasswordController,
+        //                         style: GoogleFonts.manrope(
+        //                             textStyle: const TextStyle(
+        //                                 fontSize: 14,
+        //                                 fontWeight: FontWeight.w500)),
+        //                         decoration: InputDecoration(
+        //                           contentPadding: const EdgeInsets.symmetric(
+        //                               vertical: 10.5, horizontal: 15),
+        //                           isDense: true,
+        //                           suffixIcon: SvgPicture.asset(
+        //                               'assets/svg/icons/password-not-visible.svg',
+        //                               height: 16,
+        //                               fit: BoxFit.scaleDown),
+        //                           hintText: 'Masukkan ulang password anda',
+        //                           hintStyle: GoogleFonts.manrope(
+        //                               textStyle: const TextStyle(
+        //                                   fontSize: 14,
+        //                                   color: Color(0xffBBBBBB),
+        //                                   fontWeight: FontWeight.w400)),
+        //                           enabledBorder: OutlineInputBorder(
+        //                             borderSide: const BorderSide(
+        //                                 width: 1, color: Color(0xffBBBBBB)),
+        //                             borderRadius: BorderRadius.circular(10),
+        //                           ),
+        //                           // Set border for focused state
+        //                           focusedBorder: OutlineInputBorder(
+        //                             borderSide: const BorderSide(
+        //                                 width: 1, color: Color(0xff009EFF)),
+        //                             borderRadius: BorderRadius.circular(10),
+        //                           ),
+        //                         ),
+        //                         onEditingComplete: () {}),
+        //                   ],
+        //                 ),
+        //                 const SizedBox(height: 40),
+        //                 Center(
+        //                   child: Row(
+        //                     crossAxisAlignment: CrossAxisAlignment.center,
+        //                     mainAxisAlignment: MainAxisAlignment.center,
+        //                     children: [
+        //                       SvgPicture.asset('assets/svg/icons/checkbox.svg',
+        //                           height: 18, fit: BoxFit.scaleDown),
+        //                       const SizedBox(width: 10),
+        //                       Text("Saya setuju dengan peraturan yang ada.",
+        //                           style: GoogleFonts.manrope(
+        //                               textStyle: const TextStyle(
+        //                                   fontSize: 12,
+        //                                   color: Color(0xffBBBBBB),
+        //                                   fontWeight: FontWeight.w500))),
+        //                     ],
+        //                   ),
+        //                 ),
+        //                 const SizedBox(height: 20),
+        //                 Padding(
+        //                   padding: const EdgeInsets.symmetric(horizontal: 20),
+        //                   child: MaterialButton(
+        //                     minWidth: double.infinity,
+        //                     height: 45,
+        //                     elevation: 0,
+        //                     color: const Color(0xff009EFF),
+        //                     shape: RoundedRectangleBorder(
+        //                       borderRadius: BorderRadius.circular(8.0),
+        //                     ),
+        //                     onPressed: () {
+        //                       authBloc?.add(RegisterEvent(
+        //                           credentialController.text,
+        //                           passwordController.text,
+        //                           tosAgreement));
+        //                     },
+        //                     child: Text(
+        //                       "Daftar",
+        //                       style: GoogleFonts.manrope(
+        //                           textStyle: const TextStyle(
+        //                               fontSize: 14,
+        //                               color: Colors.white,
+        //                               fontWeight: FontWeight.w600)),
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //         ),
+        //         state is LoadingAuthState ? CustomWidget.loader() : Container()
+        //       ],
+        //     ));
+        //   }),
+        // )
+        );
   }
 }
