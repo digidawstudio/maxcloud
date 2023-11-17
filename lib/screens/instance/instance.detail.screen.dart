@@ -289,6 +289,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
             }
 
             if (state is LoadedVMDetailState) {
+              print("loaded detail state");
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 25),
                 width: ScreenUtil().screenWidth,

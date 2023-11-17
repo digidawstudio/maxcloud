@@ -42,12 +42,12 @@ class VMDetailBloc extends Bloc<VMDetailEvent, VMDetailState> {
         final response =
             await ApiServices.getVMDetail(event.token!, event.vmUuid!);
 
-        print(response.runtimeType);
+        // print(response.runtimeType);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
-          print("status code $response");
+          // print("status code $response");
           if (response.statusCode == 200) {
-            print(response);
+            // print(response);
             emit(LoadedVMDetailState(VMDetailModel.fromJson(response.data)));
           } else {
             emit(ErrorVMDetailState(response.data));
