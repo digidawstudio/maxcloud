@@ -8,6 +8,7 @@ import 'package:maxcloud/bloc/billing/deposit-history.bloc.dart';
 import 'package:maxcloud/bloc/billing/month-summary.bloc.dart';
 import 'package:maxcloud/bloc/billing/payment-method.bloc.dart';
 import 'package:maxcloud/bloc/helpdesk/helpdesk.bloc.dart';
+import 'package:maxcloud/bloc/navigation/navigation.bloc.dart';
 import 'package:maxcloud/bloc/notifications/notifications.bloc.dart';
 import 'package:maxcloud/bloc/notifications/read-all-notifcations.bloc.dart';
 import 'package:maxcloud/bloc/product/product.bloc.dart';
@@ -29,6 +30,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
   runApp(MultiBlocProvider(
     providers: [
+      BlocProvider(create: (context) => NavigationBloc()),
       BlocProvider(create: (context) => AuthBloc()),
       BlocProvider(create: (context) => RRDDataBloc()),
       BlocProvider(create: (context) => DepositDetailBloc()),

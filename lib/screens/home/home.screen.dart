@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:maxcloud/bloc/billing/month-summary.bloc.dart';
+import 'package:maxcloud/bloc/navigation/navigation.bloc.dart';
 import 'package:maxcloud/bloc/product/total-resource.bloc.dart';
 import 'package:maxcloud/screens/home/notification/notification.screen.dart';
 import 'package:maxcloud/utils/widgets.dart';
@@ -257,8 +258,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             GestureDetector(
+                              behavior: HitTestBehavior.opaque,
                               onTap: () {
-                                //TODO: add function
+                                BlocProvider.of<NavigationBloc>(context)
+                                    .add(SetNavigatorIndexEvent(2));
                               },
                               child: const Image(
                                 image:
@@ -567,7 +570,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        //TODO: add function
+                                        BlocProvider.of<NavigationBloc>(context)
+                                            .add(SetNavigatorIndexEvent(2));
                                       },
                                       child: const Image(
                                         image: AssetImage(
