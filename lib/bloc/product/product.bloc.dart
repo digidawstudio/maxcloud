@@ -7,10 +7,10 @@ import '../../repository/auth/login.model.dart';
 abstract class ProductEvent {}
 
 class FetchProductEvent extends ProductEvent {
-  final String? token, status;
+  final String token, status, sort;
   final int limit, page;
 
-  FetchProductEvent(this.token, this.status, this.limit, this.page);
+  FetchProductEvent(this.token, this.status, this.sort, this.limit, this.page);
 }
 
 abstract class ProductState {}
@@ -38,7 +38,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         emit(LoadingProductState());
 
         final response = await ApiServices.getMyInstances(
-            event.token!, event.status!, event.limit, event.page);
+            event.token, event.status, event.sort, event.limit, event.page);
 
         print(response.runtimeType);
 

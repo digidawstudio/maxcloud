@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:maxcloud/bloc/billing/deposit-history.bloc.dart';
+import 'package:maxcloud/screens/billing/billing.payment-detail.screen.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
 import '../../bloc/billing/month-summary.bloc.dart';
@@ -181,13 +182,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                               TextSpan(text: "Rp "),
                                               TextSpan(
                                                   text: NumberFormat.currency(
-                                                        locale: 'id',
-                                                        symbol: "",
-                                                        decimalDigits: 0,
-                                                      ).format(state.data.data
-                                                              ?.currentBalance ??
-                                                          0) +
-                                                      ",00",
+                                                    locale: 'id',
+                                                    symbol: "",
+                                                    decimalDigits: 0,
+                                                  ).format(state.data.data
+                                                          ?.currentBalance ??
+                                                      0),
                                                   style: GoogleFonts.manrope(
                                                       textStyle: TextStyle(
                                                           color:
@@ -221,13 +221,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                               TextSpan(text: "Rp "),
                                               TextSpan(
                                                   text: NumberFormat.currency(
-                                                        locale: 'id',
-                                                        symbol: "",
-                                                        decimalDigits: 0,
-                                                      ).format(state.data.data
-                                                              ?.currentCost ??
-                                                          0) +
-                                                      ",00",
+                                                    locale: 'id',
+                                                    symbol: "",
+                                                    decimalDigits: 0,
+                                                  ).format(state.data.data
+                                                          ?.currentCost ??
+                                                      0),
                                                   style: GoogleFonts.manrope(
                                                       textStyle: TextStyle(
                                                           color:
@@ -261,13 +260,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                               TextSpan(text: "Rp "),
                                               TextSpan(
                                                   text: NumberFormat.currency(
-                                                        locale: 'id',
-                                                        symbol: "",
-                                                        decimalDigits: 0,
-                                                      ).format(state.data.data
-                                                              ?.estimatedMonthlyTotal ??
-                                                          0) +
-                                                      ",00",
+                                                    locale: 'id',
+                                                    symbol: "",
+                                                    decimalDigits: 0,
+                                                  ).format(state.data.data
+                                                          ?.estimatedMonthlyTotal ??
+                                                      0),
                                                   style: GoogleFonts.manrope(
                                                       textStyle: TextStyle(
                                                           color:
@@ -310,60 +308,69 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   Widget items(DepositData? depositData) {
-    return SimpleShadow(
-      opacity: 0.3, // Default: 0.5
-      color: Colors.grey, // Default: Black
-      offset: const Offset(0, 5), // Default: Offset(2, 2)
-      sigma: 7, // Default: 2
-      child: Container(
-        height: 65.h,
-        margin: EdgeInsets.only(bottom: 15.h),
-        padding: EdgeInsets.all(15.h),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.r),
-          color: Colors.white,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  depositData?.description ?? "",
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    BillingPaymentDetailScreen(depositData: depositData)));
+      },
+      child: SimpleShadow(
+        opacity: 0.3, // Default: 0.5
+        color: Colors.grey, // Default: Black
+        offset: const Offset(0, 5), // Default: Offset(2, 2)
+        sigma: 7, // Default: 2
+        child: Container(
+          height: 65.h,
+          margin: EdgeInsets.only(bottom: 15.h),
+          padding: EdgeInsets.all(15.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.r),
+            color: Colors.white,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    depositData?.description ?? "",
+                    style: GoogleFonts.manrope(
+                        textStyle: const TextStyle(
+                            color: Color(0xff009EFF),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700)),
+                  ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  Text(
+                    depositData?.method ?? "",
+                    style: GoogleFonts.manrope(
+                        textStyle: const TextStyle(
+                            color: Color(0xffBBBBBB),
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500)),
+                  ),
+                ],
+              ),
+              Expanded(child: Container()),
+              Text(
+                  NumberFormat.currency(
+                    locale: 'id',
+                    symbol: "",
+                    decimalDigits: 0,
+                  ).format(depositData?.amount ?? 0),
                   style: GoogleFonts.manrope(
                       textStyle: const TextStyle(
-                          color: Color(0xff009EFF),
+                          color: Color(0xff232226),
                           fontSize: 12,
-                          fontWeight: FontWeight.w700)),
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                Text(
-                  depositData?.method ?? "",
-                  style: GoogleFonts.manrope(
-                      textStyle: const TextStyle(
-                          color: Color(0xffBBBBBB),
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500)),
-                ),
-              ],
-            ),
-            Expanded(child: Container()),
-            Text(
-                NumberFormat.currency(
-                  locale: 'id',
-                  symbol: "",
-                  decimalDigits: 0,
-                ).format(depositData?.amount ?? 0),
-                style: GoogleFonts.manrope(
-                    textStyle: const TextStyle(
-                        color: Color(0xff232226),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700)))
-          ],
+                          fontWeight: FontWeight.w700)))
+            ],
+          ),
         ),
       ),
     );

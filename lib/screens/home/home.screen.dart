@@ -364,7 +364,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         locale: 'id',
                                         symbol: "",
                                         decimalDigits: 0,
-                                      ).format(state.data.data?.currentCost ?? 0)},00",
+                                      ).format(state.data.data?.currentCost ?? 0)}",
                                       style: TextStyle(
                                           fontSize: 20.sp,
                                           color: const Color(0xff232226),
@@ -391,7 +391,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         locale: 'id',
                                         symbol: "",
                                         decimalDigits: 0,
-                                      ).format(state.data.data?.estimatedMonthlyTotal ?? 0)},00",
+                                      ).format(state.data.data?.estimatedMonthlyTotal ?? 0)}",
                                       style: TextStyle(
                                           fontSize: 20.sp,
                                           color: const Color(0xff232226),
@@ -525,7 +525,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       locale: 'id',
                                                       symbol: "",
                                                       decimalDigits: 0,
-                                                    ).format(state.data.data?.currentBalance ?? 0)},00",
+                                                    ).format(state.data.data?.currentBalance ?? 0)}",
                                                     style: GoogleFonts.manrope(
                                                         textStyle: TextStyle(
                                                             fontSize: 22.sp,
@@ -867,12 +867,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontWeight: FontWeight.w600),
             ),
             Expanded(child: Container()),
-            CustomWidget.Chip(
-              height: 16,
-              width: 60,
-              text: percentage ?? "",
-              color: const Color(0xffE7F6FF),
-            )
+            // CustomWidget.Chip(
+            //   height: 16,
+            //   width: 60,
+            //   text: percentage ?? "",
+            //   color: const Color(0xffE7F6FF),
+            // )
           ],
         )
       ],

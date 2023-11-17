@@ -180,6 +180,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                               onChanged: (newValue) {
                                 setState(() {
                                   selectedMethod = newValue!;
+                                  selectedSubMethod = "Select Payment Method";
                                 });
                               },
                               items: list,
@@ -217,8 +218,10 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                   }
 
                   if (state is LoadedPaymentMethodState) {
-                    List<dynamic> loadedSubMethod =
-                        state.data[widget.paymentMethod];
+                    List<dynamic> loadedSubMethod = state.data[
+                        selectedMethod != "Select Payment Method"
+                            ? selectedMethod
+                            : widget.paymentMethod];
 
                     final List<DropdownMenuItem> list = [
                       const DropdownMenuItem(

@@ -65,6 +65,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String selectedCityId = "";
   String selectedDistrictId = "";
 
+  bool currPasswordVisible = false;
+  bool newPasswordVisible = false;
+  bool rePasswordVisible = false;
+
   @override
   void initState() {
     profileBloc = BlocProvider.of<ProfileBloc>(context);
@@ -283,14 +287,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   SizedBox(height: 40),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.asset(
-                      'assets/images/elon.jpg',
-                      fit: BoxFit.cover,
-                      height: 80,
-                      width: 80,
-                    ),
-                  ),
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Container(
+                        width: 60,
+                        height: 60,
+                        color: const Color(0xff009EFF),
+                        child: Center(
+                          child: Text(
+                              '${state.data.data?.firstName?[0] ?? ""}${state.data.data!.lastName?[0] ?? ""}',
+                              style: GoogleFonts.manrope(
+                                  textStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.w700))),
+                        ),
+                      )),
                   SizedBox(height: 10),
                   Text(state.data.data?.fullName ?? "",
                       style: GoogleFonts.manrope(
@@ -847,6 +858,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     autocorrect: false,
                                     keyboardType: TextInputType.emailAddress,
                                     controller: currentPasswordController,
+                                    obscureText: !currPasswordVisible,
                                     style: GoogleFonts.manrope(
                                         textStyle: const TextStyle(
                                             fontSize: 14,
@@ -857,6 +869,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText: 'Masukkan password lama anda',
+                                      suffixIcon: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            currPasswordVisible =
+                                                !currPasswordVisible;
+                                          });
+                                        },
+                                        child: SvgPicture.asset(
+                                            currPasswordVisible
+                                                ? 'assets/svg/icons/password-visible.svg'
+                                                : 'assets/svg/icons/password-not-visible.svg',
+                                            height: 16,
+                                            fit: BoxFit.scaleDown),
+                                      ),
                                       hintStyle: GoogleFonts.manrope(
                                           textStyle: const TextStyle(
                                               fontSize: 14,
@@ -891,6 +917,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 const SizedBox(height: 10),
                                 TextField(
                                     autocorrect: false,
+                                    obscureText: !newPasswordVisible,
                                     keyboardType: TextInputType.emailAddress,
                                     controller: newPasswordController,
                                     style: GoogleFonts.manrope(
@@ -903,6 +930,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               vertical: 10.5, horizontal: 15),
                                       isDense: true,
                                       hintText: 'Masukkan password baru anda',
+                                      suffixIcon: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            newPasswordVisible =
+                                                !newPasswordVisible;
+                                          });
+                                        },
+                                        child: SvgPicture.asset(
+                                            newPasswordVisible
+                                                ? 'assets/svg/icons/password-visible.svg'
+                                                : 'assets/svg/icons/password-not-visible.svg',
+                                            height: 16,
+                                            fit: BoxFit.scaleDown),
+                                      ),
                                       hintStyle: GoogleFonts.manrope(
                                           textStyle: const TextStyle(
                                               fontSize: 14,
@@ -939,6 +980,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     autocorrect: false,
                                     keyboardType: TextInputType.emailAddress,
                                     controller: rePasswordController,
+                                    obscureText: !rePasswordVisible,
                                     style: GoogleFonts.manrope(
                                         textStyle: const TextStyle(
                                             fontSize: 14,
@@ -950,6 +992,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       isDense: true,
                                       hintText:
                                           'Masukkan konfirmasi password baru anda',
+                                      suffixIcon: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            rePasswordVisible =
+                                                !rePasswordVisible;
+                                          });
+                                        },
+                                        child: SvgPicture.asset(
+                                            rePasswordVisible
+                                                ? 'assets/svg/icons/password-visible.svg'
+                                                : 'assets/svg/icons/password-not-visible.svg',
+                                            height: 16,
+                                            fit: BoxFit.scaleDown),
+                                      ),
                                       hintStyle: GoogleFonts.manrope(
                                           textStyle: const TextStyle(
                                               fontSize: 14,
@@ -1024,14 +1080,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         minWidth: double.infinity,
                         height: 45,
                         elevation: 0,
-                        color: Color.fromARGB(255, 255, 0, 34),
+                        color: Colors.red,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         onPressed: state is LoadingAuthState
                             ? () {}
                             : () async {
-                                authBloc?.add(LogoutEvent(getAccessToken().toString()));
+                                authBloc?.add(
+                                    LogoutEvent(getAccessToken().toString()));
                                 await storage.delete(key: 'accessToken');
                                 Navigator.push(
                                     context,

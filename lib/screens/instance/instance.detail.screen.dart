@@ -9,6 +9,7 @@ import 'package:maxcloud/bloc/product/rrd-data.bloc.dart';
 import 'package:maxcloud/bloc/product/vm-state.bloc.dart';
 import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
 import 'package:maxcloud/repository/instances/rrd-data.model.dart';
+import 'package:maxcloud/screens/instance/components/double-line.chart.dart';
 import 'package:maxcloud/screens/instance/components/line.chart.dart';
 
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -138,11 +139,11 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
   }
 
   generateChartNetworkData(LoadedRRDDataState data) {
-    List<ChartData> _networkData = [];
+    List<DoubleChartData> _networkData = [];
     if (data.rrdData.data?.network != null) {
       _networkData = (data.rrdData.data?.network as List).map((item) {
-        return ChartData(
-            convertTimeStringToDateTime(item.time), item.rawNetout.toDouble());
+        return DoubleChartData(convertTimeStringToDateTime(item.time),
+            item.rawNetin.toDouble(), item.rawNetout.toDouble());
       }).toList();
     }
 
@@ -150,11 +151,11 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
   }
 
   generateChartDiskData(LoadedRRDDataState data) {
-    List<ChartData> _diskData = [];
+    List<DoubleChartData> _diskData = [];
     if (data.rrdData.data?.disk != null) {
       _diskData = (data.rrdData.data?.disk as List).map((item) {
-        return ChartData(convertTimeStringToDateTime(item.time),
-            item.rawDiskwrite.toDouble());
+        return DoubleChartData(convertTimeStringToDateTime(item.time),
+            item.rawDiskwrite.toDouble(), item.rawDiskread.toDouble());
       }).toList();
     }
 
@@ -436,8 +437,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                                   symbol: "",
                                   decimalDigits: 0,
                                 ).format(
-                                    state.vmDetail.data?.pricePerHour ?? 0) +
-                                ",00",
+                                    state.vmDetail.data?.pricePerHour ?? 0),
                             // "Rp ${state.vmDetail.data?.pricePerHour ?? 0}"
                           ),
                           rowSpec(
@@ -449,8 +449,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                                   decimalDigits: 0,
                                 ).format(state
                                         .vmDetail.data?.estimatedMonthlyPrice ??
-                                    0) +
-                                ",00",
+                                    0),
                             // "Rp ${state.vmDetail.data?.estimatedMonthlyPrice ?? 0}"
                           ),
                           rowSpec("Private Network",
@@ -521,9 +520,10 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                                     color: const Color(0xffbbbbbb), width: 1),
                                 borderRadius: BorderRadius.circular(10.r)),
                             child: Center(
-                                child: CustomLineChart.buildDefaultLineChart(
-                                    'Network Usage',
-                                    generateChartNetworkData(state))),
+                                child:
+                                    CustomDoubleLineChart.buildDefaultLineChart(
+                                        'Network Usage',
+                                        generateChartNetworkData(state))),
                           );
                         } else {
                           return Container();
@@ -544,9 +544,10 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                                     color: const Color(0xffbbbbbb), width: 1),
                                 borderRadius: BorderRadius.circular(10.r)),
                             child: Center(
-                                child: CustomLineChart.buildDefaultLineChart(
-                                    'Disk Usage',
-                                    generateChartDiskData(state))),
+                                child:
+                                    CustomDoubleLineChart.buildDefaultLineChart(
+                                        'Disk Usage',
+                                        generateChartDiskData(state))),
                           );
                         } else {
                           return Container();

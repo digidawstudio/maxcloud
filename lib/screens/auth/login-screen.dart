@@ -18,6 +18,8 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  bool passwordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,6 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextField(
                             controller: passwordController,
                             autocorrect: false,
+                            obscureText: !passwordVisible,
                             // controller: _phoneController,
                             style: GoogleFonts.manrope(
                                 textStyle: const TextStyle(
@@ -120,10 +123,19 @@ class _LoginScreenState extends State<LoginScreen> {
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10.5, horizontal: 15),
                               isDense: true,
-                              suffixIcon: SvgPicture.asset(
-                                  'assets/svg/icons/password-not-visible.svg',
-                                  height: 16,
-                                  fit: BoxFit.scaleDown),
+                              suffixIcon: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    passwordVisible = !passwordVisible;
+                                  });
+                                },
+                                child: SvgPicture.asset(
+                                    passwordVisible
+                                        ? 'assets/svg/icons/password-visible.svg'
+                                        : 'assets/svg/icons/password-not-visible.svg',
+                                    height: 16,
+                                    fit: BoxFit.scaleDown),
+                              ),
                               hintText: 'Masukkan password anda',
                               hintStyle: GoogleFonts.manrope(
                                   textStyle: const TextStyle(
@@ -180,8 +192,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
-                            side:
-                                const BorderSide(width: 1, color: Color(0xffBBBBBB))),
+                            side: const BorderSide(
+                                width: 1, color: Color(0xffBBBBBB))),
                         onPressed: () {
                           Navigator.push(
                               context,

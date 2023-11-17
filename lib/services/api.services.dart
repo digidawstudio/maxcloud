@@ -65,10 +65,15 @@ class ApiServices {
   }
 
   static Future<dynamic> getMyInstances(
-      String token, String status, int limit, int page) async {
+      String token, String status, String sort, int limit, int page) async {
     try {
       final response = await dio.get(Endpoints.myInstance,
-          queryParameters: {"limit": limit, "page": page, "statuses": status},
+          queryParameters: {
+            "limit": limit,
+            "page": page,
+            "statuses": status,
+            "sort": sort
+          },
           options: Options(headers: {
             "x-mobile-token": "=U-wQEy1xn0uBgcy",
             'Authorization': 'Bearer $token'
@@ -490,6 +495,23 @@ class ApiServices {
   static Future<dynamic> logout(String accessToken) async {
     try {
       final response = await dio.post(Endpoints.logout,
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> getDepositDetail(
+      String accessToken, String invoiceId) async {
+    try {
+      final response = await dio.get(
+          Endpoints.getDepositDetail + '/$invoiceId' + '/details',
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
             "x-mobile-token": "=U-wQEy1xn0uBgcy"
