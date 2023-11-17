@@ -67,14 +67,23 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
 
   startVM() {
     vmStateBloc?.add(StartVMEvent(token, widget.data.uuid!));
+    Future.delayed(Duration(milliseconds: 500), () {
+      vmDetailBloc?.add(FetchVMDetailEvent(token, widget.data.uuid));
+    });
   }
 
   restartVM() {
     vmStateBloc?.add(RestartVMEvent(token, widget.data.uuid!));
+    Future.delayed(Duration(milliseconds: 500), () {
+      vmDetailBloc?.add(FetchVMDetailEvent(token, widget.data.uuid));
+    });
   }
 
   shutdownVM() {
     vmStateBloc?.add(ShutdownVMEvent(token, widget.data.uuid!));
+    Future.delayed(Duration(milliseconds: 500), () {
+      vmDetailBloc?.add(FetchVMDetailEvent(token, widget.data.uuid));
+    });
   }
 
   getAccessToken() async {
@@ -247,9 +256,9 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
         ),
       ),
       body: BlocBuilder<VMStateBloc, VMState>(builder: (context, state) {
-        if (state is LoadedVMState) {
-          vmDetailBloc?.add(FetchVMDetailEvent(token, widget.data.uuid));
-        }
+        // if (state is LoadedVMState) {
+        //   vmDetailBloc?.add(FetchVMDetailEvent(token, widget.data.uuid));
+        // }
 
         if (state is ErrorVMState) {
           print(" State: " + state.toString());

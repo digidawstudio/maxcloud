@@ -186,9 +186,13 @@ class CustomWidget {
                             Text(data?.status ?? "-",
                                 style: GoogleFonts.manrope(
                                     textStyle: TextStyle(
-                                        color: data?.status == 'Stopped'
-                                            ? Color.fromARGB(255, 216, 58, 19)
-                                            : Color(0xff00FF38),
+                                        color: (data?.status == 'Starting' ||
+                                                data?.status == 'Stopping')
+                                            ? Color.fromARGB(255, 236, 228, 8)
+                                            : data?.status == 'Stopped'
+                                                ? Color.fromARGB(
+                                                    255, 216, 58, 19)
+                                                : Color(0xff00FF38),
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w600))),
                           ],

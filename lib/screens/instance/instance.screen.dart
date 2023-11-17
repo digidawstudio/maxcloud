@@ -20,6 +20,7 @@ class InstanceScreen extends StatefulWidget {
 
 class _InstanceScreenState extends State<InstanceScreen> {
   ProductBloc? productBloc;
+
   String sort = "";
   String status = "";
   String token = "";
@@ -75,7 +76,6 @@ class _InstanceScreenState extends State<InstanceScreen> {
       body: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
           if (state is ErrorProductState) {
-            
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
               Flushbar(
                 message: state.error,
@@ -195,7 +195,7 @@ class _InstanceScreenState extends State<InstanceScreen> {
                                     builder: (context) =>
                                         InstanceDetailScreen(data: e),
                                   ),
-                                ).then((value){
+                                ).then((value) {
                                   getAccessToken();
                                 });
                               }, data: e);
@@ -208,6 +208,9 @@ class _InstanceScreenState extends State<InstanceScreen> {
                               child: Text("There is no instances"),
                             ),
                           ),
+                    SizedBox(
+                      height: 40.h,
+                    ),
                   ],
                 ),
               ),
