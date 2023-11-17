@@ -266,7 +266,8 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
                                           .viewInsets
                                           .bottom),
                                   child: StatefulBuilder(
-                                    builder: (context, thisSetState) => Container(
+                                    builder: (context, thisSetState) =>
+                                        Container(
                                       height: 600.h,
                                       padding: EdgeInsets.all(25.w),
                                       decoration: BoxDecoration(
@@ -290,12 +291,15 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
                                                 focusNode: messageFocus,
                                                 autofocus: true,
                                                 controller: messageController,
-                                                keyboardType: TextInputType.text,
+                                                keyboardType:
+                                                    TextInputType.text,
                                                 decoration: InputDecoration(
                                                   hintText: "Type Reply",
                                                   border: OutlineInputBorder(
-                                                    borderSide: const BorderSide(
-                                                        color: Colors.black),
+                                                    borderSide:
+                                                        const BorderSide(
+                                                            color:
+                                                                Colors.black),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10.r),
@@ -350,8 +354,9 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
                                                         border: Border.all(
                                                             color: Colors.grey),
                                                         borderRadius:
-                                                            BorderRadius.circular(
-                                                                10.r)),
+                                                            BorderRadius
+                                                                .circular(
+                                                                    10.r)),
                                                     child: Center(
                                                       child: Text("+"),
                                                     ),
@@ -383,7 +388,7 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
                                                         .show(currentContext);
                                                     return;
                                                   }
-        
+
                                                   BlocProvider.of<
                                                               SendMessageBloc>(
                                                           currentContext)
@@ -394,7 +399,7 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
                                                         messageController.text,
                                                         attachments: files),
                                                   );
-        
+
                                                   Navigator.pop(currentContext);
                                                   showModalBottomSheet(
                                                       context: context,
@@ -444,8 +449,9 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
                                                         return Container(
                                                           height: 200.h,
                                                           color: Colors.white,
-                                                          padding: EdgeInsets.all(
-                                                              25.w),
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  25.w),
                                                           child: const Center(
                                                               child: Column(
                                                             crossAxisAlignment:
@@ -513,21 +519,51 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
                           SizedBox(
                             width: 30.w,
                             child: Stack(
-                              children: [
-                                Positioned(
+                              children: widget.ticket.members!.map((e) {
+                                return Positioned(
                                   child: CircleAvatar(
-                                    backgroundColor: Colors.blue,
+                                    backgroundColor: e.isAdmin == false
+                                        ? Colors.blue
+                                        : Colors.red,
                                     radius: 10.r,
+                                    child: Text('${e.name![0]}',
+                                        style: GoogleFonts.manrope(
+                                            textStyle: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 8,
+                                                fontWeight: FontWeight.w700))),
                                   ),
-                                ),
-                                Positioned(
-                                  right: 0,
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.red,
-                                    radius: 10.r,
-                                  ),
-                                )
-                              ],
+                                );
+                              }).toList(),
+                              // children: [
+                              //   Positioned(
+                              //     child: CircleAvatar(
+                              //       backgroundColor: Colors.blue,
+                              //       radius: 10.r,
+                              //       child: Text(
+                              //           '${widget.ticket.members![0].isAdmin! == false ? widget.ticket.members![0].name![0] : ""}',
+                              //           style: GoogleFonts.manrope(
+                              //               textStyle: TextStyle(
+                              //                   color: Colors.white,
+                              //                   fontSize: 8,
+                              //                   fontWeight: FontWeight.w700))),
+                              //     ),
+                              //   ),
+                              //   Positioned(
+                              //     right: 0,
+                              //     child: CircleAvatar(
+                              //       backgroundColor: Colors.red,
+                              //       radius: 10.r,
+                              //       child: Text(
+                              //           '${widget.ticket.members![0].isAdmin! == true ? widget.ticket.members![0].name![0] : ""}',
+                              //           style: GoogleFonts.manrope(
+                              //               textStyle: TextStyle(
+                              //                   color: Colors.white,
+                              //                   fontSize: 8,
+                              //                   fontWeight: FontWeight.w700))),
+                              //     ),
+                              //   )
+                              // ],
                             ),
                           ),
                         ],
@@ -671,6 +707,13 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
                                         ? Colors.blue
                                         : Colors.red,
                                     radius: 15.r,
+                                    child: Text(
+                                        '${convData[i].creatorName?[0] ?? ""}',
+                                        style: GoogleFonts.manrope(
+                                            textStyle: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w700))),
                                   ),
                                   SizedBox(
                                     width: 5.w,

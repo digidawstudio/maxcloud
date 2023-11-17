@@ -14,8 +14,8 @@ class InstanceFilterDialog extends StatefulWidget {
 }
 
 class _InstanceFilterDialogState extends State<InstanceFilterDialog> {
-  String sort = "Newest";
-  String status = "Running";
+  String sort = "";
+  String status = "";
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +45,13 @@ class _InstanceFilterDialogState extends State<InstanceFilterDialog> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      sort = "Newest";
+                      sort = "create,desc";
                     });
                   },
                   child: Row(
                     children: [
                       SvgPicture.asset(
-                          sort == "Newest"
+                          sort == "create,desc"
                               ? 'assets/svg/icons/checkbox-black.svg'
                               : 'assets/svg/icons/uncheck-box.svg',
                           height: 11,
@@ -70,13 +70,13 @@ class _InstanceFilterDialogState extends State<InstanceFilterDialog> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      sort = "Oldest";
+                      sort = "create,asc";
                     });
                   },
                   child: Row(
                     children: [
                       SvgPicture.asset(
-                          sort == "Oldest"
+                          sort == "create,asc"
                               ? 'assets/svg/icons/checkbox-black.svg'
                               : 'assets/svg/icons/uncheck-box.svg',
                           height: 11,
@@ -95,13 +95,13 @@ class _InstanceFilterDialogState extends State<InstanceFilterDialog> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      sort = "Highest Cost";
+                      sort = "cost,desc";
                     });
                   },
                   child: Row(
                     children: [
                       SvgPicture.asset(
-                          sort == "Highest Cost"
+                          sort == "cost,desc"
                               ? 'assets/svg/icons/checkbox-black.svg'
                               : 'assets/svg/icons/uncheck-box.svg',
                           height: 11,
@@ -120,13 +120,13 @@ class _InstanceFilterDialogState extends State<InstanceFilterDialog> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      sort = "Lowest Cost";
+                      sort = "cost,asc";
                     });
                   },
                   child: Row(
                     children: [
                       SvgPicture.asset(
-                          sort == "Lowest Cost"
+                          sort == "cost,asc"
                               ? 'assets/svg/icons/checkbox-black.svg'
                               : 'assets/svg/icons/uncheck-box.svg',
                           height: 11,

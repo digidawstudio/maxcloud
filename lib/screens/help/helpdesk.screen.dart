@@ -688,13 +688,19 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      ticket?.subject ?? "",
-                      style: GoogleFonts.manrope(
-                          textStyle: const TextStyle(
-                              color: Color(0xff232226),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600)),
+                    SizedBox(
+                      width: 220.w,
+                      child: Text(
+                        ticket?.subject ?? "",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        softWrap: false,
+                        style: GoogleFonts.manrope(
+                            textStyle: const TextStyle(
+                                color: Color(0xff232226),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600)),
+                      ),
                     ),
                     SizedBox(height: 2.h),
                     Text(
@@ -711,28 +717,57 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                 SizedBox(
                   width: 30.w,
                   child: Stack(
-                    children: [
-                      Positioned(
+                    children: ticket!.members!.map((e) {
+                      return Positioned(
                         child: CircleAvatar(
-                          backgroundColor: Colors.blue,
+                          backgroundColor:
+                              e.isAdmin == false ? Colors.blue : Colors.red,
                           radius: 10.r,
+                          child: Text('${e.name![0]}',
+                              style: GoogleFonts.manrope(
+                                  textStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.w700))),
                         ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.red,
-                          radius: 10.r,
-                        ),
-                      )
-                    ],
+                      );
+                    }).toList(),
+                    // children: [
+                    //   Positioned(
+                    //     child: CircleAvatar(
+                    //       backgroundColor: Colors.blue,
+                    //       radius: 10.r,
+                    //       child: Text(
+                    //           '${ticket?.members![0].isAdmin! == false ? ticket?.members![0].name![0] : ""}',
+                    //           style: GoogleFonts.manrope(
+                    //               textStyle: TextStyle(
+                    //                   color: Colors.white,
+                    //                   fontSize: 8,
+                    //                   fontWeight: FontWeight.w700))),
+                    //     ),
+                    //   ),
+                    //   Positioned(
+                    //     right: 0,
+                    //     child: CircleAvatar(
+                    //       backgroundColor: Colors.red,
+                    //       radius: 10.r,
+                    //       child: Text(
+                    //           '${ticket?.members![0].isAdmin! == true ? ticket?.members![0].name![0] : ""}',
+                    //           style: GoogleFonts.manrope(
+                    //               textStyle: TextStyle(
+                    //                   color: Colors.white,
+                    //                   fontSize: 8,
+                    //                   fontWeight: FontWeight.w700))),
+                    //     ),
+                    //   )
+                    // ],
                   ),
                 ),
-                SizedBox(
-                  width: 7.w,
-                ),
-                SvgPicture.asset('assets/svg/icons/bookmark.svg',
-                    height: 15, fit: BoxFit.scaleDown)
+                // SizedBox(
+                //   width: 7.w,
+                // ),
+                // SvgPicture.asset('assets/svg/icons/bookmark.svg',
+                //     height: 15, fit: BoxFit.scaleDown)
               ],
             ),
             SizedBox(

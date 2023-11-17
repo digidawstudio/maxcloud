@@ -11,6 +11,7 @@ class Endpoints {
   static String getPaymentMethods = '/mobile/billing/v2/payment-methods';
   static String createInvoice = '/mobile/billing/v2/topup';
   static String getDepositHistory = '/mobile/billing/deposit/history';
+  static String getDepositDetail = '/mobile/billing/deposit';
 
   // Profile Endpoints
   static String getProfile = '/mobile/profile';

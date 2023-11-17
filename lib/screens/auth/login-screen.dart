@@ -19,16 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  bool isHidePassword = true;
-
-  @override
-  void initState() {
-    // AuthBloc authBloc = AuthBloc();
-
-    // // authBloc.stream.listen((event) { });
-
-    super.initState();
-  }
+  bool passwordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -136,10 +127,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(height: 10),
                         TextField(
                             controller: passwordController,
-                            obscureText: isHidePassword,
                             keyboardType: TextInputType.text,
                             textInputAction: TextInputAction.go,
                             autocorrect: false,
+                            obscureText: !passwordVisible,
                             // controller: _phoneController,
                             style: GoogleFonts.manrope(
                                 textStyle: const TextStyle(
@@ -149,12 +140,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                   vertical: 10.5, horizontal: 15),
                               isDense: true,
                               suffixIcon: GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                onTap: () => setState(() {
-                                  isHidePassword = !isHidePassword;
-                                }),
+                                onTap: () {
+                                  setState(() {
+                                    passwordVisible = !passwordVisible;
+                                  });
+                                },
                                 child: SvgPicture.asset(
-                                    'assets/svg/icons/password-not-visible.svg',
+                                    passwordVisible
+                                        ? 'assets/svg/icons/password-visible.svg'
+                                        : 'assets/svg/icons/password-not-visible.svg',
                                     height: 16,
                                     fit: BoxFit.scaleDown),
                               ),

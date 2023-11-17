@@ -39,7 +39,8 @@ class _InstanceScreenState extends State<InstanceScreen> {
 
   void getAccessToken() async {
     String? accessToken = await storage.read(key: 'accessToken');
-    productBloc?.add(FetchProductEvent(accessToken ?? "", status, limit, page));
+    productBloc
+        ?.add(FetchProductEvent(accessToken ?? "", status, sort, limit, page));
     setState(() {
       token = accessToken!;
     });
@@ -154,7 +155,11 @@ class _InstanceScreenState extends State<InstanceScreen> {
                                         onFilter: (sort, status) async {
                                           Navigator.pop(this.context);
                                           productBloc?.add(FetchProductEvent(
-                                              token, status, limit, page));
+                                              token,
+                                              status,
+                                              sort,
+                                              limit,
+                                              page));
                                         },
                                       ));
                             },

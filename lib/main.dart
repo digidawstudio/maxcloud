@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxcloud/bloc/auth/auth.bloc.dart';
 import 'package:maxcloud/bloc/billing/create-invoice.bloc.dart';
+import 'package:maxcloud/bloc/billing/deposit-detail.bloc.dart';
 import 'package:maxcloud/bloc/billing/deposit-history.bloc.dart';
 import 'package:maxcloud/bloc/billing/month-summary.bloc.dart';
 import 'package:maxcloud/bloc/billing/payment-method.bloc.dart';
@@ -30,6 +31,7 @@ void main() async {
     providers: [
       BlocProvider(create: (context) => AuthBloc()),
       BlocProvider(create: (context) => RRDDataBloc()),
+      BlocProvider(create: (context) => DepositDetailBloc()),
       BlocProvider(create: (context) => NotificationBloc()),
       BlocProvider(create: (context) => ReadAllNotificationBloc()),
       BlocProvider(create: (context) => PaymentMethodBloc()),
