@@ -318,371 +318,383 @@ class _HomeScreenState extends State<HomeScreen> {
     return SizedBox(
       height: ScreenUtil().screenHeight,
       width: ScreenUtil().screenWidth,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 400.h,
-              child: Stack(
-                children: [
-                  BlocBuilder<MonthSummaryBloc, MonthSummaryState>(
-                      builder: (context, state) {
-                    if (state is LoadingMonthSummaryState) {
-                      return currentCostInitState(loading: true);
-                    }
+      child: RefreshIndicator(
+        onRefresh: (() async => getAccessToken()),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 400.h,
+                child: Stack(
+                  children: [
+                    BlocBuilder<MonthSummaryBloc, MonthSummaryState>(
+                        builder: (context, state) {
+                      if (state is LoadingMonthSummaryState) {
+                        return currentCostInitState(loading: true);
+                      }
 
-                    if (state is ErrorMonthSummaryState) {
-                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                        Flushbar(
-                          message: state.error.message,
-                          backgroundColor: Colors.red,
-                          flushbarPosition: FlushbarPosition.TOP,
-                          messageColor: Colors.white,
-                          duration: Duration(seconds: 2),
-                        ).show(context);
-                      });
-                    }
+                      if (state is ErrorMonthSummaryState) {
+                        WidgetsBinding.instance
+                            .addPostFrameCallback((timeStamp) {
+                          Flushbar(
+                            message: state.error.message,
+                            backgroundColor: Colors.red,
+                            flushbarPosition: FlushbarPosition.TOP,
+                            messageColor: Colors.white,
+                            duration: Duration(seconds: 2),
+                          ).show(context);
+                        });
+                      }
 
-                    if (state is LoadedMonthSummaryState) {
-                      return Container(
-                        transform: Matrix4.translationValues(0, 200.h, 0),
-                        height: 188.h,
-                        width: ScreenUtil().screenWidth,
-                        padding: EdgeInsets.only(
-                            left: 31.w, right: 31.w, top: 50.h, bottom: 23.h),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.r),
-                          color: const Color.fromARGB(255, 235, 235, 235),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                            Text("Current Cost",
-                                style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
-                                        fontSize: 10.sp,
-                                        color: const Color(0xff232226),
-                                        fontWeight: FontWeight.w500))),
-                            RichText(
-                                text: TextSpan(
-                                    text: "Rp ",
-                                    style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
-                                            fontSize: 20.sp,
-                                            color: const Color(0xff232226),
-                                            fontWeight: FontWeight.w400)),
-                                    children: [
-                                  TextSpan(
-                                      text: "${NumberFormat.currency(
-                                        locale: 'id',
-                                        symbol: "",
-                                        decimalDigits: 0,
-                                      ).format(state.data.data?.currentCost ?? 0)}",
-                                      style: TextStyle(
-                                          fontSize: 20.sp,
-                                          color: const Color(0xff232226),
-                                          fontWeight: FontWeight.w700))
-                                ])),
-                            Expanded(child: Container()),
-                            Text("Estimated Monthly Cost",
-                                style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
-                                        fontSize: 10.sp,
-                                        color: const Color(0xff232226),
-                                        fontWeight: FontWeight.w500))),
-                            RichText(
-                                text: TextSpan(
-                                    text: "Rp ",
-                                    style: GoogleFonts.manrope(
-                                        textStyle: TextStyle(
-                                            fontSize: 20.sp,
-                                            color: const Color(0xff232226),
-                                            fontWeight: FontWeight.w400)),
-                                    children: [
-                                  TextSpan(
-                                      text: "${NumberFormat.currency(
-                                        locale: 'id',
-                                        symbol: "",
-                                        decimalDigits: 0,
-                                      ).format(state.data.data?.estimatedMonthlyTotal ?? 0)}",
-                                      style: TextStyle(
-                                          fontSize: 20.sp,
-                                          color: const Color(0xff232226),
-                                          fontWeight: FontWeight.w700))
-                                ])),
-                          ],
-                        ),
-                      );
-                    }
-
-                    return currentCostInitState(loading: false);
-                  }),
-                  BlocBuilder<ProfileBloc, ProfileState>(
-                      builder: (context, state) {
-                    if (state is LoadingProfileState) {
-                      return profileInitState(loading: true);
-                    }
-
-                    if (state is ErrorProfileState) {
-                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                        Flushbar(
-                          message: state.error.message,
-                          backgroundColor: Colors.red,
-                          flushbarPosition: FlushbarPosition.TOP,
-                          messageColor: Colors.white,
-                          duration: Duration(seconds: 2),
-                        ).show(context);
-                      });
-                    }
-
-                    if (state is LoadedProfileState) {
-                      return Container(
-                        height: 242.h,
-                        width: ScreenUtil().screenWidth,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 30.w, vertical: 25.h),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(15.r),
-                                bottomRight: Radius.circular(15.r)),
-                            color: const Color(0xff009EFF),
-                            boxShadow: const [
-                              BoxShadow(color: Colors.black26, blurRadius: 20)
-                            ]),
-                        child: SafeArea(
+                      if (state is LoadedMonthSummaryState) {
+                        return Container(
+                          transform: Matrix4.translationValues(0, 200.h, 0),
+                          height: 188.h,
+                          width: ScreenUtil().screenWidth,
+                          padding: EdgeInsets.only(
+                              left: 31.w, right: 31.w, top: 50.h, bottom: 23.h),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.r),
+                            color: const Color.fromARGB(255, 235, 235, 235),
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  const Image(
-                                      height: 26,
-                                      image: AssetImage(
-                                          "assets/images/maxcloud.png")),
-                                  Expanded(child: Container()),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const NotificationScreen()));
-                                    },
-                                    child: Icon(
-                                        Icons.notifications_active_rounded,
-                                        color: Colors.white,
-                                        size: 20.w),
-                                  ),
-                                ],
-                              ),
                               SizedBox(
-                                height: 18.h,
+                                height: 5.h,
                               ),
-                              Flexible(
-                                  child: RichText(
-                                      text: TextSpan(
-                                          text: "Selamat Datang ",
-                                          style: GoogleFonts.manrope(
-                                              textStyle: TextStyle(
-                                                  fontSize: 10.sp,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w400)),
-                                          children: [
+                              Text("Current Cost",
+                                  style: GoogleFonts.manrope(
+                                      textStyle: TextStyle(
+                                          fontSize: 10.sp,
+                                          color: const Color(0xff232226),
+                                          fontWeight: FontWeight.w500))),
+                              RichText(
+                                  text: TextSpan(
+                                      text: "Rp ",
+                                      style: GoogleFonts.manrope(
+                                          textStyle: TextStyle(
+                                              fontSize: 20.sp,
+                                              color: const Color(0xff232226),
+                                              fontWeight: FontWeight.w400)),
+                                      children: [
                                     TextSpan(
-                                        text: "${state.data.data?.fullName}!",
+                                        text: "${NumberFormat.currency(
+                                          locale: 'id',
+                                          symbol: "",
+                                          decimalDigits: 0,
+                                        ).format(state.data.data?.currentCost ?? 0)}",
                                         style: TextStyle(
-                                            fontSize: 10.sp,
-                                            color: Colors.white,
+                                            fontSize: 20.sp,
+                                            color: const Color(0xff232226),
                                             fontWeight: FontWeight.w700))
-                                  ]))),
-                              Flexible(
-                                  child: SizedBox(
-                                height: 12.h,
-                              )),
-                              Container(
-                                height: 80.h,
-                                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(15.r)),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Flexible(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Flexible(
-                                              child: Text("Saldo Anda",
-                                                  style: GoogleFonts.manrope(
-                                                      textStyle: TextStyle(
-                                                          fontSize: 12.sp,
-                                                          color: const Color(
-                                                              0xffBBBBBB),
-                                                          fontWeight: FontWeight
-                                                              .w500)))),
-                                          SizedBox(
-                                            height: 2.h,
-                                          ),
-                                          Flexible(
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                Text(
-                                                  "Rp",
-                                                  style: GoogleFonts.manrope(
-                                                      textStyle: TextStyle(
-                                                          fontSize: 20.sp,
-                                                          color: const Color(
-                                                              0xff232226),
-                                                          fontWeight:
-                                                              FontWeight.w500)),
-                                                ),
-                                                SizedBox(
-                                                  width: 7.w,
-                                                ),
-                                                Text(
-                                                    "${NumberFormat.currency(
-                                                      locale: 'id',
-                                                      symbol: "",
-                                                      decimalDigits: 0,
-                                                    ).format(state.data.data?.currentBalance ?? 0)}",
-                                                    style: GoogleFonts.manrope(
-                                                        textStyle: TextStyle(
-                                                            fontSize: 22.sp,
-                                                            color: const Color(
-                                                                0xff009EFF),
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w700))),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        BlocProvider.of<NavigationBloc>(context)
-                                            .add(SetNavigatorIndexEvent(2));
-                                      },
-                                      child: const Image(
-                                        image: AssetImage(
-                                            "assets/images/add-button.png"),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
+                                  ])),
+                              Expanded(child: Container()),
+                              Text("Estimated Monthly Cost",
+                                  style: GoogleFonts.manrope(
+                                      textStyle: TextStyle(
+                                          fontSize: 10.sp,
+                                          color: const Color(0xff232226),
+                                          fontWeight: FontWeight.w500))),
+                              RichText(
+                                  text: TextSpan(
+                                      text: "Rp ",
+                                      style: GoogleFonts.manrope(
+                                          textStyle: TextStyle(
+                                              fontSize: 20.sp,
+                                              color: const Color(0xff232226),
+                                              fontWeight: FontWeight.w400)),
+                                      children: [
+                                    TextSpan(
+                                        text: "${NumberFormat.currency(
+                                          locale: 'id',
+                                          symbol: "",
+                                          decimalDigits: 0,
+                                        ).format(state.data.data?.estimatedMonthlyTotal ?? 0)}",
+                                        style: TextStyle(
+                                            fontSize: 20.sp,
+                                            color: const Color(0xff232226),
+                                            fontWeight: FontWeight.w700))
+                                  ])),
                             ],
                           ),
-                        ),
-                      );
-                    }
+                        );
+                      }
 
-                    return profileInitState(loading: false);
-                  }),
-                ],
-              ),
-            ),
-            BlocBuilder<TotalResourceBloc, TotalResourceState>(
-                builder: (context, state) {
-              if (state is LoadingTotalResourceState) {
-                return totalResourceInitState(loading: true);
-              }
+                      return currentCostInitState(loading: false);
+                    }),
+                    BlocBuilder<ProfileBloc, ProfileState>(
+                        builder: (context, state) {
+                      if (state is LoadingProfileState) {
+                        return profileInitState(loading: true);
+                      }
 
-              if (state is ErrorTotalResourceState) {
-                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                  Flushbar(
-                    message: state.error,
-                    backgroundColor: Colors.red,
-                    flushbarPosition: FlushbarPosition.TOP,
-                    messageColor: Colors.white,
-                    duration: Duration(seconds: 2),
-                  ).show(context);
-                });
-              }
+                      if (state is ErrorProfileState) {
+                        WidgetsBinding.instance
+                            .addPostFrameCallback((timeStamp) {
+                          Flushbar(
+                            message: state.error.message,
+                            backgroundColor: Colors.red,
+                            flushbarPosition: FlushbarPosition.TOP,
+                            messageColor: Colors.white,
+                            duration: Duration(seconds: 2),
+                          ).show(context);
+                        });
+                      }
 
-              if (state is LoadedTotalResourceState) {
-                LoadedTotalResourceState totalResource = state;
+                      if (state is LoadedProfileState) {
+                        return Container(
+                          height: 242.h,
+                          width: ScreenUtil().screenWidth,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 30.w, vertical: 25.h),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(15.r),
+                                  bottomRight: Radius.circular(15.r)),
+                              color: const Color(0xff009EFF),
+                              boxShadow: const [
+                                BoxShadow(color: Colors.black26, blurRadius: 20)
+                              ]),
+                          child: SafeArea(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Image(
+                                        height: 26,
+                                        image: AssetImage(
+                                            "assets/images/maxcloud.png")),
+                                    Expanded(child: Container()),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const NotificationScreen()));
+                                      },
+                                      child: Icon(
+                                          Icons.notifications_active_rounded,
+                                          color: Colors.white,
+                                          size: 20.w),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 18.h,
+                                ),
+                                Flexible(
+                                    child: RichText(
+                                        text: TextSpan(
+                                            text: "Selamat Datang ",
+                                            style: GoogleFonts.manrope(
+                                                textStyle: TextStyle(
+                                                    fontSize: 10.sp,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.w400)),
+                                            children: [
+                                      TextSpan(
+                                          text: "${state.data.data?.fullName}!",
+                                          style: TextStyle(
+                                              fontSize: 10.sp,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w700))
+                                    ]))),
+                                Flexible(
+                                    child: SizedBox(
+                                  height: 12.h,
+                                )),
+                                Container(
+                                  height: 80.h,
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 15.w),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius:
+                                          BorderRadius.circular(15.r)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Flexible(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Flexible(
+                                                child: Text("Saldo Anda",
+                                                    style: GoogleFonts.manrope(
+                                                        textStyle: TextStyle(
+                                                            fontSize: 12.sp,
+                                                            color: const Color(
+                                                                0xffBBBBBB),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500)))),
+                                            SizedBox(
+                                              height: 2.h,
+                                            ),
+                                            Flexible(
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    "Rp",
+                                                    style: GoogleFonts.manrope(
+                                                        textStyle: TextStyle(
+                                                            fontSize: 20.sp,
+                                                            color: const Color(
+                                                                0xff232226),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500)),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 7.w,
+                                                  ),
+                                                  Text(
+                                                      "${NumberFormat.currency(
+                                                        locale: 'id',
+                                                        symbol: "",
+                                                        decimalDigits: 0,
+                                                      ).format(state.data.data?.currentBalance ?? 0)}",
+                                                      style: GoogleFonts.manrope(
+                                                          textStyle: TextStyle(
+                                                              fontSize: 22.sp,
+                                                              color: const Color(
+                                                                  0xff009EFF),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700))),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          BlocProvider.of<NavigationBloc>(
+                                                  context)
+                                              .add(SetNavigatorIndexEvent(2));
+                                        },
+                                        child: const Image(
+                                          image: AssetImage(
+                                              "assets/images/add-button.png"),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
 
-                return Column(
-                  children: [
-                    ResourceWidget(
-                        child: ResourceItem(
-                            title: "Total Resource",
-                            amount: totalResource
-                                .totalResource.data?.totalResource
-                                .toString(),
-                            iconPath: 'assets/svg/icons/cloud-circle.svg',
-                            percentage: "+6,32%")),
-                    ResourceWidget(
-                        child: ResourceItem(
-                            title: "Running Resource",
-                            amount: totalResource
-                                .totalResource.data?.totalRunning
-                                .toString(),
-                            iconPath: 'assets/svg/icons/stat-circle.svg',
-                            percentage: "+6,32%")),
-                    ResourceWidget(
-                        child: ResourceItem(
-                      title: "Stopped Resource",
-                      amount: totalResource.totalResource.data?.totalStopped
-                          .toString(),
-                      iconPath: 'assets/svg/icons/guard-circle.svg',
-                      percentage: "+6,32%",
-                    )),
+                      return profileInitState(loading: false);
+                    }),
                   ],
-                );
-              }
+                ),
+              ),
+              BlocBuilder<TotalResourceBloc, TotalResourceState>(
+                  builder: (context, state) {
+                if (state is LoadingTotalResourceState) {
+                  return totalResourceInitState(loading: true);
+                }
 
-              return Container();
-            }),
-            BlocBuilder<LatestVMBloc, LatestVMState>(builder: (context, state) {
-              if (state is ErrorLatestVMState) {
-                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                  Flushbar(
-                    message: state.error,
-                    backgroundColor: Colors.red,
-                    flushbarPosition: FlushbarPosition.TOP,
-                    messageColor: Colors.white,
-                    duration: Duration(seconds: 2),
-                  ).show(context);
-                });
-              }
+                if (state is ErrorTotalResourceState) {
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    Flushbar(
+                      message: state.error,
+                      backgroundColor: Colors.red,
+                      flushbarPosition: FlushbarPosition.TOP,
+                      messageColor: Colors.white,
+                      duration: Duration(seconds: 2),
+                    ).show(context);
+                  });
+                }
 
-              if (state is LoadedLatestVMState) {
-                LoadedLatestVMState latestVM = state;
+                if (state is LoadedTotalResourceState) {
+                  LoadedTotalResourceState totalResource = state;
 
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 28),
-                  child: latestVM.latestVm.data!.isNotEmpty
-                      ? Column(
-                          children: latestVM.latestVm.data!.map((e) {
-                            return CustomWidget.InstanceSpecs(() {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          InstanceDetailScreen(data: e)));
-                            }, data: e);
-                          }).toList(),
-                        )
-                      : const SizedBox.shrink(),
-                );
-              } else {
+                  return Column(
+                    children: [
+                      ResourceWidget(
+                          child: ResourceItem(
+                              title: "Total Resource",
+                              amount: totalResource
+                                  .totalResource.data?.totalResource
+                                  .toString(),
+                              iconPath: 'assets/svg/icons/cloud-circle.svg',
+                              percentage: "+6,32%")),
+                      ResourceWidget(
+                          child: ResourceItem(
+                              title: "Running Resource",
+                              amount: totalResource
+                                  .totalResource.data?.totalRunning
+                                  .toString(),
+                              iconPath: 'assets/svg/icons/stat-circle.svg',
+                              percentage: "+6,32%")),
+                      ResourceWidget(
+                          child: ResourceItem(
+                        title: "Stopped Resource",
+                        amount: totalResource.totalResource.data?.totalStopped
+                            .toString(),
+                        iconPath: 'assets/svg/icons/guard-circle.svg',
+                        percentage: "+6,32%",
+                      )),
+                    ],
+                  );
+                }
+
                 return Container();
-              }
-            }),
-            SizedBox(height: 40.h)
-          ],
+              }),
+              BlocBuilder<LatestVMBloc, LatestVMState>(
+                  builder: (context, state) {
+                if (state is ErrorLatestVMState) {
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    Flushbar(
+                      message: state.error,
+                      backgroundColor: Colors.red,
+                      flushbarPosition: FlushbarPosition.TOP,
+                      messageColor: Colors.white,
+                      duration: Duration(seconds: 2),
+                    ).show(context);
+                  });
+                }
+
+                if (state is LoadedLatestVMState) {
+                  LoadedLatestVMState latestVM = state;
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 28),
+                    child: latestVM.latestVm.data!.isNotEmpty
+                        ? Column(
+                            children: latestVM.latestVm.data!.map((e) {
+                              return CustomWidget.InstanceSpecs(() {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            InstanceDetailScreen(data: e)));
+                              }, data: e);
+                            }).toList(),
+                          )
+                        : const SizedBox.shrink(),
+                  );
+                } else {
+                  return Container();
+                }
+              }),
+              SizedBox(height: 40.h)
+            ],
+          ),
         ),
       ),
     );
