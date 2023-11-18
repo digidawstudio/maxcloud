@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state is ErrorAuthState) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             Flushbar(
-              message: state.error.message,
+              message: state.error.message ?? "Something went wrong, please contact administrator",
               backgroundColor: Colors.red,
               flushbarPosition: FlushbarPosition.TOP,
               messageColor: Colors.white,
