@@ -10,6 +10,7 @@ import 'package:maxcloud/bloc/billing/create-invoice.bloc.dart';
 import 'package:maxcloud/bloc/billing/payment-method.bloc.dart';
 import 'package:maxcloud/bloc/profile/profile.bloc.dart';
 import 'package:maxcloud/screens/billing/history.screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../repository/billing/payment-method.model.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -65,6 +66,13 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
     });
   }
 
+  onLaunchPaymentLink(String paymentUrl) async {
+    final Uri url = Uri.parse(paymentUrl);
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,6 +110,7 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
           icon: SvgPicture.asset('assets/svg/icons/ios-back.svg',
               height: 24, fit: BoxFit.scaleDown),
           onPressed: () {
+            createInvoiceBloc?.add(InitialCreateInvoiceEvent());
             Navigator.pop(context);
           },
         ),
@@ -415,6 +424,10 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
               BlocBuilder<CreateInvoiceBloc, CreateInvoiceState>(
                   builder: (context, state) {
                 if (state is LoadedCreateInvoiceState) {
+                  if (state.data.data?.paymentUrl != '') {
+                    onLaunchPaymentLink(state.data.data?.paymentUrl ?? "");
+                  }
+
                   return AbsorbPointer(
                     absorbing: false,
                     child: Column(
@@ -431,13 +444,13 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
                                         color: Color(0xff232226),
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500))),
-                            Text("Details",
-                                style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
-                                        decoration: TextDecoration.underline,
-                                        color: Color(0xff009EFF),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500))),
+                            // Text("Details",
+                            //     style: GoogleFonts.manrope(
+                            //         textStyle: TextStyle(
+                            //             decoration: TextDecoration.underline,
+                            //             color: Color(0xff009EFF),
+                            //             fontSize: 14,
+                            //             fontWeight: FontWeight.w500))),
                           ],
                         ),
                         SizedBox(height: 10),

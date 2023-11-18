@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:maxcloud/bloc/auth/auth.bloc.dart';
+import 'package:maxcloud/bloc/navigation/navigation.bloc.dart';
 import 'package:maxcloud/bloc/profile/change-password.bloc.dart';
 import 'package:maxcloud/bloc/profile/profile.bloc.dart';
 import 'package:maxcloud/bloc/user/user.bloc.dart';
@@ -1087,12 +1089,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: state is LoadingAuthState
                             ? () {}
                             : () async {
-                                authBloc?.add(LogoutEvent(await getAccessToken()));
-                                await storage.delete(key: 'accessToken');
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginScreen()), ((route) => false));
+                                try {
+                                  authBloc?.add(
+                                      LogoutEvent(await getAccessToken()));
+                                  BlocProvider.of<NavigationBloc>(context)
+                                      .add(SetNavigatorIndexEvent(0));
+                                  await storage.delete(key: 'accessToken');
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginScreen()),
+                                      ((route) => false));
+                                } catch (e) {
+                                  Flushbar(
+                                    message: "Logout fail. Please try again",
+                                    backgroundColor: Colors.red,
+                                    flushbarPosition: FlushbarPosition.TOP,
+                                    messageColor: Colors.white,
+                                    duration: Duration(seconds: 2),
+                                  ).show(context);
+                                }
                               },
                         child: state is LoadingAuthState
                             ? Center(

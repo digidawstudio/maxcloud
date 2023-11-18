@@ -77,6 +77,7 @@ dependencies:
   image_picker:
   easy_image_viewer:
   webview_flutter:
+  url_launcher:
 
 dev_dependencies:
   flutter_test:

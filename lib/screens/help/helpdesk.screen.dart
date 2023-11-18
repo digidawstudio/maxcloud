@@ -526,19 +526,21 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                                                   .toList();
 
                                               if (filteredTicketData.isEmpty) {
-                                                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                                                WidgetsBinding.instance
+                                                    .addPostFrameCallback(
+                                                        (timeStamp) {
                                                   Flushbar(
-                                                        message:
-                                                            "No Ticket Found!",
-                                                        flushbarPosition:
-                                                            FlushbarPosition
-                                                                .TOP,
-                                                        backgroundColor:
-                                                            Colors.red,
-                                                        duration:
-                                                            const Duration(
-                                                                seconds: 2))
-                                                    .show(context);
+                                                          message:
+                                                              "No Ticket Found!",
+                                                          flushbarPosition:
+                                                              FlushbarPosition
+                                                                  .TOP,
+                                                          backgroundColor:
+                                                              Colors.red,
+                                                          duration:
+                                                              const Duration(
+                                                                  seconds: 2))
+                                                      .show(context);
                                                 });
                                               }
                                               setState(() {});
@@ -598,30 +600,34 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
 
                             return Container(
                               height: ScreenUtil().screenHeight,
-                              child: ListView.builder(
-                                // shrinkWrap: true,
-                                padding: EdgeInsets.symmetric(
-                                  // horizontal: 25.w,
-                                  vertical: 15.h,
-                                ),
-                                itemCount: filteredTicketData.isNotEmpty
-                                    ? filteredTicketData.length
-                                    : state.data.data?.data.length,
-                                itemBuilder: (context, i) => GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                HelpDeskDetailScreen(
-                                                    ticket: state.data.data
-                                                            ?.data[i] ??
-                                                        TicketData())));
-                                  },
-                                  child: helpdeskItems(
-                                      filteredTicketData.isNotEmpty
-                                          ? filteredTicketData[i]
-                                          : state.data.data?.data[i]),
+                              child: RefreshIndicator(
+                                onRefresh: (() async => getTickets()),
+                                child: ListView.builder(
+                                  physics: AlwaysScrollableScrollPhysics(),
+                                  // shrinkWrap: true,
+                                  padding: EdgeInsets.symmetric(
+                                    // horizontal: 25.w,
+                                    vertical: 15.h,
+                                  ),
+                                  itemCount: filteredTicketData.isNotEmpty
+                                      ? filteredTicketData.length
+                                      : state.data.data?.data.length,
+                                  itemBuilder: (context, i) => GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HelpDeskDetailScreen(
+                                                      ticket: state.data.data
+                                                              ?.data[i] ??
+                                                          TicketData())));
+                                    },
+                                    child: helpdeskItems(
+                                        filteredTicketData.isNotEmpty
+                                            ? filteredTicketData[i]
+                                            : state.data.data?.data[i]),
+                                  ),
                                 ),
                               ),
                             );

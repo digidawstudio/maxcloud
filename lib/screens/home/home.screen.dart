@@ -45,11 +45,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void getAccessToken() async {
-    String? accessToken = await storage.read(key: 'accessToken');
-    monthSummaryBloc?.add(FetchCurrentMonthSummaryEvent(accessToken ?? ""));
-    profileBloc?.add(FetchProfileEvent(accessToken ?? ""));
-    totalResourceBloc?.add(FetchTotalResourceEvent(accessToken ?? ""));
-    latestVMBloc?.add(FetchLatestVMEvent(accessToken ?? ""));
+    storage.read(key: 'accessToken').then((accessToken) {
+      if (accessToken != "") {
+        monthSummaryBloc?.add(FetchCurrentMonthSummaryEvent(accessToken!));
+        profileBloc?.add(FetchProfileEvent(accessToken!));
+        totalResourceBloc?.add(FetchTotalResourceEvent(accessToken!));
+        latestVMBloc?.add(FetchLatestVMEvent(accessToken!));
+      }
+    });
   }
 
   Widget currentCostInitState({bool loading = false}) {
@@ -321,6 +324,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: RefreshIndicator(
         onRefresh: (() async => getAccessToken()),
         child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
           child: Column(
             children: [
               SizedBox(

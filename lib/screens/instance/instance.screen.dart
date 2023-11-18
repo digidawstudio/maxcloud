@@ -95,123 +95,129 @@ class _InstanceScreenState extends State<InstanceScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 25),
               width: ScreenUtil().screenWidth,
               height: ScreenUtil().screenHeight,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        // Flexible(
-                        //   flex: 3,
-                        //   child: MaterialButton(
-                        //     minWidth: 171.w,
-                        //     height: 30.h,
-                        //     elevation: 0,
-                        //     color: Color(0xff009EFF),
-                        //     shape: RoundedRectangleBorder(
-                        //       borderRadius: BorderRadius.circular(10.0),
-                        //     ),
-                        //     onPressed: () {
-                        //       Navigator.push(
-                        //           context,
-                        //           MaterialPageRoute(
-                        //               builder: (context) =>
-                        //                   InstanceCreateScreen()));
-                        //     },
-                        //     child: Row(
-                        //       crossAxisAlignment: CrossAxisAlignment.center,
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       children: [
-                        //         SvgPicture.asset('assets/svg/icons/plus-icon.svg',
-                        //             height: 11.h, fit: BoxFit.scaleDown),
-                        //         SizedBox(width: 12.w),
-                        //         Text(
-                        //           "Create Instance",
-                        //           style: GoogleFonts.manrope(
-                        //               textStyle: TextStyle(
-                        //                   fontSize: 14.sp,
-                        //                   color: Colors.white,
-                        //                   fontWeight: FontWeight.w400)),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
-                        Flexible(flex: 3, child: Container()),
-                        Spacer(),
-                        Flexible(
-                          flex: 2,
-                          child: MaterialButton(
-                            height: 30.h,
-                            elevation: 0,
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 1, color: Color(0xffBBBBBB)),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            onPressed: () {
-                              showDialog(
-                                  context: this.context,
-                                  builder: (ctx) => InstanceFilterDialog(
-                                        onFilter: (sort, status) async {
-                                          Navigator.pop(this.context);
-                                          productBloc?.add(FetchProductEvent(
-                                              token,
-                                              status,
-                                              sort,
-                                              limit,
-                                              page));
-                                        },
-                                      ));
-                            },
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Filter",
-                                  style: GoogleFonts.manrope(
-                                      textStyle: TextStyle(
-                                          fontSize: 14.sp,
-                                          color: Color(0xff353333),
-                                          fontWeight: FontWeight.w400)),
-                                ),
-                                SizedBox(width: 30),
-                                SvgPicture.asset('assets/svg/icons/filter.svg',
-                                    height: 15.h, fit: BoxFit.scaleDown),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    instances.products.data!.data!.isNotEmpty
-                        ? Column(
-                            children: instances.products.data!.data!.map((e) {
-                              return CustomWidget.InstanceSpecs(() {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        InstanceDetailScreen(data: e),
+              child: RefreshIndicator(
+                onRefresh: (() async => getAccessToken()),
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          // Flexible(
+                          //   flex: 3,
+                          //   child: MaterialButton(
+                          //     minWidth: 171.w,
+                          //     height: 30.h,
+                          //     elevation: 0,
+                          //     color: Color(0xff009EFF),
+                          //     shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(10.0),
+                          //     ),
+                          //     onPressed: () {
+                          //       Navigator.push(
+                          //           context,
+                          //           MaterialPageRoute(
+                          //               builder: (context) =>
+                          //                   InstanceCreateScreen()));
+                          //     },
+                          //     child: Row(
+                          //       crossAxisAlignment: CrossAxisAlignment.center,
+                          //       mainAxisAlignment: MainAxisAlignment.center,
+                          //       children: [
+                          //         SvgPicture.asset('assets/svg/icons/plus-icon.svg',
+                          //             height: 11.h, fit: BoxFit.scaleDown),
+                          //         SizedBox(width: 12.w),
+                          //         Text(
+                          //           "Create Instance",
+                          //           style: GoogleFonts.manrope(
+                          //               textStyle: TextStyle(
+                          //                   fontSize: 14.sp,
+                          //                   color: Colors.white,
+                          //                   fontWeight: FontWeight.w400)),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
+                          Flexible(flex: 3, child: Container()),
+                          Spacer(),
+                          Flexible(
+                            flex: 2,
+                            child: MaterialButton(
+                              height: 30.h,
+                              elevation: 0,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 1, color: Color(0xffBBBBBB)),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              onPressed: () {
+                                showDialog(
+                                    context: this.context,
+                                    builder: (ctx) => InstanceFilterDialog(
+                                          onFilter: (sort, status) async {
+                                            Navigator.pop(this.context);
+                                            productBloc?.add(FetchProductEvent(
+                                                token,
+                                                status,
+                                                sort,
+                                                limit,
+                                                page));
+                                          },
+                                        ));
+                              },
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Filter",
+                                    style: GoogleFonts.manrope(
+                                        textStyle: TextStyle(
+                                            fontSize: 14.sp,
+                                            color: Color(0xff353333),
+                                            fontWeight: FontWeight.w400)),
                                   ),
-                                ).then((value) {
-                                  getAccessToken();
-                                });
-                              }, data: e);
-                            }).toList(),
-                          )
-                        : Container(
-                            height: ScreenUtil().screenHeight / 1.4,
-                            width: ScreenUtil().screenWidth,
-                            child: Center(
-                              child: Text("There is no instances"),
+                                  SizedBox(width: 30),
+                                  SvgPicture.asset(
+                                      'assets/svg/icons/filter.svg',
+                                      height: 15.h,
+                                      fit: BoxFit.scaleDown),
+                                ],
+                              ),
                             ),
                           ),
-                    SizedBox(
-                      height: 40.h,
-                    ),
-                  ],
+                        ],
+                      ),
+                      instances.products.data!.data!.isNotEmpty
+                          ? Column(
+                              children: instances.products.data!.data!.map((e) {
+                                return CustomWidget.InstanceSpecs(() {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          InstanceDetailScreen(data: e),
+                                    ),
+                                  ).then((value) {
+                                    getAccessToken();
+                                  });
+                                }, data: e);
+                              }).toList(),
+                            )
+                          : Container(
+                              height: ScreenUtil().screenHeight / 1.4,
+                              width: ScreenUtil().screenWidth,
+                              child: Center(
+                                child: Text("There is no instances"),
+                              ),
+                            ),
+                      SizedBox(
+                        height: 40.h,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ));

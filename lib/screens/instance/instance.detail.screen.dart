@@ -303,333 +303,337 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 25),
                 width: ScreenUtil().screenWidth,
                 height: ScreenUtil().screenHeight,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 22),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Image.network(
-                                state.vmDetail.data?.os!.image ?? "",
-                                height: 35,
-                              ),
-                              SizedBox(width: 12),
-                              Text(state.vmDetail.data?.hostname ?? "",
-                                  style: GoogleFonts.manrope(
-                                      textStyle: TextStyle(
-                                          color: Color(0xff009EFF),
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500))),
-                            ],
-                          ),
-                          Flexible(
-                            flex: 3,
-                            child: MaterialButton(
-                              minWidth: 89.w,
-                              height: 20.h,
-                              elevation: 0,
-                              color: (state.vmDetail.data?.status ==
-                                          'Starting' ||
-                                      state.vmDetail.data?.status == 'Stopping')
-                                  ? Color.fromARGB(255, 236, 228, 8)
-                                  : state.vmDetail.data?.status == 'Stopped'
-                                      ? Color.fromARGB(255, 216, 58, 19)
-                                      : Color(0xff02D430),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              onPressed: () {},
-                              child: Text(
-                                "●  ${state.vmDetail.data?.status ?? "-"}",
-                                style: GoogleFonts.manrope(
-                                    textStyle: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600)),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: SvgPicture.asset(
-                                    'assets/svg/icons/monitor-icon.svg',
-                                    height: 28.h,
-                                    fit: BoxFit.scaleDown),
-                              ),
-                              SizedBox(width: 15.w),
-                              GestureDetector(
-                                onTap: () => shutdownVM(),
-                                child: SvgPicture.asset(
-                                    'assets/svg/icons/power-icon.svg',
-                                    height: 28.h,
-                                    fit: BoxFit.scaleDown),
-                              ),
-                              SizedBox(width: 15.w),
-                              GestureDetector(
-                                onTap: () => startVM(),
-                                child: SvgPicture.asset(
-                                    'assets/svg/icons/reload-icon.svg',
-                                    height: 28.h,
-                                    fit: BoxFit.scaleDown),
-                              )
-                            ],
-                          ),
-                          Spacer(),
-                          Flexible(
-                            flex: 1,
-                            child: MaterialButton(
-                              height: 30.h,
-                              elevation: 0,
-                              color: Color(0xffF1F1F1),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    width: 1, color: Color(0xffBBBBBB)),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              onPressed: () {},
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Hourly",
+                child: RefreshIndicator(
+                  onRefresh: (() async => getAccessToken()),
+                  child: SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 22),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Image.network(
+                                  state.vmDetail.data?.os!.image ?? "",
+                                  height: 35,
+                                ),
+                                SizedBox(width: 12),
+                                Text(state.vmDetail.data?.hostname ?? "",
                                     style: GoogleFonts.manrope(
                                         textStyle: TextStyle(
-                                            fontSize: 12.sp,
-                                            color: Color(0xff232226),
-                                            fontWeight: FontWeight.w600)),
-                                  ),
-                                  SvgPicture.asset(
-                                      'assets/svg/icons/dropdown.svg',
-                                      height: 15.h,
-                                      fit: BoxFit.scaleDown),
-                                ],
+                                            color: Color(0xff009EFF),
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500))),
+                              ],
+                            ),
+                            Flexible(
+                              flex: 3,
+                              child: MaterialButton(
+                                minWidth: 89.w,
+                                height: 20.h,
+                                elevation: 0,
+                                color: (state.vmDetail.data?.status ==
+                                            'Starting' ||
+                                        state.vmDetail.data?.status ==
+                                            'Stopping')
+                                    ? Color.fromARGB(255, 236, 228, 8)
+                                    : state.vmDetail.data?.status == 'Stopped'
+                                        ? Color.fromARGB(255, 216, 58, 19)
+                                        : Color(0xff02D430),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                                onPressed: () {},
+                                child: Text(
+                                  "●  ${state.vmDetail.data?.status ?? "-"}",
+                                  style: GoogleFonts.manrope(
+                                      textStyle: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600)),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 24),
-                      BlocBuilder<RRDDataBloc, RRDDataState>(
-                          builder: (context, state) {
-                        if (state is ErrorRRDDataState) {
-                          print("RRD State: " + state.toString());
-                          WidgetsBinding.instance
-                              .addPostFrameCallback((timeStamp) {
-                            Flushbar(
-                              message: state.error,
-                              backgroundColor: Colors.red,
-                              flushbarPosition: FlushbarPosition.TOP,
-                              messageColor: Colors.white,
-                              duration: Duration(seconds: 2),
-                            ).show(context);
-                          });
-                        }
-                        if (state is LoadedRRDDataState) {
-                          return Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                          ],
+                        ),
+                        SizedBox(height: 20.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
                               children: [
-                                getGradientProgressStyle(
-                                    "CPU Usage", calculateCPUPercentage(state)),
-                                getGradientProgressStyle(
-                                    "Disk Operation", diskPercentage.toDouble())
-                              ]);
-                        }
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: SvgPicture.asset(
+                                      'assets/svg/icons/monitor-icon.svg',
+                                      height: 28.h,
+                                      fit: BoxFit.scaleDown),
+                                ),
+                                SizedBox(width: 15.w),
+                                GestureDetector(
+                                  onTap: () => shutdownVM(),
+                                  child: SvgPicture.asset(
+                                      'assets/svg/icons/power-icon.svg',
+                                      height: 28.h,
+                                      fit: BoxFit.scaleDown),
+                                ),
+                                SizedBox(width: 15.w),
+                                GestureDetector(
+                                  onTap: () => startVM(),
+                                  child: SvgPicture.asset(
+                                      'assets/svg/icons/reload-icon.svg',
+                                      height: 28.h,
+                                      fit: BoxFit.scaleDown),
+                                )
+                              ],
+                            ),
+                            Spacer(),
+                            Flexible(
+                              flex: 1,
+                              child: MaterialButton(
+                                height: 30.h,
+                                elevation: 0,
+                                color: Color(0xffF1F1F1),
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      width: 1, color: Color(0xffBBBBBB)),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                onPressed: () {},
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Hourly",
+                                      style: GoogleFonts.manrope(
+                                          textStyle: TextStyle(
+                                              fontSize: 12.sp,
+                                              color: Color(0xff232226),
+                                              fontWeight: FontWeight.w600)),
+                                    ),
+                                    SvgPicture.asset(
+                                        'assets/svg/icons/dropdown.svg',
+                                        height: 15.h,
+                                        fit: BoxFit.scaleDown),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 24),
+                        BlocBuilder<RRDDataBloc, RRDDataState>(
+                            builder: (context, state) {
+                          if (state is ErrorRRDDataState) {
+                            print("RRD State: " + state.toString());
+                            WidgetsBinding.instance
+                                .addPostFrameCallback((timeStamp) {
+                              Flushbar(
+                                message: state.error,
+                                backgroundColor: Colors.red,
+                                flushbarPosition: FlushbarPosition.TOP,
+                                messageColor: Colors.white,
+                                duration: Duration(seconds: 2),
+                              ).show(context);
+                            });
+                          }
+                          if (state is LoadedRRDDataState) {
+                            return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  getGradientProgressStyle("CPU Usage",
+                                      calculateCPUPercentage(state)),
+                                  getGradientProgressStyle("Disk Operation",
+                                      diskPercentage.toDouble())
+                                ]);
+                          }
 
-                        return Container();
-                      }),
-                      BlocBuilder<RRDDataBloc, RRDDataState>(
-                          builder: (context, state) {
-                        // if (state is ErrorRRDDataState) {
-                        //   WidgetsBinding.instance
-                        //       .addPostFrameCallback((timeStamp) {
-                        //     Flushbar(
-                        //       message: state.error,
-                        //       backgroundColor: Colors.red,
-                        //       flushbarPosition: FlushbarPosition.TOP,
-                        //       messageColor: Colors.white,
-                        //       duration: Duration(seconds: 2),
-                        //     ).show(context);
-                        //   });
-                        // }
-                        if (state is LoadedRRDDataState) {
-                          return Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                getGradientProgressStyle(
-                                    "Network", networkPercentage.toDouble()),
-                                getGradientProgressStyle(
-                                    "Memory", calculateMemoryPercentage(state))
-                              ]);
-                        }
-                        return Container();
-                      }),
-                      SizedBox(height: 30),
-                      Column(
-                        children: [
-                          rowSpec(
-                              "Location", state.vmDetail.data?.location ?? "-"),
-                          rowSpec("IP Address",
-                              state.vmDetail.data?.ipAddress ?? "-"),
-                          rowSpec(
-                              "Username", state.vmDetail.data?.username ?? "-"),
-                          rowSpec(
-                              "Hostname", state.vmDetail.data?.hostname ?? "-"),
-                          rowSpec("CPU", state.vmDetail.data?.cpu ?? "-"),
-                          rowSpec("RAM", state.vmDetail.data?.memory ?? "-"),
-                          rowSpec(
-                              "Storage", state.vmDetail.data?.storage ?? "-"),
-                          rowSpec("OS", state.vmDetail.data?.osName ?? "-"),
-                          rowSpec(
-                            "Price Per Hour",
-                            "Rp " +
-                                NumberFormat.currency(
-                                  locale: 'id',
-                                  symbol: "",
-                                  decimalDigits: 0,
-                                ).format(
-                                    state.vmDetail.data?.pricePerHour ?? 0),
-                            // "Rp ${state.vmDetail.data?.pricePerHour ?? 0}"
-                          ),
-                          rowSpec(
-                            "Estimated Monthly Cost",
-                            "Rp " +
-                                NumberFormat.currency(
-                                  locale: 'id',
-                                  symbol: "",
-                                  decimalDigits: 0,
-                                ).format(state
-                                        .vmDetail.data?.estimatedMonthlyPrice ??
-                                    0),
-                            // "Rp ${state.vmDetail.data?.estimatedMonthlyPrice ?? 0}"
-                          ),
-                          rowSpec("Private Network",
-                              state.vmDetail.data?.privateNetwork ?? "-"),
-                          rowSpec("Created at",
-                              state.vmDetail.data?.createdAt ?? "-"),
-                          rowSpec("Last Started at",
-                              state.vmDetail.data?.lastStartedAt ?? "-"),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      BlocBuilder<RRDDataBloc, RRDDataState>(
-                          builder: (context, state) {
-                        // if (state is ErrorRRDDataState) {
-                        //   WidgetsBinding.instance
-                        //       .addPostFrameCallback((timeStamp) {
-                        //     Flushbar(
-                        //       message: state.error,
-                        //       backgroundColor: Colors.red,
-                        //       flushbarPosition: FlushbarPosition.TOP,
-                        //       messageColor: Colors.white,
-                        //       duration: Duration(seconds: 2),
-                        //     ).show(context);
-                        //   });
-                        // }
-                        if (state is LoadedRRDDataState) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(vertical: 10.h),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15.w, vertical: 10.h),
-                            width: ScreenUtil().screenWidth,
-                            height: 250,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: const Color(0xffbbbbbb), width: 1),
-                                borderRadius: BorderRadius.circular(10.r)),
-                            child: Center(
-                                child: CustomLineChart.buildDefaultLineChart(
-                                    'CPU Usage', generateChartCPUData(state))),
-                          );
-                        } else {
                           return Container();
-                        }
-                      }),
-                      SizedBox(height: 20),
-                      BlocBuilder<RRDDataBloc, RRDDataState>(
-                          builder: (context, state) {
-                        if (state is LoadedRRDDataState) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(vertical: 10.h),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15.w, vertical: 10.h),
-                            width: ScreenUtil().screenWidth,
-                            height: 250,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: const Color(0xffbbbbbb), width: 1),
-                                borderRadius: BorderRadius.circular(10.r)),
-                            child: Center(
-                                child: CustomLineChart.buildDefaultLineChart(
-                                    'Memory Usage',
-                                    generateChartMemoryData(state))),
-                          );
-                        } else {
+                        }),
+                        BlocBuilder<RRDDataBloc, RRDDataState>(
+                            builder: (context, state) {
+                          // if (state is ErrorRRDDataState) {
+                          //   WidgetsBinding.instance
+                          //       .addPostFrameCallback((timeStamp) {
+                          //     Flushbar(
+                          //       message: state.error,
+                          //       backgroundColor: Colors.red,
+                          //       flushbarPosition: FlushbarPosition.TOP,
+                          //       messageColor: Colors.white,
+                          //       duration: Duration(seconds: 2),
+                          //     ).show(context);
+                          //   });
+                          // }
+                          if (state is LoadedRRDDataState) {
+                            return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  getGradientProgressStyle(
+                                      "Network", networkPercentage.toDouble()),
+                                  getGradientProgressStyle("Memory",
+                                      calculateMemoryPercentage(state))
+                                ]);
+                          }
                           return Container();
-                        }
-                      }),
-                      SizedBox(height: 20),
-                      BlocBuilder<RRDDataBloc, RRDDataState>(
-                          builder: (context, state) {
-                        if (state is LoadedRRDDataState) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(vertical: 10.h),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15.w, vertical: 10.h),
-                            width: ScreenUtil().screenWidth,
-                            height: 250,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: const Color(0xffbbbbbb), width: 1),
-                                borderRadius: BorderRadius.circular(10.r)),
-                            child: Center(
-                                child:
-                                    CustomDoubleLineChart.buildDefaultLineChart(
-                                        'Network Usage',
-                                        generateChartNetworkData(state))),
-                          );
-                        } else {
-                          return Container();
-                        }
-                      }),
-                      SizedBox(height: 20),
-                      BlocBuilder<RRDDataBloc, RRDDataState>(
-                          builder: (context, state) {
-                        if (state is LoadedRRDDataState) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(vertical: 10.h),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15.w, vertical: 10.h),
-                            width: ScreenUtil().screenWidth,
-                            height: 250,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: const Color(0xffbbbbbb), width: 1),
-                                borderRadius: BorderRadius.circular(10.r)),
-                            child: Center(
-                                child:
-                                    CustomDoubleLineChart.buildDefaultLineChart(
-                                        'Disk Usage',
-                                        generateChartDiskData(state))),
-                          );
-                        } else {
-                          return Container();
-                        }
-                      }),
-                      SizedBox(height: 20),
-                    ],
+                        }),
+                        SizedBox(height: 30),
+                        Column(
+                          children: [
+                            rowSpec("Location",
+                                state.vmDetail.data?.location ?? "-"),
+                            rowSpec("IP Address",
+                                state.vmDetail.data?.ipAddress ?? "-"),
+                            rowSpec("Username",
+                                state.vmDetail.data?.username ?? "-"),
+                            rowSpec("Hostname",
+                                state.vmDetail.data?.hostname ?? "-"),
+                            rowSpec("CPU", state.vmDetail.data?.cpu ?? "-"),
+                            rowSpec("RAM", state.vmDetail.data?.memory ?? "-"),
+                            rowSpec(
+                                "Storage", state.vmDetail.data?.storage ?? "-"),
+                            rowSpec("OS", state.vmDetail.data?.osName ?? "-"),
+                            rowSpec(
+                              "Price Per Hour",
+                              "Rp " +
+                                  NumberFormat.currency(
+                                    locale: 'id',
+                                    symbol: "",
+                                    decimalDigits: 0,
+                                  ).format(
+                                      state.vmDetail.data?.pricePerHour ?? 0),
+                              // "Rp ${state.vmDetail.data?.pricePerHour ?? 0}"
+                            ),
+                            rowSpec(
+                              "Estimated Monthly Cost",
+                              "Rp " +
+                                  NumberFormat.currency(
+                                    locale: 'id',
+                                    symbol: "",
+                                    decimalDigits: 0,
+                                  ).format(state.vmDetail.data
+                                          ?.estimatedMonthlyPrice ??
+                                      0),
+                              // "Rp ${state.vmDetail.data?.estimatedMonthlyPrice ?? 0}"
+                            ),
+                            rowSpec("Private Network",
+                                state.vmDetail.data?.privateNetwork ?? "-"),
+                            rowSpec("Created at",
+                                state.vmDetail.data?.createdAt ?? "-"),
+                            rowSpec("Last Started at",
+                                state.vmDetail.data?.lastStartedAt ?? "-"),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        BlocBuilder<RRDDataBloc, RRDDataState>(
+                            builder: (context, state) {
+                          // if (state is ErrorRRDDataState) {
+                          //   WidgetsBinding.instance
+                          //       .addPostFrameCallback((timeStamp) {
+                          //     Flushbar(
+                          //       message: state.error,
+                          //       backgroundColor: Colors.red,
+                          //       flushbarPosition: FlushbarPosition.TOP,
+                          //       messageColor: Colors.white,
+                          //       duration: Duration(seconds: 2),
+                          //     ).show(context);
+                          //   });
+                          // }
+                          if (state is LoadedRRDDataState) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(vertical: 10.h),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15.w, vertical: 10.h),
+                              width: ScreenUtil().screenWidth,
+                              height: 250,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color(0xffbbbbbb), width: 1),
+                                  borderRadius: BorderRadius.circular(10.r)),
+                              child: Center(
+                                  child: CustomLineChart.buildDefaultLineChart(
+                                      'CPU Usage',
+                                      generateChartCPUData(state))),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        }),
+                        SizedBox(height: 20),
+                        BlocBuilder<RRDDataBloc, RRDDataState>(
+                            builder: (context, state) {
+                          if (state is LoadedRRDDataState) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(vertical: 10.h),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15.w, vertical: 10.h),
+                              width: ScreenUtil().screenWidth,
+                              height: 250,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color(0xffbbbbbb), width: 1),
+                                  borderRadius: BorderRadius.circular(10.r)),
+                              child: Center(
+                                  child: CustomLineChart.buildDefaultLineChart(
+                                      'Memory Usage',
+                                      generateChartMemoryData(state))),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        }),
+                        SizedBox(height: 20),
+                        BlocBuilder<RRDDataBloc, RRDDataState>(
+                            builder: (context, state) {
+                          if (state is LoadedRRDDataState) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(vertical: 10.h),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15.w, vertical: 10.h),
+                              width: ScreenUtil().screenWidth,
+                              height: 250,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color(0xffbbbbbb), width: 1),
+                                  borderRadius: BorderRadius.circular(10.r)),
+                              child: Center(
+                                  child: CustomDoubleLineChart
+                                      .buildDefaultLineChart('Network Usage',
+                                          generateChartNetworkData(state))),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        }),
+                        SizedBox(height: 20),
+                        BlocBuilder<RRDDataBloc, RRDDataState>(
+                            builder: (context, state) {
+                          if (state is LoadedRRDDataState) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(vertical: 10.h),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15.w, vertical: 10.h),
+                              width: ScreenUtil().screenWidth,
+                              height: 250,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color(0xffbbbbbb), width: 1),
+                                  borderRadius: BorderRadius.circular(10.r)),
+                              child: Center(
+                                  child: CustomDoubleLineChart
+                                      .buildDefaultLineChart('Disk Usage',
+                                          generateChartDiskData(state))),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        }),
+                        SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
               );

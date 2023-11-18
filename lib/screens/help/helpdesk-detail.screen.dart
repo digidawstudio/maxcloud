@@ -676,142 +676,150 @@ class _HelpDeskDetailScreenState extends State<HelpDeskDetailScreen> {
             Flexible(
               child: SizedBox(
                   height: ScreenUtil().screenHeight,
-                  child: ListView.builder(
-                      itemCount: convData.length,
-                      reverse: true,
-                      controller: controller,
-                      itemBuilder: (context, i) {
-                        return Container(
-                          height: convData[i].attachments == null
-                              ? 125.h
-                              : convData[i].attachments!.isEmpty
-                                  ? 125.h
-                                  : 250.h,
-                          decoration: BoxDecoration(
-                            color: i % 2 == 0
-                                ? Colors.white
-                                : Colors.grey.shade100,
-                            border: const Border(
-                              bottom: BorderSide(
-                                  color: Color(0xffF1F1F1), width: 1.5),
+                  child: RefreshIndicator(
+                    onRefresh: (() async => getConvData()),
+                    child: ListView.builder(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        itemCount: convData.length,
+                        reverse: true,
+                        controller: controller,
+                        itemBuilder: (context, i) {
+                          return Container(
+                            height: convData[i].attachments == null
+                                ? 125.h
+                                : convData[i].attachments!.isEmpty
+                                    ? 125.h
+                                    : 250.h,
+                            decoration: BoxDecoration(
+                              color: i % 2 == 0
+                                  ? Colors.white
+                                  : Colors.grey.shade100,
+                              border: const Border(
+                                bottom: BorderSide(
+                                    color: Color(0xffF1F1F1), width: 1.5),
+                              ),
                             ),
-                          ),
-                          padding: EdgeInsets.all(25.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: convData[i].isAdmin == 0
-                                        ? Colors.blue
-                                        : Colors.red,
-                                    radius: 15.r,
-                                    child: Text(
-                                        '${convData[i].creatorName?[0] ?? ""}',
-                                        style: GoogleFonts.manrope(
-                                            textStyle: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w700))),
-                                  ),
-                                  SizedBox(
-                                    width: 5.w,
-                                  ),
-                                  Text(
-                                    convData[i].creatorName ?? "",
-                                    style: TextStyle(
-                                        fontSize: 11.sp,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Expanded(child: Container()),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        convData[i].dateAt ?? "",
-                                        style: TextStyle(fontSize: 10.sp),
-                                      ),
-                                      SizedBox(
-                                        width: 12.w,
-                                      ),
-                                      const Icon(
-                                        Icons.circle,
-                                        size: 10,
-                                        color: Colors.grey,
-                                      ),
-                                      SizedBox(
-                                        width: 12.w,
-                                      ),
-                                      Text(
-                                        convData[i].timeAt ?? "",
-                                        style: TextStyle(fontSize: 10.sp),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              Flexible(
-                                  child: Text(
-                                convData[i].content ?? "",
-                                style: TextStyle(
-                                    color: i % 2 == 0
-                                        ? const Color.fromARGB(255, 55, 55, 55)
-                                        : const Color.fromARGB(255, 55, 55, 55),
-                                    fontSize: 13.sp),
-                              )),
-                              Container(
-                                width: ScreenUtil().screenWidth,
-                                height: convData[i].attachments == null
-                                    ? 0
-                                    : convData[i].attachments!.isEmpty
-                                        ? 0
-                                        : 60.h,
-                                child: ListView.builder(
-                                  padding: EdgeInsets.only(top: 10.h),
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount:
-                                      convData[i].attachments?.length ?? 0,
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        showImageViewer(
-                                            context,
-                                            useSafeArea: true,
-                                            swipeDismissible: true,
-                                            Image.network(convData[i]
-                                                        .attachments?[index]
-                                                        .path ??
-                                                    "")
-                                                .image);
-                                      },
-                                      child: Container(
-                                        height: 50.h,
-                                        width: 50.w,
-                                        margin: EdgeInsets.only(right: 5.w),
-                                        child: convData[i]
-                                                    .attachments?[index]
-                                                    .path ==
-                                                null
-                                            ? Container()
-                                            : Image.network(
-                                                convData[i]
-                                                        .attachments?[index]
-                                                        .path ??
-                                                    "",
-                                                fit: BoxFit.cover),
-                                      ),
-                                    );
-                                  },
+                            padding: EdgeInsets.all(25.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: convData[i].isAdmin == 0
+                                          ? Colors.blue
+                                          : Colors.red,
+                                      radius: 15.r,
+                                      child: Text(
+                                          '${convData[i].creatorName?[0] ?? ""}',
+                                          style: GoogleFonts.manrope(
+                                              textStyle: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 10,
+                                                  fontWeight:
+                                                      FontWeight.w700))),
+                                    ),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    Text(
+                                      convData[i].creatorName ?? "",
+                                      style: TextStyle(
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Expanded(child: Container()),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          convData[i].dateAt ?? "",
+                                          style: TextStyle(fontSize: 10.sp),
+                                        ),
+                                        SizedBox(
+                                          width: 12.w,
+                                        ),
+                                        const Icon(
+                                          Icons.circle,
+                                          size: 10,
+                                          color: Colors.grey,
+                                        ),
+                                        SizedBox(
+                                          width: 12.w,
+                                        ),
+                                        Text(
+                                          convData[i].timeAt ?? "",
+                                          style: TextStyle(fontSize: 10.sp),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        );
-                      })),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                Flexible(
+                                    child: Text(
+                                  convData[i].content ?? "",
+                                  style: TextStyle(
+                                      color: i % 2 == 0
+                                          ? const Color.fromARGB(
+                                              255, 55, 55, 55)
+                                          : const Color.fromARGB(
+                                              255, 55, 55, 55),
+                                      fontSize: 13.sp),
+                                )),
+                                Container(
+                                  width: ScreenUtil().screenWidth,
+                                  height: convData[i].attachments == null
+                                      ? 0
+                                      : convData[i].attachments!.isEmpty
+                                          ? 0
+                                          : 60.h,
+                                  child: ListView.builder(
+                                    padding: EdgeInsets.only(top: 10.h),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:
+                                        convData[i].attachments?.length ?? 0,
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          showImageViewer(
+                                              context,
+                                              useSafeArea: true,
+                                              swipeDismissible: true,
+                                              Image.network(convData[i]
+                                                          .attachments?[index]
+                                                          .path ??
+                                                      "")
+                                                  .image);
+                                        },
+                                        child: Container(
+                                          height: 50.h,
+                                          width: 50.w,
+                                          margin: EdgeInsets.only(right: 5.w),
+                                          child: convData[i]
+                                                      .attachments?[index]
+                                                      .path ==
+                                                  null
+                                              ? Container()
+                                              : Image.network(
+                                                  convData[i]
+                                                          .attachments?[index]
+                                                          .path ??
+                                                      "",
+                                                  fit: BoxFit.cover),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
+                  )),
             ),
           ],
         ),
