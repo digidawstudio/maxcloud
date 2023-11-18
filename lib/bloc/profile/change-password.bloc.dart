@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:maxcloud/repository/auth/login.model.dart';
 import 'package:maxcloud/repository/billing/create-invoice.model.dart';
-import 'package:maxcloud/repository/billing/month-summary.model.dart';
 import 'package:maxcloud/services/api.services.dart';
 
 abstract class ChangePasswordEvent {}
@@ -28,7 +28,7 @@ class LoadedChangePasswordState extends ChangePasswordState {
 }
 
 class ErrorChangePasswordState extends ChangePasswordState {
-  final MonthSummaryErrorModel error;
+  final String error;
   ErrorChangePasswordState(this.error);
 }
 
@@ -57,7 +57,7 @@ class ChangePasswordBloc
         } else if (response.runtimeType.toString() == 'DioException') {
           Map<String, dynamic> errorData = response.response?.data;
           emit(ErrorChangePasswordState(
-              MonthSummaryErrorModel.fromJson(errorData)));
+              AuthErrorModel.fromJson(errorData).message ?? ""));
           print(response);
         }
       }

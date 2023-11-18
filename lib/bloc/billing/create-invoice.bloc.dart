@@ -30,7 +30,7 @@ class LoadedCreateInvoiceState extends CreateInvoiceState {
 }
 
 class ErrorCreateInvoiceState extends CreateInvoiceState {
-  final MonthSummaryErrorModel error;
+  final String error;
   ErrorCreateInvoiceState(this.error);
 }
 
@@ -57,8 +57,9 @@ class CreateInvoiceBloc extends Bloc<CreateInvoiceEvent, CreateInvoiceState> {
           }
         } else if (response.runtimeType.toString() == 'DioException') {
           Map<String, dynamic> errorData = response.response?.data;
+
           emit(ErrorCreateInvoiceState(
-              MonthSummaryErrorModel.fromJson(errorData)));
+              MonthSummaryErrorModel.fromJson(errorData).message ?? ""));
           print(response);
         }
       }

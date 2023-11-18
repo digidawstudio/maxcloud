@@ -841,6 +841,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: 5),
                   BlocBuilder<ChangePasswordBloc, ChangePasswordState>(
                       builder: (context, state) {
+                    if (state is ErrorChangePasswordState) {
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                        Flushbar(
+                          message: state.error,
+                          backgroundColor: Colors.red,
+                          flushbarPosition: FlushbarPosition.TOP,
+                          messageColor: Colors.white,
+                          duration: Duration(seconds: 2),
+                        ).show(context);
+                      });
+                    }
                     return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: Column(

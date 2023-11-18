@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -423,6 +424,19 @@ class _BillingPaymentScreenState extends State<BillingPaymentScreen> {
               SizedBox(height: 16),
               BlocBuilder<CreateInvoiceBloc, CreateInvoiceState>(
                   builder: (context, state) {
+                if (state is ErrorCreateInvoiceState) {
+                  print("vm detail state: " + state.error);
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    Flushbar(
+                      message: state.error,
+                      backgroundColor: Colors.red,
+                      flushbarPosition: FlushbarPosition.TOP,
+                      messageColor: Colors.white,
+                      duration: Duration(seconds: 2),
+                    ).show(context);
+                  });
+                }
+
                 if (state is LoadedCreateInvoiceState) {
                   if (state.data.data?.paymentUrl != '') {
                     onLaunchPaymentLink(state.data.data?.paymentUrl ?? "");
