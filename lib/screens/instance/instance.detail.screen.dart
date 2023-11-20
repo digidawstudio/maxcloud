@@ -12,6 +12,7 @@ import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
 import 'package:maxcloud/repository/instances/rrd-data.model.dart';
 import 'package:maxcloud/screens/instance/components/double-line.chart.dart';
 import 'package:maxcloud/screens/instance/components/line.chart.dart';
+import 'package:maxcloud/utils/widget.classes/ConfirmationDialog.dart';
 
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
@@ -373,7 +374,20 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                                 ),
                                 SizedBox(width: 15.w),
                                 GestureDetector(
-                                  onTap: () => shutdownVM(),
+                                  onTap: () {
+                                    showDialog(
+                                        context: this.context,
+                                        builder: (ctx) => ConfirmationDialog(
+                                              wording:
+                                                  "Are you sure want to stop this virtual machine?",
+                                              onPressOk: () {
+                                                shutdownVM();
+                                              },
+                                              onPressCancel: () {
+                                                Navigator.pop(context);
+                                              },
+                                            ));
+                                  },
                                   child: SvgPicture.asset(
                                       'assets/svg/icons/power-icon.svg',
                                       height: 28.h,

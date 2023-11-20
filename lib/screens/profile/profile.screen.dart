@@ -15,6 +15,7 @@ import 'package:maxcloud/bloc/user/user.bloc.dart';
 import 'package:maxcloud/repository/profile/updateprofile.model.dart';
 import 'package:maxcloud/screens/auth/login-screen.dart';
 import 'package:maxcloud/services/api.services.dart';
+import 'package:maxcloud/utils/widget.classes/ConfirmationDialog.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -1100,26 +1101,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: state is LoadingAuthState
                             ? () {}
                             : () async {
-                                try {
-                                  authBloc?.add(
-                                      LogoutEvent(await getAccessToken()));
-                                  BlocProvider.of<NavigationBloc>(context)
-                                      .add(SetNavigatorIndexEvent(0));
-                                  await storage.delete(key: 'accessToken');
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => LoginScreen()),
-                                      ((route) => false));
-                                } catch (e) {
-                                  Flushbar(
-                                    message: "Logout fail. Please try again",
-                                    backgroundColor: Colors.red,
-                                    flushbarPosition: FlushbarPosition.TOP,
-                                    messageColor: Colors.white,
-                                    duration: Duration(seconds: 2),
-                                  ).show(context);
-                                }
+                                showDialog(
+                                    context: this.context,
+                                    builder: (ctx) => ConfirmationDialog(
+                                          wording:
+                                              "Are you sure want to logout?",
+                                          onPressOk: () async {
+                                            Navigator.pop(context);
+                                            try {
+                                              authBloc?.add(LogoutEvent(
+                                                  await getAccessToken()));
+                                              BlocProvider.of<NavigationBloc>(
+                                                      context)
+                                                  .add(SetNavigatorIndexEvent(
+                                                      0));
+                                              await storage.delete(
+                                                  key: 'accessToken');
+                                              Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          LoginScreen()),
+                                                  ((route) => false));
+                                            } catch (e) {
+                                              Flushbar(
+                                                message:
+                                                    "Logout fail. Please try again",
+                                                backgroundColor: Colors.red,
+                                                flushbarPosition:
+                                                    FlushbarPosition.TOP,
+                                                messageColor: Colors.white,
+                                                duration: Duration(seconds: 2),
+                                              ).show(context);
+                                            }
+                                          },
+                                          onPressCancel: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ));
                               },
                         child: state is LoadingAuthState
                             ? Center(
