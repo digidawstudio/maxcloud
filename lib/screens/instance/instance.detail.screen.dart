@@ -375,13 +375,26 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                                 SizedBox(width: 15.w),
                                 GestureDetector(
                                   onTap: () {
+                                    String instanceState = "";
+
+                                    if (state.vmDetail.data?.status ==
+                                        'Running') {
+                                      instanceState = "stop";
+                                    } else {
+                                      instanceState = "start";
+                                    }
+
                                     showDialog(
                                         context: this.context,
                                         builder: (ctx) => ConfirmationDialog(
                                               wording:
-                                                  "Are you sure want to stop this virtual machine?",
+                                                  "Are you sure want to $instanceState this virtual machine?",
                                               onPressOk: () {
-                                                shutdownVM();
+                                                state.vmDetail.data?.status ==
+                                                        'Running'
+                                                    ? shutdownVM()
+                                                    : startVM();
+                                                Navigator.pop(ctx);
                                               },
                                               onPressCancel: () {
                                                 Navigator.pop(context);
@@ -389,13 +402,15 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                                             ));
                                   },
                                   child: SvgPicture.asset(
-                                      'assets/svg/icons/power-icon.svg',
+                                      state.vmDetail.data?.status == 'Running'
+                                          ? 'assets/svg/icons/power-icon.svg'
+                                          : 'assets/svg/icons/start-instance.svg',
                                       height: 28.h,
                                       fit: BoxFit.scaleDown),
                                 ),
                                 SizedBox(width: 15.w),
                                 GestureDetector(
-                                  onTap: () => startVM(),
+                                  onTap: () => restartVM(),
                                   child: SvgPicture.asset(
                                       'assets/svg/icons/reload-icon.svg',
                                       height: 28.h,
