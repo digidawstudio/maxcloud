@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
 
 class CustomWidget {
+  static Widget loader(
+      {double? size, Color? backgroundColor, Color? loaderColor}) {
+    return Container(
+      height: size != null ? size.h : ScreenUtil().screenHeight,
+      width: size != null ? size.w : ScreenUtil().screenWidth,
+      color: backgroundColor ?? Colors.grey.withOpacity(0.5),
+      child: Center(
+          child: CircularProgressIndicator(
+        color: loaderColor ?? Colors.blue,
+      )),
+    );
+  }
+
   static Widget Chip(
       {String? text,
       double? height,
@@ -10,6 +26,7 @@ class CustomWidget {
       Color color = Colors.white,
       double radius = 6,
       double? fontSize,
+      FontWeight? fontWeight,
       bool useBorder = false}) {
     return Container(
       height: height?.h,
@@ -17,15 +34,17 @@ class CustomWidget {
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(radius.r),
-        border: !useBorder ? null : Border.all(color: Colors.black),
+        border: !useBorder
+            ? null
+            : Border.all(color: const Color(0xffBBBBBB), width: 0.5),
       ),
       child: Center(
         child: Text(
           text ?? "",
           style: TextStyle(
-            color: textColor ?? Colors.black,
-            fontSize: fontSize?.sp ?? 12.sp,
-          ),
+              fontSize: fontSize?.sp ?? 10.sp,
+              color: textColor ?? const Color(0xff232226),
+              fontWeight: fontWeight ?? FontWeight.w600),
           maxLines: 1,
         ),
       ),
@@ -47,11 +66,12 @@ class CustomWidget {
     );
   }
 
-  static Widget InstanceSpecs(Function() onPressInstance) {
+  static Widget InstanceSpecs(Function() onPressInstance,
+      {InstanceData? data}) {
     return GestureDetector(
       onTap: onPressInstance,
       child: ResourceWidget(
-        height: 172,
+        height: 172.h,
         padding: EdgeInsets.zero,
         child: Column(
           children: [
@@ -63,7 +83,7 @@ class CustomWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    flex: 2,
+                    flex: 3,
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Column(
@@ -71,24 +91,41 @@ class CustomWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "20GB Regular Cloud Compute",
-                            style: TextStyle(
-                                fontSize: 8.sp, color: Color(0xffbbbbbb)),
+                            data?.tier ?? "-",
+                            style: GoogleFonts.manrope(
+                                textStyle: TextStyle(
+                                    color: const Color(0xffBBBBBB),
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.w600)),
                           ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Text(
-                            "Mark Zuckerberg",
-                            style: TextStyle(
-                                fontSize: 12.sp, color: Color(0xff009EFF)),
-                          ),
+                          SizedBox(height: 5.h),
+                          data?.owner != null
+                              ? Flexible(
+                                  child: Text(
+                                    data?.owner ?? "-",
+                                    style: GoogleFonts.manrope(
+                                        textStyle: TextStyle(
+                                            color: const Color(0xff009EFF),
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w600)),
+                                  ),
+                                )
+                              : Flexible(
+                                  child: Text(
+                                    data?.hostname ?? "-",
+                                    style: GoogleFonts.manrope(
+                                        textStyle: TextStyle(
+                                            color: const Color(0xff009EFF),
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w600)),
+                                  ),
+                                ),
                         ],
                       ),
                     ),
                   ),
-                  Spacer(),
-                  VerticalDivider(
+                  // Spacer(),
+                  const VerticalDivider(
                     thickness: 0.5,
                     color: Color(0xffbbbbbb),
                   ),
@@ -98,19 +135,28 @@ class CustomWidget {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "IP Address",
-                            style: TextStyle(
-                                fontSize: 8.sp, color: Color(0xffbbbbbb)),
+                            style: GoogleFonts.manrope(
+                                textStyle: TextStyle(
+                                    color: const Color(0xffBBBBBB),
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.w600)),
                           ),
                           SizedBox(
                             height: 5.h,
                           ),
-                          Text(
-                            "127.0.0.1",
-                            style: TextStyle(
-                                fontSize: 12.sp, color: Color(0xff009EFF)),
+                          Flexible(
+                            child: Text(
+                              data?.ipAddress ?? "No address found",
+                              style: GoogleFonts.manrope(
+                                  textStyle: TextStyle(
+                                      color: const Color(0xff009EFF),
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w600)),
+                            ),
                           ),
                         ],
                       ),
@@ -119,7 +165,7 @@ class CustomWidget {
                 ],
               ),
             ),
-            Divider(
+            const Divider(
               color: Color(0xffbbbbbb),
               thickness: 0.5,
             ),
@@ -127,69 +173,79 @@ class CustomWidget {
               padding: EdgeInsets.all(10.0.h),
               child: Row(
                 children: [
+                  data?.status != null
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Status",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        color: const Color(0xffBBBBBB),
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.w600))),
+                            Text(data?.status ?? "-",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        color: (data?.status == 'Starting' ||
+                                                data?.status == 'Stopping')
+                                            ? Color.fromARGB(255, 236, 228, 8)
+                                            : data?.status == 'Stopped'
+                                                ? Color.fromARGB(
+                                                    255, 216, 58, 19)
+                                                : Color(0xff00FF38),
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w600))),
+                          ],
+                        )
+                      : const SizedBox.shrink(),
+                  data?.status != null
+                      ? Expanded(child: Container())
+                      : const SizedBox.shrink(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Status",
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(0xffbbbbbb),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Running",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromARGB(255, 156, 255, 150),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      Text("Location",
+                          style: GoogleFonts.manrope(
+                              textStyle: TextStyle(
+                                  color: const Color(0xffBBBBBB),
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600))),
+                      Text(data?.location ?? "-",
+                          style: GoogleFonts.manrope(
+                              textStyle: TextStyle(
+                                  color: const Color(0xff232226),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600))),
                     ],
                   ),
                   Expanded(child: Container()),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Location",
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(0xffbbbbbb),
-                          fontWeight: FontWeight.w600,
-                        ),
+                      Text("OS",
+                          style: GoogleFonts.manrope(
+                              textStyle: TextStyle(
+                                  color: const Color(0xffBBBBBB),
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600))),
+                      SizedBox(
+                        height: 2.h,
                       ),
-                      Text(
-                        "Jakarta",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      Row(
+                        children: [
+                          Image.network(
+                            data?.os?.image ?? "",
+                            height: 22,
+                          ),
+                          // SizedBox(width: 5.w,),
+                          // Text(data.os!.name!, style: TextStyle(fontSize: 10.sp),)
+                        ],
+                      )
                     ],
                   ),
-                  Expanded(child: Container()),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "OS",
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(0xffbbbbbb),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Windos",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
+                  data?.status == null
+                      ? Expanded(child: Container())
+                      : const SizedBox.shrink(),
                 ],
               ),
             ),
@@ -197,47 +253,79 @@ class CustomWidget {
               padding: EdgeInsets.all(10.0.h),
               child: Row(
                 children: [
+                  data?.pricePerHour != null
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Price Per Hour",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        color: const Color(0xffBBBBBB),
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.w600))),
+                            Text(
+                                "Rp ${NumberFormat.currency(
+                                  locale: 'id',
+                                  symbol: "",
+                                  decimalDigits: 0,
+                                ).format(data?.pricePerHour ?? 0)}",
+                                // "Rp ${(data.pricePerHour ?? 0).floor()}",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        color: const Color(0xff232226),
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w600))),
+                          ],
+                        )
+                      : const SizedBox.shrink(),
+                  data?.pricePerHour != null
+                      ? Expanded(child: Container())
+                      : const SizedBox.shrink(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text("Current Cost",
+                          style: GoogleFonts.manrope(
+                              textStyle: TextStyle(
+                                  color: const Color(0xffBBBBBB),
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600))),
                       Text(
-                        "Price Per Hour",
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(0xffbbbbbb),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Rp 100.000",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                          "Rp ${NumberFormat.currency(
+                            locale: 'id',
+                            symbol: "",
+                            decimalDigits: 0,
+                          ).format(data?.estimatedMonthlyCost != null ? data?.estimatedMonthlyCost : data?.cost != null ? data?.cost : 0)}",
+                          // "Rp ${(data.estimatedMonthlyCost ?? 0).floor()}",
+                          style: GoogleFonts.manrope(
+                              textStyle: TextStyle(
+                                  color: const Color(0xff232226),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600))),
                     ],
                   ),
-                  Expanded(child: Container()),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Current Cost",
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(0xffbbbbbb),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Rp 999.999.999",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
+                  (data?.createdAt != null && data?.status == null)
+                      ? Expanded(child: Container())
+                      : const SizedBox.shrink(),
+                  (data?.createdAt != null && data?.status == null)
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Created At",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        color: const Color(0xffBBBBBB),
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.w600))),
+                            Text(data?.createdAt ?? "-",
+                                style: GoogleFonts.manrope(
+                                    textStyle: TextStyle(
+                                        color: const Color(0xff232226),
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w600))),
+                          ],
+                        )
+                      : const SizedBox.shrink(),
                   Expanded(child: Container()),
                   SizedBox(
                     width: 19.w,

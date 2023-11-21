@@ -60,6 +60,24 @@ dependencies:
   syncfusion_flutter_gauges: ^20.0.0
   syncfusion_flutter_charts:
   dropdown_button2:
+  simple_shadow:
+  flutter_dotenv:
+  another_flushbar:
+  flutter_secure_storage: ^8.1.0
+  skeletons:
+  qr_flutter:
+  web_socket_channel:
+  # pusher_channels_flutter: ^2.2.0
+  codebase_echo: ^1.0.1
+  # flutter_pusher_client:
+  # pusher_client: ^2.0.0
+  laravel_flutter_pusher:
+  loading_animation_widget:
+  socket_io_client:
+  image_picker:
+  easy_image_viewer:
+  webview_flutter:
+  url_launcher:
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +111,10 @@ flutter:
     - assets/svg/
     - assets/svg/icons/
     - assets/svg/flags/
+    - assets/svg/nav-icons/
+    - assets/svg/nav-icons/active/
+    - assets/svg/nav-icons/inactive/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
