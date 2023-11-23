@@ -12,6 +12,7 @@ import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
 import 'package:maxcloud/repository/instances/rrd-data.model.dart';
 import 'package:maxcloud/screens/instance/components/double-line.chart.dart';
 import 'package:maxcloud/screens/instance/components/line.chart.dart';
+import 'package:maxcloud/screens/instance/instance.rfb.screen.dart';
 import 'package:maxcloud/utils/widget.classes/ConfirmationDialog.dart';
 
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -366,7 +367,15 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                             Row(
                               children: [
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const InstanceRfbScreen(),
+                                      ),
+                                    );
+                                  },
                                   child: SvgPicture.asset(
                                       'assets/svg/icons/monitor-icon.svg',
                                       height: 28.h,
