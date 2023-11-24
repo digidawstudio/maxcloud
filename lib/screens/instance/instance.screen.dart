@@ -43,7 +43,7 @@ class _InstanceScreenState extends State<InstanceScreen> {
     productBloc
         ?.add(FetchProductEvent(accessToken ?? "", status, sort, limit, page));
     setState(() {
-      token = accessToken!;
+      token = accessToken ?? "";
     });
   }
 

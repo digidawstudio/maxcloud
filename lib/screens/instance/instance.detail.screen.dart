@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +13,7 @@ import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
 import 'package:maxcloud/repository/instances/rrd-data.model.dart';
 import 'package:maxcloud/screens/instance/components/double-line.chart.dart';
 import 'package:maxcloud/screens/instance/components/line.chart.dart';
+import 'package:maxcloud/screens/instance/instance.console.screen.dart';
 import 'package:maxcloud/utils/widget.classes/ConfirmationDialog.dart';
 
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -366,7 +368,17 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                             Row(
                               children: [
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            InstanceConsoleScreen(
+                                          instanceUUID: widget.data.uuid!,
+                                        ),
+                                      ),
+                                    );
+                                  },
                                   child: SvgPicture.asset(
                                       'assets/svg/icons/monitor-icon.svg',
                                       height: 28.h,

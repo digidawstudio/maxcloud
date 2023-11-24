@@ -47,10 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void getAccessToken() async {
     storage.read(key: 'accessToken').then((accessToken) {
       if (accessToken != "") {
-        monthSummaryBloc?.add(FetchCurrentMonthSummaryEvent(accessToken!));
-        profileBloc?.add(FetchProfileEvent(accessToken!));
-        totalResourceBloc?.add(FetchTotalResourceEvent(accessToken!));
-        latestVMBloc?.add(FetchLatestVMEvent(accessToken!));
+        monthSummaryBloc?.add(FetchCurrentMonthSummaryEvent(accessToken ?? ""));
+        profileBloc?.add(FetchProfileEvent(accessToken ?? ""));
+        totalResourceBloc?.add(FetchTotalResourceEvent(accessToken ?? ""));
+        latestVMBloc?.add(FetchLatestVMEvent(accessToken ?? ""));
       }
     });
   }
