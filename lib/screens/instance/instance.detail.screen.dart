@@ -1,5 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +15,7 @@ import 'package:maxcloud/repository/instances/rrd-data.model.dart';
 import 'package:maxcloud/screens/instance/components/double-line.chart.dart';
 import 'package:maxcloud/screens/instance/components/line.chart.dart';
 import 'package:maxcloud/screens/instance/instance.console.screen.dart';
+import 'package:maxcloud/services/api.services.dart';
 import 'package:maxcloud/utils/widget.classes/ConfirmationDialog.dart';
 
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -175,6 +177,36 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
     }
 
     return _diskData;
+  }
+
+  bool isNavigateLoading = false;
+
+  Future<void> onRemoteConsolePressed() async {
+    isNavigateLoading = true;
+    setState(() {});
+
+    ApiServices.getRemoteConsole(token, widget.data.uuid!).then((value) {
+      if (value is Response<dynamic>) {
+        if (value.statusCode == 200) {
+          isNavigateLoading = false;
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      InstanceConsoleScreen(consoleData: value.data["data"])));
+        }
+      } else if (value is DioException) {
+        isNavigateLoading = false;
+        setState(() {});
+
+        Flushbar(
+          message: value.message ?? value.toString(),
+          flushbarPosition: FlushbarPosition.TOP,
+          duration: Duration(seconds: 3),
+          backgroundColor: Colors.red,
+        ).show(context);
+      }
+    });
   }
 
   // manipulateRRD(LoadedRRDDataState data) async {
@@ -369,15 +401,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            InstanceConsoleScreen(
-                                          instanceUUID: widget.data.uuid!,
-                                        ),
-                                      ),
-                                    );
+                                    onRemoteConsolePressed();
                                   },
                                   child: SvgPicture.asset(
                                       'assets/svg/icons/monitor-icon.svg',

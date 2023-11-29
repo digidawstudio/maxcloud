@@ -72,19 +72,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool newPasswordVisible = false;
   bool rePasswordVisible = false;
 
+  LoadedProfileState? profileState;
+
   @override
   void initState() {
     profileBloc = BlocProvider.of<ProfileBloc>(context);
     changePasswordBloc = BlocProvider.of<ChangePasswordBloc>(context);
     authBloc = BlocProvider.of<AuthBloc>(context);
 
-    final LoadedProfileState profileState =
-        BlocProvider.of<ProfileBloc>(context).state as LoadedProfileState;
+    if (BlocProvider.of<ProfileBloc>(context).state is LoadedProfileState) {
+      final LoadedProfileState profileState =
+          BlocProvider.of<ProfileBloc>(context).state as LoadedProfileState;
 
-    fullNameController.text = profileState.data.data?.firstName ?? "";
-    lastNameController.text = profileState.data.data?.lastName ?? "";
-    phoneController.text = profileState.data.data?.phone ?? "";
-    addressController.text = profileState.data.data?.address ?? "";
+      fullNameController.text = profileState.data.data?.firstName ?? "";
+      lastNameController.text = profileState.data.data?.lastName ?? "";
+      phoneController.text = profileState.data.data?.phone ?? "";
+      addressController.text = profileState.data.data?.address ?? "";
+    } else {
+      fullNameController.text = "";
+      lastNameController.text = "";
+      phoneController.text = "";
+      addressController.text = "";
+    }
 
     getCountry();
     getProvince(initial: true);
@@ -116,8 +125,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void getProvince({bool initial = false}) async {
     final Response snap = await ApiServices.placesLookup(PlaceType.province);
-    final LoadedProfileState profileState =
-        BlocProvider.of<ProfileBloc>(context).state as LoadedProfileState;
 
     print(snap.data["data"]);
 
@@ -130,11 +137,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Text(toBeginningOfSentenceCase(value['name']) ?? "")));
       });
 
-      if (initial && profileState.data.data?.province != null) {
+      if (initial && profileState?.data.data?.province != null) {
         setState(() {
-          selectedProvince = profileState.data.data?.province?.name ?? "";
+          selectedProvince = profileState?.data.data?.province?.name ?? "";
           selectedProvinceId =
-              profileState.data.data?.province?.id.toString() ?? "";
+              profileState?.data.data?.province?.id.toString() ?? "";
         });
       } else {
         setState(() {
@@ -149,8 +156,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
 
       getCity(
-          profileState.data.data?.province != null
-              ? profileState.data.data?.province?.id.toString() ?? ""
+          profileState?.data.data?.province != null
+              ? profileState?.data.data?.province?.id.toString() ?? ""
               : snap.data["data"]["data"][0]["id"].toString(),
           initial: initial ? true : false);
     } else {
@@ -161,9 +168,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void getCity(String provinceId, {bool initial = false}) async {
     final Response snap = await ApiServices.placesLookup(PlaceType.city,
         param: "?province_id=$provinceId");
-
-    final LoadedProfileState profileState =
-        BlocProvider.of<ProfileBloc>(context).state as LoadedProfileState;
 
     print(snap.data);
 
@@ -176,10 +180,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Text(toBeginningOfSentenceCase(value['name']) ?? "")));
       });
 
-      if (initial && profileState.data.data?.city != null) {
+      if (initial && profileState?.data.data?.city != null) {
         setState(() {
-          selectedCity = profileState.data.data?.city?.name ?? "";
-          selectedCityId = profileState.data.data?.city?.id.toString() ?? "";
+          selectedCity = profileState?.data.data?.city?.name ?? "";
+          selectedCityId = profileState?.data.data?.city?.id.toString() ?? "";
         });
       } else {
         setState(() {
@@ -194,8 +198,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
 
       getDistrict(
-          profileState.data.data?.city != null
-              ? profileState.data.data?.city?.id.toString() ?? ""
+          profileState?.data.data?.city != null
+              ? profileState?.data.data?.city?.id.toString() ?? ""
               : snap.data["data"]["data"][0]["id"].toString(),
           initial: initial ? true : false);
     } else {
@@ -206,9 +210,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void getDistrict(String cityId, {bool initial = false}) async {
     final Response snap = await ApiServices.placesLookup(PlaceType.district,
         param: "?city_id=$cityId");
-
-    final LoadedProfileState profileState =
-        BlocProvider.of<ProfileBloc>(context).state as LoadedProfileState;
 
     print(snap.data);
 
@@ -221,11 +222,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Text(toBeginningOfSentenceCase(value['name']) ?? "")));
       });
 
-      if (initial && profileState.data.data?.district != null) {
+      if (initial && profileState?.data.data?.district != null) {
         setState(() {
-          selectedDistrict = profileState.data.data?.district?.name ?? "";
+          selectedDistrict = profileState?.data.data?.district?.name ?? "";
           selectedDistrictId =
-              profileState.data.data?.district?.id.toString() ?? "";
+              profileState?.data.data?.district?.id.toString() ?? "";
         });
       } else {
         setState(() {
@@ -1164,6 +1165,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           );
         } else {
+          if (state is ErrorProfileState)
+            print("memek" + state.error.message.toString());
           return Container();
         }
       })),

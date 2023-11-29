@@ -80,6 +80,8 @@ dependencies:
   url_launcher:
   dart_rfb: ^0.7.0
   flutter_rfb: ^0.6.2
+  dio_cookie_manager: ^3.1.1
+  cookie_jar:
 
 dev_dependencies:
   flutter_test:

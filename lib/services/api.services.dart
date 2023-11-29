@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:maxcloud/repository/profile/updateprofile.model.dart';
 import 'package:maxcloud/utils/constants.dart';
@@ -9,12 +11,16 @@ import 'package:maxcloud/utils/endpoints.dart';
 enum PlaceType { country, province, city, district }
 
 class ApiServices {
-  static Dio dio = Dio(BaseOptions(
+  static CookieJar cookieJar = CookieJar();
+  static Dio dio = Dio(
+    BaseOptions(
       baseUrl: Constants.baseUrl,
       responseType: ResponseType.json,
       headers: {
         "Accept": "application/json",
-      }));
+      },
+    ),
+  )..interceptors.add(CookieManager(cookieJar));
 
   static Future<dynamic> login(String email, String password) async {
     try {
@@ -153,6 +159,7 @@ class ApiServices {
       final response = await dio.post(Endpoints.validateOtp,
           data: {"credential": credential, "code": code},
           options: Options(headers: {"x-mobile-token": "=U-wQEy1xn0uBgcy"}));
+
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -326,6 +333,21 @@ class ApiServices {
     try {
       final response = await dio.post(Endpoints.createInvoice,
           data: body,
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+  
+  static Future<dynamic> getRemoteConsole(String accessToken, String uuid) async {
+    try {
+      final response = await dio.post(Endpoints.getVmConsole + "$uuid/console-websocket",
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
             "x-mobile-token": "=U-wQEy1xn0uBgcy"
