@@ -89,8 +89,12 @@ class Data {
     tierId = json['tier_id'];
     tier = json['tier'];
     os = json['os'] != null ? Os.fromJson(json['os']) : null;
-    pricePerHour = json['price_per_hour'].toDouble();
-    estimatedMonthlyPrice = json['estimated_monthly_price'].toDouble();
+    pricePerHour = json['price_per_hour'] != null
+        ? json['price_per_hour'].toDouble()
+        : null;
+    estimatedMonthlyPrice = json['estimated_monthly_price'] != null
+        ? json['estimated_monthly_price'].toDouble()
+        : null;
     cost = json['cost'];
     operationFlag = json['operation_flag'];
     createdAt = json['created_at'];

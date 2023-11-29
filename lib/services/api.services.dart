@@ -154,10 +154,11 @@ class ApiServices {
     }
   }
 
-  static Future<dynamic> validateOtp(String credential, String code) async {
+  static Future<dynamic> validateOtp(
+      String credential, String code, String fcmToken) async {
     try {
       final response = await dio.post(Endpoints.validateOtp,
-          data: {"credential": credential, "code": code},
+          data: {"credential": credential, "code": code, "fcm_token": fcmToken},
           options: Options(headers: {"x-mobile-token": "=U-wQEy1xn0uBgcy"}));
 
       return response;
@@ -534,6 +535,23 @@ class ApiServices {
     try {
       final response = await dio.get(
           Endpoints.getDepositDetail + '/$invoiceId' + '/details',
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
+  static Future<dynamic> getConsolewWSS(
+      String accessToken, String vmUuid) async {
+    try {
+      final response = await dio.post(
+          Endpoints.getVMDetail + '/$vmUuid' + '/console-websocket',
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
             "x-mobile-token": "=U-wQEy1xn0uBgcy"

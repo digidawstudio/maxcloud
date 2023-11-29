@@ -21,12 +21,21 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   AuthBloc? authBloc;
   final storage = const FlutterSecureStorage();
+  String fcmtoken = "";
 
   @override
   void initState() {
     authBloc = BlocProvider.of<AuthBloc>(context);
     authBloc?.add(RequestOtpEvent(widget.loginData?.data?.email ?? ""));
+    getFcmToken();
     super.initState();
+  }
+
+  void getFcmToken() async {
+    String? fcmToken = await storage.read(key: 'fcmToken');
+    setState(() {
+      fcmtoken = fcmToken!;
+    });
   }
 
   void setAccessToken(token) async {
@@ -57,7 +66,8 @@ class _OtpScreenState extends State<OtpScreen> {
             // Navigator.pop(context);
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => const NavbarComponent()),
+                MaterialPageRoute(
+                    builder: (context) => const NavbarComponent()),
                 ModalRoute.withName('/'));
           });
         }
@@ -158,7 +168,9 @@ class _OtpScreenState extends State<OtpScreen> {
                           onCompleted: (v) {
                             debugPrint("Completed");
                             authBloc?.add(ValidateOtpEvent(
-                                widget.loginData?.data?.email ?? "", v));
+                                widget.loginData?.data?.email ?? "",
+                                v,
+                                fcmtoken));
                             // Navigator.push(
                             //     context,
                             //     MaterialPageRoute(

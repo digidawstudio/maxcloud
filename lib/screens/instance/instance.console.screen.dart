@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rfb/flutter_rfb.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class InstanceConsoleScreen extends StatefulWidget {
-  final Map<String, dynamic> consoleData;
-  const InstanceConsoleScreen({super.key, required this.consoleData});
+  final String url;
+  const InstanceConsoleScreen({super.key, required this.url});
 
   @override
   State<InstanceConsoleScreen> createState() => _InstanceConsoleScreenState();
@@ -15,38 +17,34 @@ class InstanceConsoleScreen extends StatefulWidget {
 
 class _InstanceConsoleScreenState extends State<InstanceConsoleScreen> {
   WebViewController controller = WebViewController();
-  FlutterSecureStorage storage = const FlutterSecureStorage();
-  String windowTitle = "";
-  WebViewCookieManager cookieManager = WebViewCookieManager();
+
   bool isLoading = false;
 
   void setupWebviewController() {
-    String websocketUrl = widget.consoleData["url"];
-    String x11 = Uri.encodeFull(widget.consoleData["password"]);
+    print(widget.url);
+    // cookieManager.setCookie(WebViewCookie(name: "", value: value, domain: domain))
+    controller
+      ..loadRequest(
+        Uri.parse(widget.url),
+      )
+      ..setJavaScriptMode(JavaScriptMode.unrestricted);
 
-    storage.read(key: 'accessToken').then((value) {
-      print(value);
-      // cookieManager.setCookie(WebViewCookie(name: "", value: value, domain: domain))
-      controller
-        ..loadRequest(
-          Uri.parse(
-              "https://api.maxstage.id/mobile/console?wsurl=$websocketUrl&wspass=$x11"),
-        )
-        ..setNavigationDelegate(NavigationDelegate(onProgress: (progress) {
+    controller.setNavigationDelegate(
+      NavigationDelegate(onNavigationRequest: (NavigationRequest request) {
+        if (request.url.startsWith('https://app.maxstage.id/login')) {
+          return NavigationDecision.prevent;
+        }
+        return NavigationDecision.navigate;
+      }, onProgress: (_) {
+        setState(() {
           isLoading = true;
-          setState(() {});
-        }, onPageFinished: (url) {
+        });
+      }, onPageFinished: (_) {
+        setState(() {
           isLoading = false;
-          setState(() {});
-        }))
-        ..setJavaScriptMode(JavaScriptMode.unrestricted);
-
-      controller.currentUrl().then((value) {
-        print(value);
-        windowTitle = windowTitle + (value ?? "user session");
-        setState(() {});
-      });
-    });
+        });
+      }),
+    );
   }
 
   @override
@@ -59,8 +57,29 @@ class _InstanceConsoleScreenState extends State<InstanceConsoleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: true,
-          title: Text(windowTitle),
+          elevation: 0,
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text("Console",
+                  style: GoogleFonts.manrope(
+                      textStyle: const TextStyle(
+                          color: Color(0xff353333),
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600))),
+            ],
+          ),
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: SvgPicture.asset('assets/svg/icons/ios-back.svg',
+                height: 24, fit: BoxFit.scaleDown),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
         body: isLoading
             ? Container(
