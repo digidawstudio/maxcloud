@@ -101,8 +101,12 @@ class InstanceData {
     os = json['os'] != null ? Os.fromJson(json['os']) : null;
     location = json['location'];
     tier = json['tier'];
-    pricePerHour = json['price_per_hour'].toDouble();
-    estimatedMonthlyCost = json['estimated_monthly_cost'].toDouble();
+    pricePerHour = json['price_per_hour'] != null
+        ? json['price_per_hour'].toDouble()
+        : null;
+    estimatedMonthlyCost = json['estimated_monthly_cost'] != null
+        ? json['estimated_monthly_cost'].toDouble()
+        : null;
     cost = json['cost'];
     operationFlag = json['operation_flag'];
     createdAt = json['created_at'];

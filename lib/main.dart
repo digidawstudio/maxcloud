@@ -11,6 +11,7 @@ import 'package:maxcloud/bloc/helpdesk/helpdesk.bloc.dart';
 import 'package:maxcloud/bloc/navigation/navigation.bloc.dart';
 import 'package:maxcloud/bloc/notifications/notifications.bloc.dart';
 import 'package:maxcloud/bloc/notifications/read-all-notifcations.bloc.dart';
+import 'package:maxcloud/bloc/product/console-wss.bloc.dart';
 import 'package:maxcloud/bloc/product/product.bloc.dart';
 import 'package:maxcloud/bloc/product/rrd-data.bloc.dart';
 import 'package:maxcloud/bloc/product/total-resource.bloc.dart';
@@ -20,13 +21,18 @@ import 'package:maxcloud/bloc/profile/change-password.bloc.dart';
 import 'package:maxcloud/bloc/profile/profile.bloc.dart';
 import 'package:maxcloud/bloc/user/user.bloc.dart';
 import 'package:maxcloud/screens/splash/splash_screen.dart';
+import 'package:maxcloud/services/firebase.services.dart';
 import 'package:maxcloud/utils/constants.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'bloc/product/latest-vm.bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await FirebaseService.initNotifications();
+
   await dotenv.load(fileName: ".env");
   runApp(MultiBlocProvider(
     providers: [
@@ -52,6 +58,7 @@ void main() async {
       BlocProvider(create: (context) => HelpDeskBloc()),
       BlocProvider(create: (context) => TicketConversationBloc()),
       BlocProvider(create: (context) => SendMessageBloc()),
+      BlocProvider(create: (context) => ConsoleWSSBloc()),
     ],
     child: const MyApp(),
   ));

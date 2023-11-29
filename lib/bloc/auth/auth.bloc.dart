@@ -33,8 +33,9 @@ class RequestOtpEvent extends AuthEvent {
 class ValidateOtpEvent extends AuthEvent {
   final String credential;
   final String code;
+  final String fcmToken;
 
-  ValidateOtpEvent(this.credential, this.code);
+  ValidateOtpEvent(this.credential, this.code, this.fcmToken);
 }
 
 abstract class AuthState {}
@@ -119,8 +120,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else if (event is ValidateOtpEvent) {
         emit(LoadingAuthState());
 
-        final response =
-            await ApiServices.validateOtp(event.credential, event.code);
+        final response = await ApiServices.validateOtp(
+            event.credential, event.code, event.fcmToken);
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
           if ((response as Response<dynamic>).statusCode == 200) {

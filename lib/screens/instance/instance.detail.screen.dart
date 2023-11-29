@@ -7,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:maxcloud/bloc/product/console-wss.bloc.dart';
 import 'package:maxcloud/bloc/product/rrd-data.bloc.dart';
 import 'package:maxcloud/bloc/product/vm-state.bloc.dart';
 import 'package:maxcloud/repository/instances/my-virtual-machines.model.dart';
@@ -50,6 +51,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
   VMDetailBloc? vmDetailBloc;
   RRDDataBloc? rrdDataBloc;
   VMStateBloc? vmStateBloc;
+  ConsoleWSSBloc? consoleWSSBloc;
 
   String vmStateStatus = "";
 
@@ -58,6 +60,7 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
     vmDetailBloc = BlocProvider.of<VMDetailBloc>(context);
     rrdDataBloc = BlocProvider.of<RRDDataBloc>(context);
     vmStateBloc = BlocProvider.of<VMStateBloc>(context);
+    consoleWSSBloc = BlocProvider.of<ConsoleWSSBloc>(context);
 
     getAccessToken();
     // manipulateRRD();
@@ -97,6 +100,8 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
     vmDetailBloc?.add(FetchVMDetailEvent(accessToken ?? "", widget.data.uuid));
     rrdDataBloc
         ?.add(FetchRRDDataEvent(accessToken ?? "", widget.data.uuid, period));
+    consoleWSSBloc
+        ?.add(FetchConsoleWSSEvent(accessToken ?? "", widget.data.uuid));
     setState(() {
       token = accessToken!;
     });
@@ -367,23 +372,32 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                           children: [
                             Row(
                               children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            InstanceConsoleScreen(
-                                          instanceUUID: widget.data.uuid!,
+                                BlocBuilder<ConsoleWSSBloc, ConsoleWSSState>(
+                                    builder: (context, state) {
+                                  String? webUrl;
+
+                                  if (state is LoadedConsoleWSSState) {
+                                    webUrl = state.data.data?.webview;
+                                  }
+
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              InstanceConsoleScreen(
+                                            url: webUrl!,
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                                  child: SvgPicture.asset(
-                                      'assets/svg/icons/monitor-icon.svg',
-                                      height: 28.h,
-                                      fit: BoxFit.scaleDown),
-                                ),
+                                      );
+                                    },
+                                    child: SvgPicture.asset(
+                                        'assets/svg/icons/monitor-icon.svg',
+                                        height: 28.h,
+                                        fit: BoxFit.scaleDown),
+                                  );
+                                }),
                                 SizedBox(width: 15.w),
                                 GestureDetector(
                                   onTap: () {

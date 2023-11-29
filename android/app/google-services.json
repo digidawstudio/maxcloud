@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "709998538027",
+    "project_id": "maxcloud-id",
+    "storage_bucket": "maxcloud-id.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:709998538027:android:d161e40ee100489f7e696e",
+        "android_client_info": {
+          "package_name": "com.maxcloud.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNPtKIFR3DjqO5GaW_IGC4W7NeDcqfCoQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
