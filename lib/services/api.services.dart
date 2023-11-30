@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:cookie_jar/cookie_jar.dart';
+// import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+// import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:maxcloud/repository/profile/updateprofile.model.dart';
 import 'package:maxcloud/utils/constants.dart';
@@ -11,7 +11,7 @@ import 'package:maxcloud/utils/endpoints.dart';
 enum PlaceType { country, province, city, district }
 
 class ApiServices {
-  static CookieJar cookieJar = CookieJar();
+  // static CookieJar cookieJar = CookieJar();
   static Dio dio = Dio(
     BaseOptions(
       baseUrl: Constants.baseUrl,
@@ -20,7 +20,8 @@ class ApiServices {
         "Accept": "application/json",
       },
     ),
-  )..interceptors.add(CookieManager(cookieJar));
+  );
+  // ..interceptors.add(CookieManager(cookieJar));
 
   static Future<dynamic> login(String email, String password) async {
     try {

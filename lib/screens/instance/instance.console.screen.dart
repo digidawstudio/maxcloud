@@ -9,6 +9,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class InstanceConsoleScreen extends StatefulWidget {
   final String url;
+
   const InstanceConsoleScreen({super.key, required this.url});
 
   @override
@@ -31,6 +32,7 @@ class _InstanceConsoleScreenState extends State<InstanceConsoleScreen> {
 
     controller.setNavigationDelegate(
       NavigationDelegate(onNavigationRequest: (NavigationRequest request) {
+        print(request.url);
         if (request.url.startsWith('https://app.maxstage.id/login')) {
           return NavigationDecision.prevent;
         }

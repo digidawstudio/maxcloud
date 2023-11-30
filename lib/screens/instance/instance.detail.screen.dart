@@ -194,11 +194,11 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
       if (value is Response<dynamic>) {
         if (value.statusCode == 200) {
           isNavigateLoading = false;
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      InstanceConsoleScreen(consoleData: value.data["data"])));
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) =>
+          //             InstanceConsoleScreen(ur;)));
         }
       } else if (value is DioException) {
         isNavigateLoading = false;
