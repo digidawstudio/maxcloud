@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maxcloud/bloc/auth/auth.bloc.dart';
+import 'package:maxcloud/bloc/navigation/navigation.bloc.dart';
 import 'package:maxcloud/screens/auth/otp-scren.dart';
 import 'package:maxcloud/screens/auth/register-screen.dart';
 
@@ -20,6 +21,12 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordController = TextEditingController();
 
   bool passwordVisible = false;
+
+  @override
+  void initState() {
+    BlocProvider.of<NavigationBloc>(context).add(SetNavigatorIndexEvent(0));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +47,8 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state is ErrorAuthState) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             Flushbar(
-              message: state.error.message ?? "Something went wrong, please contact administrator",
+              message: state.error.message ??
+                  "Something went wrong, please contact administrator",
               backgroundColor: Colors.red,
               flushbarPosition: FlushbarPosition.TOP,
               messageColor: Colors.white,

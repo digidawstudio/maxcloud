@@ -190,7 +190,6 @@ class _NotificationScreenStateState extends State<NotificationScreen> {
 
   Widget NotificationItem(NotifData? notifData) {
     return Container(
-      height: 103.h,
       padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 15.h),
       color: notifData?.readAt != null
           ? const Color(0xffE3F3FD)

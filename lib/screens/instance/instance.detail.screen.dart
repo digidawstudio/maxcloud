@@ -186,33 +186,33 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
 
   bool isNavigateLoading = false;
 
-  Future<void> onRemoteConsolePressed() async {
-    isNavigateLoading = true;
-    setState(() {});
+  // Future<void> onRemoteConsolePressed() async {
+  //   isNavigateLoading = true;
+  //   setState(() {});
 
-    ApiServices.getRemoteConsole(token, widget.data.uuid!).then((value) {
-      if (value is Response<dynamic>) {
-        if (value.statusCode == 200) {
-          isNavigateLoading = false;
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) =>
-          //             InstanceConsoleScreen(ur;)));
-        }
-      } else if (value is DioException) {
-        isNavigateLoading = false;
-        setState(() {});
+  //   ApiServices.getRemoteConsole(token, widget.data.uuid!).then((value) {
+  //     if (value is Response<dynamic>) {
+  //       if (value.statusCode == 200) {
+  //         isNavigateLoading = false;
+  //         Navigator.push(
+  //             context,
+  //             MaterialPageRoute(
+  //                 builder: (context) =>
+  //                     InstanceConsoleScreen(consoleData: value.data["data"])));
+  //       }
+  //     } else if (value is DioException) {
+  //       isNavigateLoading = false;
+  //       setState(() {});
 
-        Flushbar(
-          message: value.message ?? value.toString(),
-          flushbarPosition: FlushbarPosition.TOP,
-          duration: Duration(seconds: 3),
-          backgroundColor: Colors.red,
-        ).show(context);
-      }
-    });
-  }
+  //       Flushbar(
+  //         message: value.message ?? value.toString(),
+  //         flushbarPosition: FlushbarPosition.TOP,
+  //         duration: Duration(seconds: 3),
+  //         backgroundColor: Colors.red,
+  //       ).show(context);
+  //     }
+  //   });
+  // }
 
   // manipulateRRD(LoadedRRDDataState data) async {
   //   RRDDataState rrdDataState = BlocProvider.of<RRDDataBloc>(context).state;
@@ -773,9 +773,10 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
 
   Widget getGradientProgressStyle(String title, double percent) {
     return SizedBox(
-        height: 160,
-        width: 160,
-        child: SfRadialGauge(axes: <RadialAxis>[
+      height: 160,
+      width: 160,
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
           RadialAxis(
               showLabels: false,
               showTicks: false,
@@ -825,6 +826,8 @@ class _InstanceDetailScreenState extends State<InstanceDetailScreen> {
                       ],
                     ))
               ]),
-        ]));
+        ],
+      ),
+    );
   }
 }

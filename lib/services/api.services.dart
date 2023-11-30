@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-// import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
-// import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:maxcloud/repository/profile/updateprofile.model.dart';
 import 'package:maxcloud/utils/constants.dart';
@@ -11,23 +9,20 @@ import 'package:maxcloud/utils/endpoints.dart';
 enum PlaceType { country, province, city, district }
 
 class ApiServices {
-  // static CookieJar cookieJar = CookieJar();
-  static Dio dio = Dio(
-    BaseOptions(
+  static Dio dio = Dio(BaseOptions(
       baseUrl: Constants.baseUrl,
       responseType: ResponseType.json,
       headers: {
         "Accept": "application/json",
-      },
-    ),
-  );
-  // ..interceptors.add(CookieManager(cookieJar));
+        "x-mobile-token": Constants.xMobileToken
+      }));
 
   static Future<dynamic> login(String email, String password) async {
     try {
-      final response = await dio.post(Endpoints.login,
-          data: {"email": email, "password": password},
-          options: Options(headers: {"x-mobile-token": "=U-wQEy1xn0uBgcy"}));
+      final response = await dio.post(
+        Endpoints.login,
+        data: {"email": email, "password": password},
+      );
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -39,17 +34,18 @@ class ApiServices {
   static Future<dynamic> register(String credential, String password,
       bool tosAgreement, String referralCode) async {
     try {
-      final response = await dio.post(Endpoints.register,
-          data: {
-            "credential": credential,
-            "password": password,
-            "password_confirmation": password,
-            "tos_agreement": tosAgreement,
-            "referral_code": referralCode,
-            "type": "EMAIL",
-            "request_type": "REGISTER"
-          },
-          options: Options(headers: {"x-mobile-token": "=U-wQEy1xn0uBgcy"}));
+      final response = await dio.post(
+        Endpoints.register,
+        data: {
+          "credential": credential,
+          "password": password,
+          "password_confirmation": password,
+          "tos_agreement": tosAgreement,
+          "referral_code": referralCode,
+          "type": "EMAIL",
+          "request_type": "REGISTER"
+        },
+      );
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -60,9 +56,10 @@ class ApiServices {
 
   static Future<dynamic> requestOtp(String credential) async {
     try {
-      final response = await dio.post(Endpoints.requestOtp,
-          data: {"credential": credential},
-          options: Options(headers: {"x-mobile-token": "=U-wQEy1xn0uBgcy"}));
+      final response = await dio.post(
+        Endpoints.requestOtp,
+        data: {"credential": credential},
+      );
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -81,10 +78,7 @@ class ApiServices {
             "statuses": status,
             "sort": sort
           },
-          options: Options(headers: {
-            "x-mobile-token": "=U-wQEy1xn0uBgcy",
-            'Authorization': 'Bearer $token'
-          }));
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -96,10 +90,7 @@ class ApiServices {
   static Future<dynamic> getLatestVM(String token) async {
     try {
       final response = await dio.get(Endpoints.myLatestVM,
-          options: Options(headers: {
-            "x-mobile-token": "=U-wQEy1xn0uBgcy",
-            'Authorization': 'Bearer $token'
-          }));
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -111,10 +102,7 @@ class ApiServices {
   static Future<dynamic> getTotalResource(String token) async {
     try {
       final response = await dio.get(Endpoints.getTotalResource,
-          options: Options(headers: {
-            "x-mobile-token": "=U-wQEy1xn0uBgcy",
-            'Authorization': 'Bearer $token'
-          }));
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -126,10 +114,7 @@ class ApiServices {
   static Future<dynamic> getVMDetail(String token, String vmUuid) async {
     try {
       final response = await dio.get('${Endpoints.getVMDetail}/$vmUuid/detail',
-          options: Options(headers: {
-            "x-mobile-token": "=U-wQEy1xn0uBgcy",
-            'Authorization': 'Bearer $token'
-          }));
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -143,10 +128,7 @@ class ApiServices {
     try {
       final response = await dio.get('${Endpoints.getVMDetail}/$vmUuid/rrd',
           queryParameters: {"periode": period},
-          options: Options(headers: {
-            "x-mobile-token": "=U-wQEy1xn0uBgcy",
-            'Authorization': 'Bearer $token'
-          }));
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -158,10 +140,10 @@ class ApiServices {
   static Future<dynamic> validateOtp(
       String credential, String code, String fcmToken) async {
     try {
-      final response = await dio.post(Endpoints.validateOtp,
-          data: {"credential": credential, "code": code, "fcm_token": fcmToken},
-          options: Options(headers: {"x-mobile-token": "=U-wQEy1xn0uBgcy"}));
-
+      final response = await dio.post(
+        Endpoints.validateOtp,
+        data: {"credential": credential, "code": code, "fcm_token": fcmToken},
+      );
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -175,7 +157,6 @@ class ApiServices {
       final response = await dio.get(Endpoints.getCurrentMonthSummary,
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
           }));
       return response;
     } on DioException catch (e) {
@@ -190,7 +171,6 @@ class ApiServices {
       final response = await dio.get(Endpoints.getProfile,
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
           }));
       return response;
     } on DioException catch (e) {
@@ -220,8 +200,9 @@ class ApiServices {
           break;
       }
 
-      final response = await dio.get(endpoints,
-          options: Options(headers: {"x-mobile-token": "=U-wQEy1xn0uBgcy"}));
+      final response = await dio.get(
+        endpoints,
+      );
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -237,7 +218,6 @@ class ApiServices {
           data: body.toJson(),
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
           }));
       return response;
     } on DioException catch (e) {
@@ -254,7 +234,6 @@ class ApiServices {
           queryParameters: {"type": type, "page": page, "limit": limit},
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
           }));
       return response;
     } on DioException catch (e) {
@@ -271,7 +250,6 @@ class ApiServices {
           queryParameters: {"amount": amount},
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
           }));
       return response;
     } on DioException catch (e) {
@@ -283,12 +261,11 @@ class ApiServices {
 
   static Future<dynamic> startVMState(String accessToken, String vmUuid) async {
     try {
-      final response = await dio.patch(
-          Endpoints.getVMDetail + '/$vmUuid' + '/start',
-          options: Options(headers: {
-            "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
-          }));
+      final response =
+          await dio.patch(Endpoints.getVMDetail + '/$vmUuid' + '/start',
+              options: Options(headers: {
+                "Authorization": "Bearer $accessToken",
+              }));
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -300,12 +277,11 @@ class ApiServices {
   static Future<dynamic> restartVMState(
       String accessToken, String vmUuid) async {
     try {
-      final response = await dio.patch(
-          Endpoints.getVMDetail + '/$vmUuid' + '/restart',
-          options: Options(headers: {
-            "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
-          }));
+      final response =
+          await dio.patch(Endpoints.getVMDetail + '/$vmUuid' + '/restart',
+              options: Options(headers: {
+                "Authorization": "Bearer $accessToken",
+              }));
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -317,12 +293,11 @@ class ApiServices {
   static Future<dynamic> shutdownVMState(
       String accessToken, String vmUuid) async {
     try {
-      final response = await dio.patch(
-          Endpoints.getVMDetail + '/$vmUuid' + '/stop',
-          options: Options(headers: {
-            "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
-          }));
+      final response =
+          await dio.patch(Endpoints.getVMDetail + '/$vmUuid' + '/stop',
+              options: Options(headers: {
+                "Authorization": "Bearer $accessToken",
+              }));
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -337,7 +312,6 @@ class ApiServices {
           data: body,
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
           }));
       return response;
     } on DioException catch (e) {
@@ -346,10 +320,12 @@ class ApiServices {
       return e;
     }
   }
-  
-  static Future<dynamic> getRemoteConsole(String accessToken, String uuid) async {
+
+  static Future<dynamic> getRemoteConsole(
+      String accessToken, String uuid) async {
     try {
-      final response = await dio.post(Endpoints.getVmConsole + "$uuid/console-websocket",
+      final response = await dio.post(
+          Endpoints.getVmConsole + "$uuid/console-websocket",
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
             "x-mobile-token": "=U-wQEy1xn0uBgcy"
@@ -369,7 +345,6 @@ class ApiServices {
           queryParameters: {"page": page, "limit": limit},
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
           }));
       return response;
     } on DioException catch (e) {
@@ -386,7 +361,6 @@ class ApiServices {
           data: body,
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
           }));
       return response;
     } on DioException catch (e) {
@@ -399,12 +373,11 @@ class ApiServices {
   static Future<dynamic> fetchHelpDeskItems(String accessToken,
       {int page = 1}) async {
     try {
-      final response = await dio.get(
-          "${Endpoints.helpDeskItems}?limit=10&page=$page",
-          options: Options(headers: {
-            "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
-          }));
+      final response =
+          await dio.get("${Endpoints.helpDeskItems}?limit=10&page=$page",
+              options: Options(headers: {
+                "Authorization": "Bearer $accessToken",
+              }));
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -421,7 +394,6 @@ class ApiServices {
           "${Endpoints.ticketConversation}/$convToken/conversations?limit=10&page=$page",
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
           }));
       return response;
     } on DioException catch (e) {
@@ -445,13 +417,12 @@ class ApiServices {
 
       print(data);
 
-      final response = await dio.post(
-          "${Endpoints.ticketConversation}/$convToken/reply",
-          data: data,
-          options: Options(headers: {
-            "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
-          }));
+      final response =
+          await dio.post("${Endpoints.ticketConversation}/$convToken/reply",
+              data: data,
+              options: Options(headers: {
+                "Authorization": "Bearer $accessToken",
+              }));
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -491,7 +462,6 @@ class ApiServices {
           data: data,
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
           }));
       return response;
     } on DioException catch (e) {
@@ -506,7 +476,6 @@ class ApiServices {
       final response = await dio.patch(Endpoints.readAllNotifications,
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
           }));
       return response;
     } on DioException catch (e) {
@@ -521,7 +490,6 @@ class ApiServices {
       final response = await dio.post(Endpoints.logout,
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
           }));
       return response;
     } on DioException catch (e) {
@@ -534,12 +502,11 @@ class ApiServices {
   static Future<dynamic> getDepositDetail(
       String accessToken, String invoiceId) async {
     try {
-      final response = await dio.get(
-          Endpoints.getDepositDetail + '/$invoiceId' + '/details',
-          options: Options(headers: {
-            "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
-          }));
+      final response =
+          await dio.get(Endpoints.getDepositDetail + '/$invoiceId' + '/details',
+              options: Options(headers: {
+                "Authorization": "Bearer $accessToken",
+              }));
       return response;
     } on DioException catch (e) {
       print(e.response?.realUri);
@@ -555,7 +522,6 @@ class ApiServices {
           Endpoints.getVMDetail + '/$vmUuid' + '/console-websocket',
           options: Options(headers: {
             "Authorization": "Bearer $accessToken",
-            "x-mobile-token": "=U-wQEy1xn0uBgcy"
           }));
       return response;
     } on DioException catch (e) {

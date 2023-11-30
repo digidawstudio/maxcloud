@@ -1,0 +1,10 @@
+
+## Staging Env
+
+# BASE_URL=https://api.maxstage.id
+# X-MOBILE-TOKEN = =U-wQEy1xn0uBgcy
+
+## Prod Env
+
+BASE_URL=https://api.maxcloud.id
+X-MOBILE-TOKEN = 5K6SaZzp04vdQ1b3GWmHpF3bpkMItmZb

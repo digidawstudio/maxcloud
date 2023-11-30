@@ -566,7 +566,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         locale: 'id',
                                                         symbol: "",
                                                         decimalDigits: 0,
-                                                      ).format(state.data.data?.currentBalance ?? 0)}",
+                                                      ).format(state.data.data?.actualBalance ?? 0)}",
                                                       style: GoogleFonts.manrope(
                                                           textStyle: TextStyle(
                                                               fontSize: 22.sp,

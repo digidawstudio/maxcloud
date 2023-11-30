@@ -1112,10 +1112,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             try {
                                               authBloc?.add(LogoutEvent(
                                                   await getAccessToken()));
-                                              BlocProvider.of<NavigationBloc>(
-                                                      context)
-                                                  .add(SetNavigatorIndexEvent(
-                                                      0));
                                               await storage.delete(
                                                   key: 'accessToken');
                                               Navigator.pushAndRemoveUntil(
@@ -1165,8 +1161,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           );
         } else {
-          if (state is ErrorProfileState)
-            print("memek" + state.error.message.toString());
+          if (state is ErrorProfileState) return Container();
+
           return Container();
         }
       })),
