@@ -95,7 +95,7 @@ class Data {
     estimatedMonthlyPrice = json['estimated_monthly_price'] != null
         ? json['estimated_monthly_price'].toDouble()
         : null;
-    cost = json['cost'];
+    cost = json['cost'] != null ? json['cost'].toDouble() : null;
     operationFlag = json['operation_flag'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];

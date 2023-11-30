@@ -107,7 +107,7 @@ class InstanceData {
     estimatedMonthlyCost = json['estimated_monthly_cost'] != null
         ? json['estimated_monthly_cost'].toDouble()
         : null;
-    cost = json['cost'];
+    cost = json['cost'] != null ? json['cost'].toDouble() : null;
     operationFlag = json['operation_flag'];
     createdAt = json['created_at'];
   }

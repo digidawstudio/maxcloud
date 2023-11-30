@@ -116,8 +116,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600))),
                       const SizedBox(height: 24),
-                      Text(
-                          "Kode Verifikasi telah dikirim melalui nomor telepon +62899",
+                      Text("Kode Verifikasi telah dikirim ke email anda",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.manrope(
                               textStyle: const TextStyle(
