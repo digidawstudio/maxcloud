@@ -1,6 +1,7 @@
 import 'package:dart_rfb/dart_rfb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rfb/flutter_rfb.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +18,8 @@ class InstanceConsoleScreen extends StatefulWidget {
 class _InstanceConsoleScreenState extends State<InstanceConsoleScreen> {
   WebViewController controller = WebViewController();
 
+  bool isLoading = false;
+
   void setupWebviewController() {
     print(widget.url);
     // cookieManager.setCookie(WebViewCookie(name: "", value: value, domain: domain))
@@ -27,14 +30,20 @@ class _InstanceConsoleScreenState extends State<InstanceConsoleScreen> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted);
 
     controller.setNavigationDelegate(
-      NavigationDelegate(
-        onNavigationRequest: (NavigationRequest request) {
-          if (request.url.startsWith('https://app.maxstage.id/login')) {
-            return NavigationDecision.prevent;
-          }
-          return NavigationDecision.navigate;
-        },
-      ),
+      NavigationDelegate(onNavigationRequest: (NavigationRequest request) {
+        if (request.url.startsWith('https://app.maxstage.id/login')) {
+          return NavigationDecision.prevent;
+        }
+        return NavigationDecision.navigate;
+      }, onProgress: (_) {
+        setState(() {
+          isLoading = true;
+        });
+      }, onPageFinished: (_) {
+        setState(() {
+          isLoading = false;
+        });
+      }),
     );
   }
 
@@ -72,8 +81,17 @@ class _InstanceConsoleScreenState extends State<InstanceConsoleScreen> {
             },
           ),
         ),
-        body: WebViewWidget(
-          controller: controller,
-        ));
+        body: isLoading
+            ? Container(
+                height: ScreenUtil().screenHeight,
+                width: ScreenUtil().screenWidth,
+                color: Colors.white,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : WebViewWidget(
+                controller: controller,
+              ));
   }
 }

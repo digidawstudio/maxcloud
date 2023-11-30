@@ -125,6 +125,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         if (response.runtimeType.toString() == 'Response<dynamic>') {
           if ((response as Response<dynamic>).statusCode == 200) {
+            
             emit(OtpValidatedState(OtpValidate.fromJson(response.data)));
           } else {
             emit(ErrorAuthState(response.data));

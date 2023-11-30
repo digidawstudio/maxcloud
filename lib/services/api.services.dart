@@ -321,6 +321,23 @@ class ApiServices {
     }
   }
 
+  static Future<dynamic> getRemoteConsole(
+      String accessToken, String uuid) async {
+    try {
+      final response = await dio.post(
+          Endpoints.getVmConsole + "$uuid/console-websocket",
+          options: Options(headers: {
+            "Authorization": "Bearer $accessToken",
+            "x-mobile-token": "=U-wQEy1xn0uBgcy"
+          }));
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.realUri);
+      print(e.response);
+      return e;
+    }
+  }
+
   static Future<dynamic> getDepositHistory(
       String accessToken, int page, int limit) async {
     try {
